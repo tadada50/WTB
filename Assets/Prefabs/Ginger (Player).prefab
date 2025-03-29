@@ -44,8 +44,9 @@ GameObject:
   - component: {fileID: 3898031290145843251}
   - component: {fileID: 4319737028664327144}
   - component: {fileID: 3599069318150174612}
-  - component: {fileID: 772676705779291509}
+  - component: {fileID: 7894672332012955137}
   - component: {fileID: 5152711382440579355}
+  - component: {fileID: 6556237021557958929}
   m_Layer: 6
   m_Name: Ginger (Player)
   m_TagString: Untagged
@@ -63,7 +64,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.42, y: -0.4, z: 0}
-  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7436130601441202858}
@@ -185,7 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: efde63452f88fce4fb2f3cfd2b240c7c, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -203,7 +204,7 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &772676705779291509
+--- !u!114 &7894672332012955137
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -218,8 +219,9 @@ MonoBehaviour:
   runSpeed: 15
   maxVelocity: 15
   bullet: {fileID: 0}
-  hand: {fileID: 0}
-  isRightSide: 1
+  hand: {fileID: 7436130601441202858}
+  isRightSide: 0
+  throwForce: 10
 --- !u!70 &5152711382440579355
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -257,3 +259,49 @@ CapsuleCollider2D:
   m_Offset: {x: -0.044740677, y: -0.20403135}
   m_Size: {x: 1.6405792, y: 2.8179862}
   m_Direction: 0
+--- !u!61 &6556237021557958929
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2538317293447400056}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.045392036, y: -0.23830503}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.2, y: 3.2}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.4297352, y: 2.7233896}
+  m_EdgeRadius: 0
