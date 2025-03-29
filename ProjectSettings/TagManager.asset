@@ -2,18 +2,19 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
-  tags: []
+  serializedVersion: 3
+  tags:
+  - Bomb
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Items
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Players
+  - Background
+  - TimerText
   - 
   - 
   - 
@@ -41,3 +42,11 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 2439160429
+    locked: 0
+  - name: Players
+    uniqueID: 3306994417
+    locked: 0
+  m_RenderingLayers:
+  - Default
