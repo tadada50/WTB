@@ -33,7 +33,7 @@ public class Bomb : MonoBehaviour
         }
         // Optional: Update velocity and position if you want to simulate physics manually
         if(beingThrown){
-            FollowPath();
+            FollowStraightPath();
         }
   
     }
@@ -49,13 +49,6 @@ public class Bomb : MonoBehaviour
         }
     }
 
-    // private void OnEnable()
-    // {
-    //     if (countdownText != null)
-    //     {
-    //         countdownText.text = Countdown.ToString("F1"); // Display initial countdown
-    //     }
-    // }
     private void Explode()
     {
         // Add explosion logic here
@@ -73,6 +66,9 @@ public class Bomb : MonoBehaviour
     {
         return Countdown;
     }
+    [SerializeField] float timeToDestination = 1.0f; // Time it takes to reach the target position
+    float distanceToDestination; // Distance to the target position
+    float flyTime;
     public void Throw(Transform worldPosition, float throwForce)
     {
         beingThrown = true;
@@ -94,6 +90,9 @@ public class Bomb : MonoBehaviour
         // targetPosition2D = force;
         _throwForce = throwForce; // Set the throw force for the bomb;
         hasOwner = false;
+      //  timeToDestination = 1.0f; // Reset the time to destination if needed
+        flyTime = 0;
+        start = transform.position; // Store the starting position for the parabolic path calculation
         // Get the rigidbody component
     }
     private void UpdateVelocity()
@@ -105,12 +104,96 @@ public class Bomb : MonoBehaviour
     {
         transform.position += _velocity * Time.deltaTime;
     }
-    private void FollowPath(){
+
+    Vector2 start;
+    float maxHeight;
+    float height= 2f;
+    float flySpeed = 10f;
+    //need to fix
+    private void FollowParabolicPath(){
         if (Vector2.Distance(transform.position, targetPosition2D) < 0.1f)
         {
             beingThrown = false;
+            return;
         }
-        float delta = 10f * Time.deltaTime;
+
+        distanceToDestination = Vector2.Distance(transform.position, targetPosition2D);
+        
+        float totalDistance = Vector2.Distance(targetPosition2D, transform.position);
+        float progress = 1 - (distanceToDestination / totalDistance);
+
+
+        flyTime = flyTime + Time.deltaTime;
+        height = 2f; // Maximum height of the arc, adjust as needed
+        maxHeight = Mathf.Max(start.y, targetPosition2D.y) + height;
+        float horizontalDistance = targetPosition2D.x - start.x;
+        timeToDestination = horizontalDistance/flySpeed;
+
+        float timeProgress = flyTime / timeToDestination; // Calculate progress based on flyTime and timeToDestination
+
+        // float time = flyTime / timeToDestination;
+        float a = (start.y - 2 * maxHeight + targetPosition2D.y) / (horizontalDistance * horizontalDistance);
+        float b = (4 * maxHeight - 2 * start.y - 2 * targetPosition2D.y) / horizontalDistance;
+        float c = start.y;
+        // Using quadratic formula to find x: ax^2 + bx + (c - targetPosition2D.y) = 0
+        float discriminant = b * b - 4 * a * (c - targetPosition2D.y);
+        float xSolution = 0; // Default value for x if no solution is found
+        if (discriminant >= 0)
+        {
+            float x1 = (-b + Mathf.Sqrt(discriminant)) / (2 * a);
+            float x2 = (-b - Mathf.Sqrt(discriminant)) / (2 * a);
+            // Choose the x value closest to targetPosition2D.x
+            xSolution = Mathf.Abs(x1 - targetPosition2D.x) < Mathf.Abs(x2 - targetPosition2D.x) ? x1 : x2;
+        }
+        else
+        {
+            // If no real solution, fallback to linear interpolation (straight line)
+            xSolution = Mathf.Lerp(start.x, targetPosition2D.x, timeProgress);
+        }
+        float t = timeToDestination;
+        
+        
+
+        
+
+        // Calculate the y position using the quadratic formula
+        // y = ax^2 + bx + c
+        // Calculate the current position along the path
+        // Vector2 start = transform.position;
+       // float height = 2f; // Maximum height of the arc
+        
+        
+        // Parabolic interpolation
+        float x = Mathf.Lerp(start.x, targetPosition2D.x, timeProgress);
+        //Debug.Log($"Y={newY} X={x} at time:{timeToDestination} = {xSolution}, start.y: {start.y}, targetPosition2D: {targetPosition2D}, maxHeight: {maxHeight}");
+
+        // float y = start.y + height * (4 * flyTime - 4 * flyTime * flyTime);
+        //float y = start.y + height * (4 * x - 4 * x * x);
+        float newY = a*x*x + b*x + c-targetPosition2D.y; // Calculate the y position using the quadratic formula
+
+        float speedMultiplier = Mathf.Cos(progress * Mathf.PI * 0.5f);
+        float delta = (12f + distanceToDestination * 2f) * speedMultiplier * Time.deltaTime;
+        // Move towards the calculated position
+        Debug.Log($"Moving to ({x}, {newY}), target: {targetPosition2D}, from- transform.position: {transform.position} ,progress: {progress}, distanceToDestination: {distanceToDestination}, delta: {delta}");
+        // transform.position = Vector2.MoveTowards(
+        //     transform.position, 
+        //     new Vector2(x, y), 
+        //     delta
+        // );
+        transform.position = new Vector2(x, newY); // Set the position directly to the calculated point
+        
+    }
+    private void FollowStraightPath(){
+        if (Vector2.Distance(transform.position, targetPosition2D) < 0.1f)
+        {
+            beingThrown = false;
+            return; // Stop following the path if close to the target
+        }
+        distanceToDestination = Vector2.Distance(transform.position, targetPosition2D);
+        float progress = 1 - (distanceToDestination / Vector2.Distance(targetPosition2D, transform.position));
+        float speedMultiplier = 1.5f*Mathf.Cos(progress * Mathf.PI * 0.5f);
+        float delta = (12f + distanceToDestination * 2f) * speedMultiplier * Time.deltaTime;
+       // Debug.Log($"Moving to ({x}, {y}), target: {targetPosition2D}, progress: {progress}, distanceToDestination: {distanceToDestination}, delta: {delta}");
         transform.position = Vector2.MoveTowards(transform.position, targetPosition2D, delta);
     }
     // private void FollowPath(){

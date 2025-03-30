@@ -19,6 +19,9 @@ public class PlayerMovement : MonoBehaviour
     float playerHalfHeight;
     [SerializeField] float throwForce = 100f; // Force applied to the bullet when thrown
     Bomb bomb;
+    KeyCode attackKey = KeyCode.Space; // Key to trigger the attack/throw action
+    KeyCode upKey = KeyCode.W; // Key to increase the Y component of the throw force
+    KeyCode downKey = KeyCode.S; // Key to decrease the Y component of the throw force
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -39,6 +42,15 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log($"Top Left: {topLeft}"); 
         Debug.Log($"Bottom Right: {bottomRight}");
         Debug.Log($"Bottom Left: {bottomLeft}");
+        if(isRightSide){
+            attackKey = KeyCode.RightControl;
+            upKey = KeyCode.UpArrow; // Change to Up Arrow for increasing Y component of the throw force
+            downKey = KeyCode.DownArrow; // Change to Down Arrow for decreasing Y component of the throw force
+        }else{
+            attackKey = KeyCode.Space; // Change to Left Control for left side player
+            upKey = KeyCode.W; // Up Arrow for increasing Y component of the throw force
+            downKey = KeyCode.S; // Down Arrow for decreasing Y component of the throw force
+        }
     }
 
     // Update is called once per frame
@@ -70,28 +82,24 @@ public class PlayerMovement : MonoBehaviour
         {
             return; // Exit if not active or no bomb
         }
-        if (Input.GetKey(KeyCode.Space)){
-            //throwForce += Time.deltaTime * 5f; // Increase throw force over time while the space key is held down
-            // Start accumulating throw force when the space key is pressed
-            // You can add logic here to indicate that the player is charging the throw
-           // Debug.Log("Charging throw force... "+ throwForce);
-            
-            // if(Input.GetKey(KeyCode.W)){
-            //     throwForceVector2.y += Time.deltaTime * 15f; // Increase the Y component of the throw force when W is pressed (upward)
-            // }
-            // if(Input.GetKey(KeyCode.S)){
-            //     throwForceVector2.y -= Time.deltaTime * 15f; // Increase the Y component of the throw force when W is pressed (upward)
-            // }
+        if (Input.GetKey(attackKey)){
+
+            if(Input.GetKey(upKey)){
+                throwForceVector2.y += Time.deltaTime * 12f; // Increase the Y component of the throw force when W is pressed (upward)
+            }
+            if(Input.GetKey(downKey)){
+                throwForceVector2.y -= Time.deltaTime * 12f; // Increase the Y component of the throw force when W is pressed (upward)
+            }
 
             // if(Input.GetKey(KeyCode.A)){
-            //     throwForceVector2.X -= Time.deltaTime * 15f; // Increase the Y component of the throw force when W is pressed (upward)
+            //     throwForceVector2.x -= Time.deltaTime * 15f; // Increase the Y component of the throw force when W is pressed (upward)
             // }
             isThrowing = true;
-            throwForceVector2.x += Time.deltaTime * 15f; // Update initial position based on the throw force (for example, you can use mouse position or a fixed offset)
+            throwForceVector2.x += Time.deltaTime * 17f; // Update initial position based on the throw force (for example, you can use mouse position or a fixed offset)
             
 
         }
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(attackKey))
         {
             //Debug.Log("Space key was released."+ throwForce);
             //Throw the bomb
@@ -114,8 +122,6 @@ public class PlayerMovement : MonoBehaviour
             throwForceVector2 = Vector2.zero;
             isThrowing = false; // Reset the throwing flag
         }
-
-
         // if (Mouse.current.leftButton.wasPressedThisFrame && isActive && bomb != null)
         // {
         //     // Create a bullet instance at the player's position
@@ -152,12 +158,12 @@ public class PlayerMovement : MonoBehaviour
         if(!isAlive || !isActive){
             return;
         }
-        Debug.Log("OnMove called with value: " + value);
+        // Debug.Log("OnMove called with value: " + value);
         moveInput = value.Get<Vector2>();
-        if(isThrowing){
-            Debug.Log($"Throwing in progress: {throwForceVector2}");
-            moveInput = Vector2.zero; // Prevent movement input while throwing the bomb
-        }
+        // if(isThrowing){
+        //     // Debug.Log($"Throwing in progress: {throwForceVector2}");
+        //     moveInput = Vector2.zero; // Prevent movement input while throwing the bomb
+        // }
        // transform.Translate(moveInput.x * Time.deltaTime, 0, moveInput.y * Time.deltaTime);
       //  transform.Translate(moveInput.x * Time.deltaTime, moveInput.y * Time.deltaTime, 0);
         // backGround.transform.Translate(moveInput.x * Time.deltaTime, moveInput.y * Time.deltaTime, 0);
@@ -166,10 +172,10 @@ public class PlayerMovement : MonoBehaviour
         if(isThrowing || !isAlive || !isActive){
             return;
         }
-        if (Input.GetKey(KeyCode.Space)){
-            Debug.Log($"Space key is pressed, isThrowing: {isThrowing}, isActive: {isActive}, bomb: {(bomb != null ? "present" : "null")}");
-            return;
-        }
+        // if (Input.GetKey(KeyCode.Space)){
+        //     Debug.Log($"Space key is pressed, isThrowing: {isThrowing}, isActive: {isActive}, bomb: {(bomb != null ? "present" : "null")}");
+        //     return;
+        // }
        // Debug.Log("Running"); 
         Vector2 playVelocity = new Vector2(moveInput.x * runSpeed, moveInput.y * runSpeed);
         // Vector2 playVelocity = new Vector2(moveInput.x * runSpeed, myRigidbody.linearVelocity.y);
