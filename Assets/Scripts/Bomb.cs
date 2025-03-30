@@ -5,6 +5,7 @@ using Unity.Cinemachine;
 public class Bomb : MonoBehaviour
 {
     [SerializeField] float Countdown = 10.0f;
+    [SerializeField] GameObject explosionEffect; // Optional: Particle system for explosion effect
     TMP_Text countdownText; // Optional: UI text to display countdown
     public bool hasOwner = false; // Flag to check if the bomb has an owner
     private Vector3 _velocity;
@@ -12,6 +13,7 @@ public class Bomb : MonoBehaviour
     private Transform targetPosition;
     float _throwForce;
     Vector2 targetPosition2D;
+    bool exploded = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,8 +29,9 @@ public class Bomb : MonoBehaviour
     {
         Countdown -= Time.deltaTime;
         UpdateText();
-        if (Countdown <= 0)
+        if (Countdown <= 0 && !exploded)
         {
+            exploded = true; // Set exploded to true to prevent multiple explosions
             Explode();
         }
         // Optional: Update velocity and position if you want to simulate physics manually
@@ -52,7 +55,18 @@ public class Bomb : MonoBehaviour
     private void Explode()
     {
         // Add explosion logic here
-        Destroy(gameObject);
+        if (countdownText != null)
+        {
+            countdownText.enabled = false;
+        }
+        var renderers = GetComponents<SpriteRenderer>();
+        foreach (var renderer in renderers)
+        {
+            renderer.enabled = false;
+        }
+        
+        PlayExplosion();
+        Destroy(gameObject, 2.5f);
     }
     public void AddTime(float timeToAdd)
     {
@@ -204,6 +218,13 @@ public class Bomb : MonoBehaviour
     //     float delta = _throwForce * Time.deltaTime;
     //     transform.position = Vector2.MoveTowards(transform.position, targetPosition.position, delta);
     // }
+
+    void PlayExplosion(){
+        if(explosionEffect != null){
+            GameObject instance = Instantiate(explosionEffect,transform.position,Quaternion.identity,transform);
+            Destroy(instance.gameObject, 2f);
+        }
+    }
 
     
 }

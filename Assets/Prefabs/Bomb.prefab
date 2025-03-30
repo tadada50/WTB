@@ -352,5 +352,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f1d34a613ba2cf45b44d0593bd35f94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Countdown: 80
+  Countdown: 30
+  explosionEffect: {fileID: 5831310204594807354, guid: e605ff2df8ad88f439ba83ec4ef7a0f4, type: 3}
   hasOwner: 0
+  beingThrown: 0
+  timeToDestination: 1

@@ -48,7 +48,7 @@ public class LevelManager : MonoBehaviour
     void InitBomb(){
             GameObject bombInstance = Instantiate(bombPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             Bomb bomb = bombInstance.GetComponent<Bomb>();
-            bomb.AddTime(1000);
+            // bomb.AddTime(1000);
             if (bomb != null)
             {
                 bombs.Add(bomb);
