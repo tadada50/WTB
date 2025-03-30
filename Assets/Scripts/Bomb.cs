@@ -15,6 +15,10 @@ public class Bomb : MonoBehaviour
     Vector2 targetPosition2D;
     bool exploded = false;
 
+    
+    public delegate void OnBombExplodeDelegate(Vector2 exPlodePosition);
+    public event OnBombExplodeDelegate OnBombExplode;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -66,6 +70,7 @@ public class Bomb : MonoBehaviour
         }
         
         PlayExplosion();
+        OnBombExplode(transform.position);
         Destroy(gameObject, 2.5f);
     }
     public void AddTime(float timeToAdd)
