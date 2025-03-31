@@ -168,6 +168,19 @@ public class PlayerMovement : MonoBehaviour
       //  transform.Translate(moveInput.x * Time.deltaTime, moveInput.y * Time.deltaTime, 0);
         // backGround.transform.Translate(moveInput.x * Time.deltaTime, moveInput.y * Time.deltaTime, 0);
     }
+    public void RunWithTouch(Vector2 touchPosition){
+        
+        // This method can be called from touch input to handle player movement with touch controls
+        // if(!isAlive || !isActive){
+        //     return;
+        // }
+        // Calculate movement direction based on touch position relative to player
+        Vector2 moveDirection = ((Vector2)touchPosition - (Vector2)transform.position).normalized;
+        moveInput = moveDirection; // Set moveInput for use in Run method
+        // Debug.Log("Running with touch input");
+        // Assuming moveInput is already set based on touch input
+       // Run(); // Call the Run method to apply movement based on the current moveInput
+    }
     void Run(){
         if(isThrowing || !isAlive || !isActive){
             return;
