@@ -18,7 +18,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] int bombNumber = 1; // Number of bombs to drop
     [SerializeField] float bombDropInterval = 2.0f; // Interval between bomb drops
     [SerializeField] GameObject bombPrefab; // Prefab for the bomb
-    [SerializeField] float bombTimerRevealTime = 3.0f; // Time the bomb timer is revealed to the player
+
     List<Bomb> bombs = new List<Bomb>(); // Assuming you have a Bomb class to manage bomb logic
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -60,7 +60,7 @@ public class LevelManager : MonoBehaviour
         }
     }
     void InitBomb(){
-            Debug.Log("==>InitBomb");
+            // Debug.Log("==>InitBomb");
             GameObject bombInstance = Instantiate(bombPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             Bomb bomb = bombInstance.GetComponent<Bomb>();
             bomb.SetTimer((float)Random.Range(20, 61));
@@ -106,7 +106,7 @@ public class LevelManager : MonoBehaviour
     }
     IEnumerator LoadNextBomb(float secondsDelay){
 
-        Debug.Log("==>LoadNextBoomb");
+        // Debug.Log("==>LoadNextBoomb");
         yield return new WaitForSeconds(secondsDelay);    
         InitBomb();    
     }

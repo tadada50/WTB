@@ -490,7 +490,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 000000006da26291f1ba1cc5
+  m_ApplyToSortingLayers: 000000006da26291f1ba1cc5cf08b1a3
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -983,6 +983,7 @@ MonoBehaviour:
   bombNumber: 1
   bombDropInterval: 2
   bombPrefab: {fileID: 8168690916882899228, guid: 7ebbab71d4c04bc44822e7be086a07e3, type: 3}
+  bombTimerRevealTime: 3
 --- !u!4 &1198197783
 Transform:
   m_ObjectHideFlags: 0
@@ -1007,7 +1008,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1235963499}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PlayerRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}

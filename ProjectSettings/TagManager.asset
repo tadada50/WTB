@@ -19,7 +19,7 @@ TagManager:
   - Player2World
   - Player1World
   - MiddleWall
-  - 
+  - Bomb
   - 
   - 
   - 
@@ -48,6 +48,9 @@ TagManager:
     locked: 0
   - name: Players
     uniqueID: 3306994417
+    locked: 0
+  - name: Bomb
+    uniqueID: 2746288335
     locked: 0
   m_RenderingLayers:
   - Default

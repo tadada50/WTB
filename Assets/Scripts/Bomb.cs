@@ -43,6 +43,7 @@ public class Bomb : MonoBehaviour
         if(beingThrown){
             FollowStraightPath();
         }
+        GetComponent<SpriteRenderer>().sortingLayerName = "Bomb";
         // FlipBombText();
   
     }
@@ -62,7 +63,18 @@ public class Bomb : MonoBehaviour
            // countdownText.text = Countdown.ToString("F1"); // Update countdown text
         }
     }
-
+    void StopSparkles()
+    {
+        ParticleSystem[] particleSystems = GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem particleSystem in particleSystems)
+        {
+            // Stop the particle system
+            if (particleSystem.isPlaying)
+            {
+                particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            }
+        }
+    }
     private void Explode()
     {
         // Add explosion logic here
@@ -75,10 +87,10 @@ public class Bomb : MonoBehaviour
         {
             renderer.enabled = false;
         }
-        
+        StopSparkles();
         PlayExplosion();
         OnBombExplode(transform.position);
-        Destroy(gameObject, 2.5f);
+        Destroy(gameObject,2f);
     }
     public void FlipBombText(){
         // if(transform.localScale.x < 0){
