@@ -216,8 +216,14 @@ public class PlayerMovement : MonoBehaviour
             // Debug.Log("-->Linear Velocity X (ABS): " + Mathf.Abs(myRigidbody.linearVelocityX));
             // Debug.Log("HasHorizontalSpeed : " + playerHasHorizontalSpeed);
             // Debug.Log("<--Point Velocity X : " + myRigidbody.GetPointVelocity(myRigidbody.position).x);
+            // Debug.Log("Point Velocity Y : " + myRigidbody.GetPointVelocity(myRigidbody.position).y);
+            if (Mathf.Sign(transform.localScale.x) != Mathf.Sign(myRigidbody.linearVelocityX)){
+                if(bomb!=null){
+                    bomb.FlipBombText(); // Flip the bomb text if the player is facing a different direction
+                }
+            }
             transform.localScale = new Vector2(Mathf.Sign(myRigidbody.linearVelocityX), 1f);
-            
+
         }
     }
     void OnTriggerEnter2D(Collider2D collision)

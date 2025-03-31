@@ -6,6 +6,7 @@ public class Bomb : MonoBehaviour
 {
     [SerializeField] float Countdown = 10.0f;
     [SerializeField] GameObject explosionEffect; // Optional: Particle system for explosion effect
+    [SerializeField] float bombTimerRevealTime = 3.0f; // Time the bomb timer is revealed to the player
     TMP_Text countdownText; // Optional: UI text to display countdown
     public bool hasOwner = false; // Flag to check if the bomb has an owner
     private Vector3 _velocity;
@@ -14,9 +15,9 @@ public class Bomb : MonoBehaviour
     float _throwForce;
     Vector2 targetPosition2D;
     bool exploded = false;
-
+    float timeRevealed = 0f; // Time when the bomb timer was revealed to the player
     
-    public delegate void OnBombExplodeDelegate(Vector2 exPlodePosition);
+    public delegate void OnBombExplodeDelegate(Vector2 explodePosition);
     public event OnBombExplodeDelegate OnBombExplode;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -42,9 +43,15 @@ public class Bomb : MonoBehaviour
         if(beingThrown){
             FollowStraightPath();
         }
+        // FlipBombText();
   
     }
     void UpdateText(){
+        bombTimerRevealTime -= Time.deltaTime; // Decrease the reveal time countdown
+        if(bombTimerRevealTime<0){
+            countdownText.text = string.Format("??:??:??");
+            return;
+        }
         if (countdownText != null)
         {
             int minutes = Mathf.FloorToInt(Countdown / 60F);
@@ -72,6 +79,19 @@ public class Bomb : MonoBehaviour
         PlayExplosion();
         OnBombExplode(transform.position);
         Destroy(gameObject, 2.5f);
+    }
+    public void FlipBombText(){
+        // if(transform.localScale.x < 0){
+        //     countdownText.transform.localScale = new Vector3(Mathf.Abs(countdownText.transform.localScale.x), countdownText.transform.localScale.y, countdownText.transform.localScale.z);
+        // }
+            // Flip the text if the parent transform is flipped
+            // countdownText.transform.localScale = new Vector3(Mathf.Abs(countdownText.transform.localScale.x), countdownText.transform.localScale.y, countdownText.transform.localScale.z);
+        countdownText.transform.localScale = new Vector3(countdownText.transform.localScale.x * -1, countdownText.transform.localScale.y, countdownText.transform.localScale.z);
+    }
+    public void SetTimer(float time)
+    {
+        // Set the countdown to a specific time
+        Countdown = time;
     }
     public void AddTime(float timeToAdd)
     {

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3702343061421288425}
   - component: {fileID: 4585151693512932870}
   - component: {fileID: 3795857934563198833}
+  - component: {fileID: 7112927575381454735}
   m_Layer: 3
   m_Name: TimeText
   m_TagString: Untagged
@@ -176,6 +177,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 4585151693512932870}
   m_maskType: 0
+--- !u!114 &7112927575381454735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136771047760185233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 325114dacf2670f48b1b740247fb877a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentAlphaValue: 0
+  CommentMinAlpha: 0
+  CommentMaxAlpha: 0
+  CommentCurrentAlpha: 0
 --- !u!1 &8168690916882899228
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,6 +371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Countdown: 30
   explosionEffect: {fileID: 5831310204594807354, guid: e605ff2df8ad88f439ba83ec4ef7a0f4, type: 3}
+  bombTimerRevealTime: 3
   hasOwner: 0
   beingThrown: 0
   timeToDestination: 1
