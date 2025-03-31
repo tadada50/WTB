@@ -1,3 +1,4 @@
+using UnityEditor.VisionOS;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -76,6 +77,14 @@ public class PlayerMovement : MonoBehaviour
     Vector2 endPosition; // Final position of the bomb when thrown
 
     bool isThrowing = false; // Flag to check if the player is currently throwing the bomb
+    
+    public void ThrowBombWithTouch(Vector2 force){
+        if(!isActive || bomb == null) // Only throw if the player is active and has a bomb
+        {
+            return; // Exit if not active or no bomb
+        }
+         bomb.Throw(force, 1f);
+    }
     void AccumulateThrowForce(){
         // Check if the player has pressed the throw button (e.g., left mouse button or a specific key)
         if (!isActive || bomb == null) // Only accumulate force if the player is active and has a bomb
