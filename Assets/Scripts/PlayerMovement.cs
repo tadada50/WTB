@@ -231,8 +231,10 @@ public class PlayerMovement : MonoBehaviour
         // Debug.Log("OnTriggerEnter2D collision with: " + collision.tag);
         if(collision.tag == "Bomb" && bomb==null){
             bomb = collision.gameObject.GetComponent<Bomb>();
-            if(bomb != null && !bomb.GetComponent<Bomb>().hasOwner && !bomb.beingThrown) {  // Check if the bomb has no owner
+            if(bomb != null && !bomb.GetComponent<Bomb>().hasOwner) { 
+            //if(bomb != null && !bomb.GetComponent<Bomb>().hasOwner && !bomb.beingThrown) {  // Check if the bomb has no owner
                 bomb.SetHasOwner(true);
+                bomb.beingThrown = false;
                 PickupBomb(bomb);
                 // bomb.AddTime(5f); // Optional: Add time to the bomb countdown
             }else{
