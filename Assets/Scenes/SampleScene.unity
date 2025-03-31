@@ -655,7 +655,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swipeTimeThreshold: 0.2
-  swipeDistanceThreshold: 50
+  swipeDistanceThreshold: 55
   leftPlayerMovement: {fileID: 1058420157}
   rightPlayerMovement: {fileID: 7894672330460269136}
 --- !u!4 &825508108
