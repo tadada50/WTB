@@ -52,5 +52,8 @@ TagManager:
   - name: Bomb
     uniqueID: 2746288335
     locked: 0
+  - name: UI
+    uniqueID: 1697263605
+    locked: 0
   m_RenderingLayers:
   - Default

@@ -1,6 +1,6 @@
-using UnityEditor.VisionOS;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -9,11 +9,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GameObject bullet;
     [SerializeField] Transform hand;
     [SerializeField] bool isRightSide = true;
+    [SerializeField] bool isTouchControl = false;
+    [SerializeField] float touchMoveMultiplier = 0.5f;
     // [SerializeField] float maxGravity = 20f;
     Rigidbody2D myRigidbody;
     bool isAlive = true;
     bool isActive = false;
     Vector2 moveInput;
+    Vector2 throwInput;
     Animator myAnimator;
     Vector2 screenBounds;
     float playerHalfWidth;
@@ -24,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
     KeyCode upKey = KeyCode.W; // Key to increase the Y component of the throw force
     KeyCode downKey = KeyCode.S; // Key to decrease the Y component of the throw force
 
+    public Joystick joystick;
+    public Joystick throwJoystick;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -52,6 +57,9 @@ public class PlayerMovement : MonoBehaviour
             upKey = KeyCode.W; // Up Arrow for increasing Y component of the throw force
             downKey = KeyCode.S; // Down Arrow for decreasing Y component of the throw force
         }
+
+        throwJoystick.OnDragFinish += DragFinishHandler;
+
     }
 
     // Update is called once per frame
@@ -59,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
     {
         FlipSprite();
         AccumulateThrowForce();
+        RunWithJoystick();
         Run();   
     }
     void OnAttack(){
@@ -78,12 +87,53 @@ public class PlayerMovement : MonoBehaviour
 
     bool isThrowing = false; // Flag to check if the player is currently throwing the bomb
     
-    public void ThrowBombWithTouch(Vector2 force){
+    public void ThrowBombWithTouch(Vector2 startPos, Vector2 endPos){
         if(!isActive || bomb == null) // Only throw if the player is active and has a bomb
         {
             return; // Exit if not active or no bomb
         }
-         bomb.Throw(force, 1f);
+        Debug.Log($"StartPos:{startPos} EndPos:{endPos}" );
+        //  bomb.Throw(force, 1f);
+        //  bomb = null;
+    }
+
+    void DragFinishHandler(float duration){
+        if (!isActive || bomb == null) // Only accumulate force if the player is active and has a bomb
+        {
+            return; // Exit if not active or no bomb
+        }
+        
+        Vector2 force;
+        force.x = throwJoystick.lastNonZeroHorizontal * duration * 15f;
+        force.y = throwJoystick.lastNonZeroVertical * duration * 15f;
+
+        Debug.Log($"DragFinished throw force:{force}  lastNonZeroVertical:{throwJoystick.lastNonZeroVertical}   lastNonZeroHorizontal:{throwJoystick.lastNonZeroHorizontal}");
+        bomb.transform.SetParent(null); // Detach from player
+        bomb.Throw(force,1f);
+        bomb = null;
+    }
+    void ThrowWithTouch(){
+        if (!isActive || bomb == null) // Only accumulate force if the player is active and has a bomb
+        {
+            return; // Exit if not active or no bomb
+        }
+        if(!isTouchControl){
+            return;
+        }
+        float x = 0f;
+        float y = 0f;
+        // if(throwJoystick.Horizontal >= 0.2f){
+        //     x = 1;
+        // }else if(throwJoystick.Horizontal<=-0.2f){
+        //     x = -1;
+        // }
+        // if(throwJoystick.Vertical >= 0.2f){
+        //     y = 1;
+        // }else if(throwJoystick.Vertical<=-0.2f){
+        //     y = -1;
+        // }
+        throwInput = new Vector2(throwJoystick.Horizontal,throwJoystick.Vertical);
+
     }
     void AccumulateThrowForce(){
         // Check if the player has pressed the throw button (e.g., left mouse button or a specific key)
@@ -177,6 +227,32 @@ public class PlayerMovement : MonoBehaviour
       //  transform.Translate(moveInput.x * Time.deltaTime, moveInput.y * Time.deltaTime, 0);
         // backGround.transform.Translate(moveInput.x * Time.deltaTime, moveInput.y * Time.deltaTime, 0);
     }
+    public void RunWithJoystick(){
+        if(!isTouchControl){
+            return;
+        }
+        if(!isAlive || !isActive){
+            return;
+        }
+        float x = 0f;
+        float y = 0f;
+        if(joystick.Horizontal >= 0.2f){
+            x = 1;
+        }else if(joystick.Horizontal<=-0.2f){
+            x = -1;
+        }
+        if(joystick.Vertical >= 0.2f){
+            y = 1;
+        }else if(joystick.Vertical<=-0.2f){
+            y = -1;
+        }
+        moveInput = new Vector2(x,y);
+    
+    }
+    public void StopMoving(){
+        moveInput = Vector2.zero;
+        Debug.Log($"StopMoving ===> isRightPlayer:{isRightSide} moveInput:{moveInput}");
+    }
     public void RunWithTouch(Vector2 touchPosition){
         
         // This method can be called from touch input to handle player movement with touch controls
@@ -184,8 +260,16 @@ public class PlayerMovement : MonoBehaviour
         //     return;
         // }
         // Calculate movement direction based on touch position relative to player
-        Vector2 moveDirection = ((Vector2)touchPosition - (Vector2)transform.position).normalized;
-        moveInput = moveDirection; // Set moveInput for use in Run method
+        // Vector2 moveDirection = ((Vector2)touchPosition - (Vector2)transform.position).normalized;
+        // Vector2 moveDirection = ((Vector2)Camera.main.ScreenToWorldPoint(transform.position) - (Vector2)touchPosition).normalized;
+        // Vector2 moveDirection = ((Vector2)touchPosition - (Vector2)transform.position).normalized;
+
+
+        // Vector2 moveDirection = (Vector2)touchPosition - (Vector2)transform.position;
+        // moveInput = moveDirection; // Set moveInput for use in Run method
+        // Debug.Log($"isRightPlayer:{isRightSide} moveInput:{moveInput} touchposition:{touchPosition} transform.position:{transform.position}");
+
+
         // Debug.Log("Running with touch input");
         // Assuming moveInput is already set based on touch input
        // Run(); // Call the Run method to apply movement based on the current moveInput
@@ -194,12 +278,19 @@ public class PlayerMovement : MonoBehaviour
         if(isThrowing || !isAlive || !isActive){
             return;
         }
+
         // if (Input.GetKey(KeyCode.Space)){
         //     Debug.Log($"Space key is pressed, isThrowing: {isThrowing}, isActive: {isActive}, bomb: {(bomb != null ? "present" : "null")}");
         //     return;
         // }
        // Debug.Log("Running"); 
-        Vector2 playVelocity = new Vector2(moveInput.x * runSpeed, moveInput.y * runSpeed);
+       Vector2 playVelocity;
+       if(isTouchControl){
+            playVelocity = new Vector2(moveInput.x * runSpeed, moveInput.y * runSpeed);
+       }else{
+            playVelocity = new Vector2(moveInput.x * runSpeed*touchMoveMultiplier, moveInput.y * runSpeed*touchMoveMultiplier);
+       }
+    
         // Vector2 playVelocity = new Vector2(moveInput.x * runSpeed, myRigidbody.linearVelocity.y);
         myRigidbody.linearVelocity = playVelocity;
         myAnimator.SetBool("isRunning", Mathf.Abs(myRigidbody.linearVelocityX) > Mathf.Epsilon || Mathf.Abs(myRigidbody.linearVelocityY) > Mathf.Epsilon);
