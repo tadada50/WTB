@@ -8,9 +8,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float maxVelocity = 15f;
     [SerializeField] GameObject bullet;
     [SerializeField] Transform hand;
-    [SerializeField] bool isRightSide = true;
+    [SerializeField] public bool isRightSide = true;
     [SerializeField] bool isTouchControl = false;
     [SerializeField] float touchMoveMultiplier = 0.5f;
+    [SerializeField] public GameObject playerHome;
     // [SerializeField] float maxGravity = 20f;
     Rigidbody2D myRigidbody;
     bool isAlive = true;
@@ -29,6 +30,9 @@ public class PlayerMovement : MonoBehaviour
 
     public Joystick joystick;
     public Joystick throwJoystick;
+    public Vector2 homeTopLeft;
+    public Vector2 homeBottomRight;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

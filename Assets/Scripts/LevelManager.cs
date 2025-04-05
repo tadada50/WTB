@@ -18,12 +18,21 @@ public class LevelManager : MonoBehaviour
     [SerializeField] int bombNumber = 1; // Number of bombs to drop
     [SerializeField] float bombDropInterval = 2.0f; // Interval between bomb drops
     [SerializeField] GameObject bombPrefab; // Prefab for the bomb
+    [SerializeField] GameObject craterPrefab; // Prefab for the crater
+    float healthyAreaLeft;
+    float healthyAreaRight;
+    List<GameObject> craters = new List<GameObject>();
+
 
     List<Bomb> bombs = new List<Bomb>(); // Assuming you have a Bomb class to manage bomb logic
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+            foreach (var player in players)
+            {
+                // player.GetComponent<PlayerMovement>().SetActive(true);
+                SetPlayerHomeCorners(player.GetComponentInChildren<PlayerMovement>());
+            }
     }
     // Update is called once per frame
     void Update()
@@ -59,6 +68,21 @@ public class LevelManager : MonoBehaviour
             currentGameState = GameState.BombDropping;
         }
     }
+    void CalculateHealthyArea(){
+        // Calculate the healthy area based on craters
+        healthyAreaLeft = 0;
+        healthyAreaRight = 0;
+
+        foreach (var crater in craters) {
+            Vector3 craterPosition = crater.transform.position;
+            if (craterPosition.x < 0) {
+                healthyAreaLeft += crater.GetComponent<Collider2D>().bounds.size.x;
+            } else {
+                healthyAreaRight += crater.GetComponent<Collider2D>().bounds.size.x;
+            }
+        }
+
+    }
     void InitBomb(){
             // Debug.Log("==>InitBomb");
             GameObject bombInstance = Instantiate(bombPrefab, new Vector3(0, 0, 0), Quaternion.identity);
@@ -74,7 +98,7 @@ public class LevelManager : MonoBehaviour
             bombInstance.tag = "Bomb";
             bombInstance.GetComponent<Renderer>().enabled = true;
     }
-    void BombExplodeHandler(Vector2 position){
+    void BombExplodeHandler2(Vector2 position){
         // Handle bomb explosion here
         // Determine which side of the screen the explosion occurred
         int quadrant = 0;;
@@ -104,10 +128,104 @@ public class LevelManager : MonoBehaviour
         Debug.Log($"Bomb exploded in quadrant {quadrant}  at position {position}");
         currentGameState = GameState.GameOver;
     }
+        void BombExplodeHandler(Vector2 position){
+        // Handle bomb explosion here
+        // Check which player's home the bomb exploded in
+        foreach (var player in players) {
+            PlayerMovement playerMovement = player.GetComponentInChildren<PlayerMovement>();
+            if (position.x >= playerMovement.homeTopLeft.x && 
+                position.x <= playerMovement.homeBottomRight.x &&
+                position.y <= playerMovement.homeTopLeft.y && 
+                position.y >= playerMovement.homeBottomRight.y) {
+                Debug.Log($"Bomb exploded in {(playerMovement.isRightSide ? "Right" : "Left")} player's home!");
+                GameObject craterInstance = Instantiate(craterPrefab, position, Quaternion.identity);
+                craters.Add(craterInstance);
+            }
+        }
+        // Determine which side of the screen the explosion occurred
+        // int quadrant = 0;;
+        // if(position.x == 0 && position.y == 0){
+        //     // If the explosion is exactly at the center, you can decide how to handle it
+        //     quadrant = 0; // Center
+        // }else if(position.x > 0 && position.y > 0){
+        //     // If the explosion is exactly on the vertical axis
+        //     quadrant = 1; // Top Right Quadrant
+        // }else if(position.x < 0 && position.y > 0){
+        //     quadrant = 2; 
+        // }else if(position.x < 0 && position.y < 0){
+        //     quadrant = 3; 
+        // }else if(position.x > 0 && position.y < 0){
+        //     quadrant = 4; 
+        // }
+        // string horizontalSide = position.x < 0 ? "left" : "right";
+        // if (position.x == 0){
+        //     // If the explosion is exactly at the center, you can decide how to handle it
+        //     horizontalSide = "Middle";
+        // }
+        // string verticalSide = position.y < 0 ? "bottom" : "top";
+        // if (position.y == 0){
+        //     // If the explosion is exactly at the center, you can decide how to handle it
+        //     horizontalSide = "Middle";
+        // }
+        // Debug.Log($"Bomb exploded in quadrant {quadrant}  at position {position}");
+        currentGameState = GameState.GameOver;
+    }
     IEnumerator LoadNextBomb(float secondsDelay){
 
         // Debug.Log("==>LoadNextBoomb");
         yield return new WaitForSeconds(secondsDelay);    
         InitBomb();    
     }
+
+
+    private void SetPlayerHomeCorners (PlayerMovement playerMovement) {
+        float width = playerMovement.playerHome.GetComponent<BoxCollider2D>().bounds.size.x;
+        float height = playerMovement.playerHome.GetComponent<BoxCollider2D>().bounds.size.y;
+        // float width = go.GetComponent<BoxCollider2D> ().bounds.size.x;
+        // float height = go.GetComponent<BoxCollider2D> ().bounds.size.y;
+
+        Vector2 topRight = playerMovement.playerHome.transform.position, topLeft = playerMovement.playerHome.transform.position, bottomRight = playerMovement.playerHome.transform.position, bottomLeft = playerMovement.playerHome.transform.position;
+        //Vector2 topRight = go.transform.position, topLeft = go.transform.position, bottomRight = go.transform.position, bottomLeft = go.transform.position;
+
+        topRight.x += width / 2;
+        topRight.y += height / 2;
+
+        topLeft.x -= width / 2;
+        topLeft.y += height / 2;
+
+        bottomRight.x += width / 2;
+        bottomRight.y -= height / 2;
+
+        bottomLeft.x -= width / 2;
+        bottomLeft.y -= height / 2;
+        playerMovement.homeTopLeft = new Vector2(topLeft.x, topLeft.y);
+        playerMovement.homeBottomRight = new Vector2(bottomRight.x, bottomRight.y);
+
+    }
+
+    private void OnDrawGizmos()
+    {
+        // Draw the home corners for each player in the editor
+        foreach (var player in players)
+        {
+            PlayerMovement playerMovement = player.GetComponentInChildren<PlayerMovement>();
+            if (playerMovement != null)
+            {
+                if(playerMovement.isRightSide)
+                    Gizmos.color = Color.red;
+                else
+                    Gizmos.color = Color.cyan;
+
+                Gizmos.DrawLine(playerMovement.homeTopLeft, new Vector2(playerMovement.homeTopLeft.x, playerMovement.homeBottomRight.y));
+
+                Gizmos.DrawLine(playerMovement.homeTopLeft, new Vector2(playerMovement.homeBottomRight.x, playerMovement.homeTopLeft.y));
+
+                Gizmos.DrawLine(playerMovement.homeBottomRight, new Vector2(playerMovement.homeTopLeft.x, playerMovement.homeBottomRight.y));
+
+                Gizmos.DrawLine(playerMovement.homeBottomRight, new Vector2(playerMovement.homeBottomRight.x, playerMovement.homeTopLeft.y));
+
+            }
+        }
+    }
+
 }

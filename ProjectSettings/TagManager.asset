@@ -9,6 +9,8 @@ TagManager:
   - BombShadow
   - BombBody
   - Playground
+  - PlayerLeftHome
+  - PlayerRightHome
   layers:
   - Default
   - TransparentFX
@@ -24,7 +26,7 @@ TagManager:
   - MiddleWall
   - Bomb
   - Playground
-  - 
+  - Damage
   - 
   - 
   - 
@@ -48,6 +50,9 @@ TagManager:
     locked: 0
   - name: Background
     uniqueID: 2439160429
+    locked: 0
+  - name: Damage
+    uniqueID: 3431504441
     locked: 0
   - name: Players
     uniqueID: 3306994417
