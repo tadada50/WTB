@@ -134,7 +134,8 @@ public class Bomb : MonoBehaviour
         }
         StopSparkles();
         PlayExplosion();
-        Vector2 explosionPosition = bombBodyRb.position; // Use the bomb body position for explosion
+        Vector2 explosionPosition = bombBodyRb.position;
+        explosionPosition.y -= bombBodyRb.GetComponent<SpriteRenderer>().bounds.size.y/2; // Use the bomb body position for explosion
         OnBombExplode(explosionPosition);
         // OnBombExplode(transform.position);
         Destroy(gameObject,2f);

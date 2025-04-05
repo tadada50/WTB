@@ -128,7 +128,7 @@ public class LevelManager : MonoBehaviour
         Debug.Log($"Bomb exploded in quadrant {quadrant}  at position {position}");
         currentGameState = GameState.GameOver;
     }
-        void BombExplodeHandler(Vector2 position){
+    void BombExplodeHandler(Vector2 position){
         // Handle bomb explosion here
         // Check which player's home the bomb exploded in
         foreach (var player in players) {
@@ -140,8 +140,10 @@ public class LevelManager : MonoBehaviour
                 Debug.Log($"Bomb exploded in {(playerMovement.isRightSide ? "Right" : "Left")} player's home!");
                 GameObject craterInstance = Instantiate(craterPrefab, position, Quaternion.identity);
                 craters.Add(craterInstance);
+                CalculateHealthyArea(craterInstance);
             }
         }
+        //Calculate the healthy area based on craters
         // Determine which side of the screen the explosion occurred
         // int quadrant = 0;;
         // if(position.x == 0 && position.y == 0){
@@ -169,6 +171,29 @@ public class LevelManager : MonoBehaviour
         // }
         // Debug.Log($"Bomb exploded in quadrant {quadrant}  at position {position}");
         currentGameState = GameState.GameOver;
+    }
+    void CalculateHealthyArea(GameObject crater){
+        SpriteRenderer spriteRenderer = crater.GetComponentInChildren<SpriteRenderer>();
+        if (spriteRenderer == null) {
+            return;
+        }
+        float width = spriteRenderer.bounds.size.x;
+        float height = spriteRenderer.bounds.size.y;
+    }
+    void CalculateHealthyArea2(){
+        // Calculate the healthy area based on craters
+        healthyAreaLeft = 0;
+        healthyAreaRight = 0;
+
+        foreach (var crater in craters) {
+            Vector3 craterPosition = crater.transform.position;
+            if (craterPosition.x < 0) {
+                healthyAreaLeft += crater.GetComponent<Collider2D>().bounds.size.x;
+            } else {
+                healthyAreaRight += crater.GetComponent<Collider2D>().bounds.size.x;
+            }
+        }
+
     }
     IEnumerator LoadNextBomb(float secondsDelay){
 
