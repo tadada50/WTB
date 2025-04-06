@@ -27,7 +27,7 @@ TagManager:
   - Bomb
   - Playground
   - Damage
-  - 
+  - UIBack
   - 
   - 
   - 
@@ -62,6 +62,9 @@ TagManager:
     locked: 0
   - name: BombBody
     uniqueID: 701730187
+    locked: 0
+  - name: UIBack
+    uniqueID: 3648853567
     locked: 0
   - name: UI
     uniqueID: 1697263605

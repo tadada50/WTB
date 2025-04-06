@@ -230,7 +230,6 @@ public class Bomb : MonoBehaviour
     {
         // Debug.Log($"Throwing bomb to position: {force}");
         beingThrown = true;
-        bombHeight = 0;
         targetPosition2D = (Vector2)transform.position + force;
         playBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
         Debug.Log($"Play Bounds: {playBounds}");
@@ -272,110 +271,6 @@ public class Bomb : MonoBehaviour
     float maxHeight;
     [SerializeField] float bombMaxHeight= 6f;
     float flySpeed = 10f;
-    //need to fix
-    private void FollowParabolicPath(){
-        if (Vector2.Distance(transform.position, targetPosition2D) < 0.1f)
-        {
-            beingThrown = false;
-            return;
-        }
-
-        distanceToDestination = Vector2.Distance(transform.position, targetPosition2D);
-        
-        float totalDistance = Vector2.Distance(targetPosition2D, transform.position);
-        float progress = 1 - (distanceToDestination / totalDistance);
-
-
-        flyTime = flyTime + Time.deltaTime;
-        bombMaxHeight = 2f; // Maximum height of the arc, adjust as needed
-        maxHeight = Mathf.Max(start.y, targetPosition2D.y) + bombMaxHeight;
-        float horizontalDistance = targetPosition2D.x - start.x;
-        timeToDestination = horizontalDistance/flySpeed;
-
-        float timeProgress = flyTime / timeToDestination; // Calculate progress based on flyTime and timeToDestination
-
-        // float time = flyTime / timeToDestination;
-        float a = (start.y - 2 * maxHeight + targetPosition2D.y) / (horizontalDistance * horizontalDistance);
-        float b = (4 * maxHeight - 2 * start.y - 2 * targetPosition2D.y) / horizontalDistance;
-        float c = start.y;
-        // Using quadratic formula to find x: ax^2 + bx + (c - targetPosition2D.y) = 0
-        float discriminant = b * b - 4 * a * (c - targetPosition2D.y);
-        float xSolution = 0; // Default value for x if no solution is found
-        if (discriminant >= 0)
-        {
-            float x1 = (-b + Mathf.Sqrt(discriminant)) / (2 * a);
-            float x2 = (-b - Mathf.Sqrt(discriminant)) / (2 * a);
-            // Choose the x value closest to targetPosition2D.x
-            xSolution = Mathf.Abs(x1 - targetPosition2D.x) < Mathf.Abs(x2 - targetPosition2D.x) ? x1 : x2;
-        }
-        else
-        {
-            // If no real solution, fallback to linear interpolation (straight line)
-            xSolution = Mathf.Lerp(start.x, targetPosition2D.x, timeProgress);
-        }
-        float t = timeToDestination;
-        
-        
-
-        
-
-        // Calculate the y position using the quadratic formula
-        // y = ax^2 + bx + c
-        // Calculate the current position along the path
-        // Vector2 start = transform.position;
-       // float height = 2f; // Maximum height of the arc
-        
-        
-        // Parabolic interpolation
-        float x = Mathf.Lerp(start.x, targetPosition2D.x, timeProgress);
-        //Debug.Log($"Y={newY} X={x} at time:{timeToDestination} = {xSolution}, start.y: {start.y}, targetPosition2D: {targetPosition2D}, maxHeight: {maxHeight}");
-
-        // float y = start.y + height * (4 * flyTime - 4 * flyTime * flyTime);
-        //float y = start.y + height * (4 * x - 4 * x * x);
-        float newY = a*x*x + b*x + c-targetPosition2D.y; // Calculate the y position using the quadratic formula
-
-        float speedMultiplier = Mathf.Cos(progress * Mathf.PI * 0.5f);
-        float delta = (12f + distanceToDestination * 2f) * speedMultiplier * Time.deltaTime;
-        // Move towards the calculated position
-       // Debug.Log($"Moving to ({x}, {newY}), target: {targetPosition2D}, from- transform.position: {transform.position} ,progress: {progress}, distanceToDestination: {distanceToDestination}, delta: {delta}");
-        // transform.position = Vector2.MoveTowards(
-        //     transform.position, 
-        //     new Vector2(x, y), 
-        //     delta
-        // );
-        transform.position = new Vector2(x, newY); // Set the position directly to the calculated point
-        
-    }
-    float bombHeight;
-    private void FollowStraightPath2(){ 
-        if (Vector2.Distance(transform.position, targetPosition2D) < 0.2f)
-        {
-            bombBodyRb.transform.localPosition = new Vector2(0,0); // Reset the bomb body position
-            beingThrown = false;
-            return; // Stop following the path if close to the target
-        }
-        distanceToDestination = Vector2.Distance(transform.position, targetPosition2D);
-        float progress = 1 - (distanceToDestination / totalDistanceToDestination);
-        float speedMultiplier = 1f*Mathf.Cos(progress * Mathf.PI * 0.5f);
-        speedMultiplier = Mathf.Clamp(speedMultiplier, 0.5f, 1f); // Clamp the speed multiplier to avoid negative values
-        if(totalDistanceToDestination < 2f){
-            speedMultiplier = 0.2f; // Set to 1 when close to the target
-        }
-        float delta = (12f + distanceToDestination * 2f) * speedMultiplier * Time.deltaTime;
-       // Debug.Log($"Moving to ({x}, {y}), target: {targetPosition2D}, progress: {progress}, distanceToDestination: {distanceToDestination}, delta: {delta}");
-        float newHeight = -4*bombMaxHeight*progress*(progress - 1);
-        // if(progress > 0.5f){
-        //     newHeight = -newHeight;
-        // }
-        transform.position = Vector2.MoveTowards(transform.position, targetPosition2D, delta);
-        // if(bombHeight < maxHeight){
-        //     bombHeight += Time.deltaTime * 2f; // Adjust the speed of height increase as needed
-        // }else{
-        //     bombHeight -= Time.deltaTime * 2f; // Adjust the speed of height decrease as needed
-        // }
-        bombBodyRb.transform.localPosition = new Vector2(0, newHeight); // Set the height based on the calculated value
-       // Debug.Log($"Progress: {progress}, bombHeight: {bombHeight}, Position: {transform.position}, BombBody: {bombBodyRb.transform.position} DistanceToDestination: {distanceToDestination} totalDistance: {totalDistanceToDestination}");
-    }
 
 private void FollowStraightPath(){ 
     if (bombBodyRb == null)
@@ -423,38 +318,6 @@ private void FollowStraightPath(){
         Gizmos.DrawLine(bombBoundBottomRight, bombBoundBottomLeft);
         Gizmos.DrawLine(bombBoundBottomLeft, bombBoundTopLeft);
     }
-    private void FollowParaBolicPath2(){ 
-        if (Vector2.Distance(transform.position, targetPosition2D) < 0.1f)
-        {
-            beingThrown = false;
-            return; // Stop following the path if close to the target
-        }
-        //normal equation: height = -4*maxheight*x*(x - 1);
-        //modified equation: height = -4*maxheight*x*(x - 1) + targetPosition2D.y; so the height is relative to the target position
-        distanceToDestination = Vector2.Distance(transform.position, targetPosition2D);
-        float progress = 1 - (distanceToDestination / totalDistanceToDestination);
-        float speedMultiplier = 1.5f*Mathf.Cos(progress * Mathf.PI * 0.5f);
-        float delta = (12f + distanceToDestination * 2f) * speedMultiplier * Time.deltaTime;
-
-        float newHeight = -4*bombMaxHeight*progress*(progress - 1);
-        // if(!isThrowingDown){
-        //     newHeight+=targetPosition2D.y;
-        // }  // Calculate the height based on the progress
-       // Debug.Log($"Moving to ({x}, {y}), target: {targetPosition2D}, progress: {progress}, distanceToDestination: {distanceToDestination}, delta: {delta}");
-       Vector2 newPosition = Vector2.MoveTowards(transform.position, targetPosition2D, delta);
-        newPosition.y = newHeight;
-        transform.position = newPosition; // Set the height based on the calculated value
-        Debug.Log($"Position: {transform.position}, Height: {newHeight}, Progress: {progress} Distance: {distanceToDestination} totalDistance: {totalDistanceToDestination}");
-    }
-
-    // private void FollowPath(){
-    //     if (Vector2.Distance(transform.position, targetPosition.position) < 0.1f)
-    //     {
-    //         beingThrown = false;
-    //     }
-    //     float delta = _throwForce * Time.deltaTime;
-    //     transform.position = Vector2.MoveTowards(transform.position, targetPosition.position, delta);
-    // }
 
     void PlayExplosion(){
         if(explosionEffect != null){
