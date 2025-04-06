@@ -33,6 +33,8 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 homeTopLeft;
     public Vector2 homeBottomRight;
 
+    PlayerHome playerHomeScript;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -47,6 +49,8 @@ public class PlayerMovement : MonoBehaviour
         Vector2 topLeft = new Vector2(-screenBounds.x, screenBounds.y);
         Vector2 bottomRight = new Vector2(screenBounds.x, -screenBounds.y);
         Vector2 bottomLeft = new Vector2(-screenBounds.x, -screenBounds.y);
+
+        playerHomeScript = playerHome.GetComponent<PlayerHome>();
 
         Debug.Log($"Top Right: {topRight}");
         Debug.Log($"Top Left: {topLeft}"); 
@@ -264,12 +268,38 @@ public class PlayerMovement : MonoBehaviour
         if(isThrowing || !isAlive || !isActive){
             return;
         }
-
-        // if (Input.GetKey(KeyCode.Space)){
-        //     Debug.Log($"Space key is pressed, isThrowing: {isThrowing}, isActive: {isActive}, bomb: {(bomb != null ? "present" : "null")}");
-        //     return;
+       Vector2 playVelocity;
+       if(isTouchControl){
+            playVelocity = new Vector2(moveInput.x * runSpeed, moveInput.y * runSpeed);
+       }else{
+            playVelocity = new Vector2(moveInput.x * runSpeed*touchMoveMultiplier, moveInput.y * runSpeed*touchMoveMultiplier);
+       }
+    
+        // Vector2 playVelocity = new Vector2(moveInput.x * runSpeed, myRigidbody.linearVelocity.y);
+        myRigidbody.linearVelocity = playVelocity;
+        myAnimator.SetBool("isRunning", Mathf.Abs(myRigidbody.linearVelocityX) > Mathf.Epsilon || Mathf.Abs(myRigidbody.linearVelocityY) > Mathf.Epsilon);
+        float clampedX;
+        float clampedY;
+        // if(isRightSide){
+        //     clampedX = Mathf.Clamp(myRigidbody.position.x, playerHomeScript.homeTopLeft.x + playerHalfWidth, playerHomeScript.homeTopRight.x - playerHalfWidth);
+        // }else{
+        //     // clampedX = Mathf.Clamp(myRigidbody.position.x, -screenBounds.x + playerHalfWidth, 0 - playerHalfWidth);
+        //     clampedX = Mathf.Clamp(myRigidbody.position.x, playerHomeScript.homeTopLeft.x + playerHalfWidth, playerHomeScript.homeTopRight.x - playerHalfWidth);
         // }
-       // Debug.Log("Running"); 
+        clampedX = Mathf.Clamp(myRigidbody.position.x, playerHomeScript.homeTopLeft.x + playerHalfWidth, playerHomeScript.homeTopRight.x - playerHalfWidth);
+        // clampedY = Mathf.Clamp(myRigidbody.position.y, playerHomeScript.homeBottomLeft.y + playerHalfHeight, playerHomeScript.homeTopLeft.y - playerHalfHeight);
+        clampedY = Mathf.Clamp(myRigidbody.position.y, playerHomeScript.homeBottomLeft.y + playerHalfHeight, playerHomeScript.homeTopLeft.y);
+        Vector2 pos = transform.position;
+        pos.x = clampedX;
+        pos.y = clampedY;
+        //Debug.Log($"Player position adjusted to: {pos}");
+        transform.position = pos;
+    }
+
+    void Run2(){
+        if(isThrowing || !isAlive || !isActive){
+            return;
+        }
        Vector2 playVelocity;
        if(isTouchControl){
             playVelocity = new Vector2(moveInput.x * runSpeed, moveInput.y * runSpeed);
@@ -294,15 +324,6 @@ public class PlayerMovement : MonoBehaviour
         pos.y = clampedY;
         //Debug.Log($"Player position adjusted to: {pos}");
         transform.position = pos;
-        //carry the bomb with the player
-        // if (bomb != null)
-        // {
-        //     Vector3 position = new Vector3(playerHalfWidth * Mathf.Sign(transform.localScale.x), 0, 0);
-        //     bomb.transform.localPosition = position;
-        // }
-        // Vector2 backGroundVelocity = new Vector2(moveInput.x * runSpeed * backGroundMoveFactorX, myRigidbody.linearVelocity.y* backGroundMoveFactorY);
-        // backgroundRigitBody.linearVelocity = backGroundVelocity;
-        // myAnimator.SetBool("isJumping", myRigidbody.linearVelocity.y > Mathf.Epsilon);
     }
     void FlipSprite(){
         bool playerHasHorizontalSpeed = Mathf.Abs(myRigidbody.linearVelocityX) > 0.05;
