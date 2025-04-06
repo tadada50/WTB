@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerHome : MonoBehaviour
@@ -6,6 +7,7 @@ public class PlayerHome : MonoBehaviour
     public List<Vector2> healthyArea = new List<Vector2>();
     public List<Vector2> bombedAreasToBeRemoved = new List<Vector2>();
     [SerializeField] float areaResolution = 0.2f;
+    [SerializeField] public float destructionThreshold = 0.75f;
     BoxCollider2D boxCollider2D;
     public Vector2 homeTopLeft;
     public Vector2 homeBottomRight;
@@ -13,12 +15,18 @@ public class PlayerHome : MonoBehaviour
     public Vector2 homeBottomLeft;
     public List<GameObject> homeowners = new List<GameObject>();
     List<GameObject> craters = new List<GameObject>();
-    float InitiateHealthyAreaCount;
+
+    bool isRightSide;
+
+    [SerializeField] ScoreKeeper scoreKeeper;
+    float initialHealthyAreaCount;
+    float healthyAreaDiscountFactor =2f;
     void Start()
     {
         boxCollider2D = GetComponent<BoxCollider2D>();
         SetPlayerHomeCorners();
         InitiateHealthyArea();
+        isRightSide = homeowners.ElementAt(0).GetComponentInChildren<PlayerMovement>().isRightSide;
     }
 
     // Update is called once per frame
@@ -32,7 +40,10 @@ public class PlayerHome : MonoBehaviour
                 healthyArea.Add(new Vector2(x, y));
             }
         }
-        InitiateHealthyAreaCount = healthyArea.Count;
+        initialHealthyAreaCount = healthyArea.Count;
+        scoreKeeper.LeftPlayerHomeSliderValue = 1f;
+        scoreKeeper.RightPlayerHomeSliderValue = 1f;
+        
         Debug.Log("Healthy Area: " + healthyArea.Count); 
     }
     public void RemovedBombedArea(GameObject crater)
@@ -55,8 +66,12 @@ public class PlayerHome : MonoBehaviour
                 bombedAreasToBeRemoved.Add(point);
             }
         }
-
         craters.Add(crater);
+        if(isRightSide){
+            scoreKeeper.RightPlayerHomeSliderValue = (float)healthyArea.Count / initialHealthyAreaCount;
+        }else{
+            scoreKeeper.LeftPlayerHomeSliderValue = (float)healthyArea.Count / initialHealthyAreaCount;
+        }
         Debug.Log("==> RemovedBombedArea Healthy Area: " + healthyArea.Count); 
     }
     private void SetPlayerHomeCorners () {
