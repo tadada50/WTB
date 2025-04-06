@@ -7,6 +7,7 @@ public class Bomb : MonoBehaviour
     [SerializeField] float Countdown = 10.0f;
     [SerializeField] GameObject explosionEffect; // Optional: Particle system for explosion effect
     [SerializeField] float bombTimerRevealTime = 3.0f; // Time the bomb timer is revealed to the player
+    [SerializeField] float bombExplosionRadius = 3.0f; // Radius of the explosion effect
     TMP_Text countdownText; // Optional: UI text to display countdown
     public bool hasOwner = false; // Flag to check if the bomb has an owner
     private Vector3 _velocity;
@@ -17,7 +18,7 @@ public class Bomb : MonoBehaviour
     bool exploded = false;
     float timeRevealed = 0f; // Time when the bomb timer was revealed to the player
     Rigidbody2D bombBodyRb;
-    public delegate void OnBombExplodeDelegate(Vector2 explodePosition);
+    public delegate void OnBombExplodeDelegate(Vector2 explodePosition, float explosionRadius);
     public event OnBombExplodeDelegate OnBombExplode;
     float halfBombWidth;
     float halfBombHeight;
@@ -137,7 +138,7 @@ public class Bomb : MonoBehaviour
         PlayExplosion();
         Vector2 explosionPosition = bombBodyRb.position;
         explosionPosition.y -= bombBodyRb.GetComponent<SpriteRenderer>().bounds.size.y/2; // Use the bomb body position for explosion
-        OnBombExplode(explosionPosition);
+        OnBombExplode(explosionPosition, bombExplosionRadius);
         // OnBombExplode(transform.position);
         Destroy(gameObject,2f);
         Destroy(bombBodyRb.gameObject);
@@ -308,16 +309,19 @@ private void FollowStraightPath(){
     Vector2 totalDistance;
     private void OnDrawGizmos()
     {
+        // Gizmos.color = Color.red;
+        // Gizmos.DrawLine(transform.position, targetPosition2D);
+        // Gizmos.DrawSphere(targetPosition2D, 0.1f); // Draw a sphere at the target position
+        // // Gizmos.color = Color.green;
+        // // Gizmos.DrawWireCube(playground.transform.position, playBounds);
+        // Gizmos.color = Color.yellow;
+        // Gizmos.DrawLine(bombBoundTopLeft, bombBoundTopRight);
+        // Gizmos.DrawLine(bombBoundTopRight, bombBoundBottomRight);  
+        // Gizmos.DrawLine(bombBoundBottomRight, bombBoundBottomLeft);
+        // Gizmos.DrawLine(bombBoundBottomLeft, bombBoundTopLeft);
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, targetPosition2D);
-        Gizmos.DrawSphere(targetPosition2D, 0.1f); // Draw a sphere at the target position
-        // Gizmos.color = Color.green;
-        // Gizmos.DrawWireCube(playground.transform.position, playBounds);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(bombBoundTopLeft, bombBoundTopRight);
-        Gizmos.DrawLine(bombBoundTopRight, bombBoundBottomRight);  
-        Gizmos.DrawLine(bombBoundBottomRight, bombBoundBottomLeft);
-        Gizmos.DrawLine(bombBoundBottomLeft, bombBoundTopLeft);
+        Gizmos.DrawWireSphere(transform.position, bombExplosionRadius);
+
     }
 
     void PlayExplosion(){

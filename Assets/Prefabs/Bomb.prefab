@@ -15022,6 +15022,7 @@ MonoBehaviour:
   Countdown: 30
   explosionEffect: {fileID: 5831310204594807354, guid: e605ff2df8ad88f439ba83ec4ef7a0f4, type: 3}
   bombTimerRevealTime: 3
+  bombExplosionRadius: 3.2
   hasOwner: 0
   beingThrown: 0
   timeToDestination: 1

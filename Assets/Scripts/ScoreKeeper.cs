@@ -18,11 +18,25 @@ public class ScoreKeeper : MonoBehaviour
         set {
             if (leftPlayerLifesCount == value) return;
             leftPlayerLifesCount = value;
+            UpdateLeftPlayerLifes();
             if (OnLeftPlayerLifesChange != null)
                 OnLeftPlayerLifesChange(leftPlayerLifesCount);
         }
     }   
-
+    void UpdateLeftPlayerLifes()
+    {
+        for (int i = 0; i < leftPlayerLifes.Length; i++)
+        {
+            if (i < leftPlayerLifesCount)
+            {
+                leftPlayerLifes[i].enabled = true;
+            }
+            else
+            {
+                leftPlayerLifes[i].enabled = false;
+            }
+        }
+    }
     public delegate void OnLeftPlayerLifesChangeDelegate(int newVal);
     public event OnLeftPlayerLifesChangeDelegate OnLeftPlayerLifesChange;
 
@@ -32,11 +46,25 @@ public class ScoreKeeper : MonoBehaviour
         set {
             if (rightPlayerLifesCount == value) return;
             rightPlayerLifesCount = value;
+            UpdateRightPlayerLifes();
             if (OnRightPlayerLifesChange != null)
                 OnRightPlayerLifesChange(rightPlayerLifesCount);
         }
     }
-
+    void UpdateRightPlayerLifes()
+    {
+        for (int i = 0; i < rightPlayerLifes.Length; i++)
+        {
+            if (i < rightPlayerLifesCount)
+            {
+                rightPlayerLifes[i].enabled = true;
+            }
+            else
+            {
+                rightPlayerLifes[i].enabled = false;
+            }
+        }
+    }
     public delegate void OnRightPlayerLifesChangeDelegate(int newVal);
     public event OnRightPlayerLifesChangeDelegate OnRightPlayerLifesChange;
 

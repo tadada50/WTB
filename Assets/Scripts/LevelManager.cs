@@ -135,14 +135,14 @@ public class LevelManager : MonoBehaviour
         Debug.Log($"Bomb exploded in quadrant {quadrant}  at position {position}");
         currentGameState = GameState.GameOver;
     }
-    void BombExplodeHandler(Vector2 position){
+    void BombExplodeHandler(Vector2 position, float explostionRadius){
         // Handle bomb explosion here
         // Check which player's home the bomb exploded in
         GameObject craterInstance = null;
         Vector2 topPosition = playerHomes.ElementAt(0).GetComponentInChildren<PlayerHome>().homeTopLeft;
         if(position.y <= topPosition.y){
-            Debug.Log($"Bomb exploded at position {position}");
-            Debug.Log($"Player home top left position {topPosition}");
+            // Debug.Log($"Bomb exploded at position {position}");
+            // Debug.Log($"Player home top left position {topPosition}");
             craterInstance = Instantiate(craterPrefab, position, Quaternion.identity);
             if(craterInstance != null){
                 foreach (var playerHome in playerHomes) {
@@ -150,6 +150,7 @@ public class LevelManager : MonoBehaviour
                     home.RemovedBombedArea(craterInstance);
                 }
             }
+            CheckIfBombHitPlayer(position, explostionRadius);
         }
 
 
@@ -216,6 +217,23 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(secondsDelay);    
         InitBomb();    
     }
+    private void CheckIfBombHitPlayer(Vector2 position, float explosionRadius) {
+        foreach (var player in players) {
+            var playerMovement = player.GetComponentInChildren<PlayerMovement>();
+            if (playerMovement != null) {
+                float distanceToPlayer = Vector2.Distance(position, (Vector2)playerMovement.transform.position);
+                if (distanceToPlayer < explosionRadius) { // Adjust this radius as needed
+                    // currentGameState = GameState.GameOver;
+                    if(playerMovement.isRightSide){
+                        ScoreManager.GetComponent<ScoreKeeper>().RightPlayerLifesCount -= 1;
+                    }else{  
+                        ScoreManager.GetComponent<ScoreKeeper>().LeftPlayerLifesCount -= 1;
+                    }
+                }
+            }
+        }
+    }
+
     private void SetPlayerHomeCorners (PlayerHome playerHome) {
         float width = playerHome.GetComponent<BoxCollider2D>().bounds.size.x;
         float height = playerHome.GetComponent<BoxCollider2D>().bounds.size.y;
