@@ -18,7 +18,7 @@ public class Bomb : MonoBehaviour
     bool exploded = false;
     float timeRevealed = 0f; // Time when the bomb timer was revealed to the player
     Rigidbody2D bombBodyRb;
-    public delegate void OnBombExplodeDelegate(Vector2 explodePosition, float explosionRadius);
+    public delegate void OnBombExplodeDelegate(Vector2 explodePosition, float explosionRadius, Bomb bomb);
     public event OnBombExplodeDelegate OnBombExplode;
     float halfBombWidth;
     float halfBombHeight;
@@ -138,7 +138,7 @@ public class Bomb : MonoBehaviour
         PlayExplosion();
         Vector2 explosionPosition = bombBodyRb.position;
         explosionPosition.y -= bombBodyRb.GetComponent<SpriteRenderer>().bounds.size.y/2; // Use the bomb body position for explosion
-        OnBombExplode(explosionPosition, bombExplosionRadius);
+        OnBombExplode(explosionPosition, bombExplosionRadius,this);
         // OnBombExplode(transform.position);
         Destroy(gameObject,2f);
         Destroy(bombBodyRb.gameObject);
@@ -271,7 +271,7 @@ public class Bomb : MonoBehaviour
 
     Vector2 start;
     float maxHeight;
-    [SerializeField] float bombMaxHeight= 6f;
+    [SerializeField] public float bombMaxHeight= 6f;
     float flySpeed = 10f;
 
 private void FollowStraightPath(){ 

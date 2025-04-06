@@ -122,22 +122,44 @@ public class LevelManager : MonoBehaviour
         }else if(position.x > 0 && position.y < 0){
             quadrant = 4; 
         }
-        // string horizontalSide = position.x < 0 ? "left" : "right";
-        // if (position.x == 0){
-        //     // If the explosion is exactly at the center, you can decide how to handle it
-        //     horizontalSide = "Middle";
-        // }
-        // string verticalSide = position.y < 0 ? "bottom" : "top";
-        // if (position.y == 0){
-        //     // If the explosion is exactly at the center, you can decide how to handle it
-        //     horizontalSide = "Middle";
-        // }
         Debug.Log($"Bomb exploded in quadrant {quadrant}  at position {position}");
         currentGameState = GameState.GameOver;
     }
-    void BombExplodeHandler(Vector2 position, float explostionRadius){
+    void BombExplodeHandler(Vector2 position, float explostionRadius, Bomb bomb){
+
+        // bomb explodes where bomb body is, but the crater is where the shadow is
+        float bombHeight = 0;
+        // GameObject[] obs = bomb.GetComponentsInChildren<GameObject>();
+        // foreach (var ob in obs) {
+        //     if(ob.CompareTag("BombBody")){
+        //         bombHeight = ob.GetComponent<SpriteRenderer>().bounds.size.y;
+        //         Debug.Log($"Bomb height: {bombHeight}");
+        //         break;
+        //     }
+        // }
+
+
+        // Calculate distance between bomb and crater position
+        float distance = Vector2.Distance(bomb.transform.position, position);
+        
+        // Scale crater size inversely with distance
+        float scale = Mathf.Max(0.2f, 2.0f - (distance * 0.2f)); // Adjust multiplier (0.1f) to control scaling rate
+        Vector2 craterPosition = bomb.transform.position + new Vector3(0, bombHeight/2, 0); // Adjust the height of the crater position
+        GameObject craterInstance = Instantiate(craterPrefab, craterPosition, Quaternion.identity);
+        craterInstance.transform.localScale = new Vector3(scale, scale, 1);
+
+        foreach (var playerHome in playerHomes) {
+            PlayerHome home = playerHome.GetComponentInChildren<PlayerHome>();
+            home.RemovedBombedArea(craterInstance);
+        }
+
+        CheckIfBombHitPlayer(position, explostionRadius);
+        currentGameState = GameState.GameOver;
+    }
+    void BombExplodeHandler_(Vector2 position, float explostionRadius, Bomb bomb){
         // Handle bomb explosion here
         // Check which player's home the bomb exploded in
+
         GameObject craterInstance = null;
         Vector2 topPosition = playerHomes.ElementAt(0).GetComponentInChildren<PlayerHome>().homeTopLeft;
         if(position.y <= topPosition.y){
@@ -152,36 +174,6 @@ public class LevelManager : MonoBehaviour
             }
             CheckIfBombHitPlayer(position, explostionRadius);
         }
-
-
-
-        //Calculate the healthy area based on craters
-        // Determine which side of the screen the explosion occurred
-        // int quadrant = 0;;
-        // if(position.x == 0 && position.y == 0){
-        //     // If the explosion is exactly at the center, you can decide how to handle it
-        //     quadrant = 0; // Center
-        // }else if(position.x > 0 && position.y > 0){
-        //     // If the explosion is exactly on the vertical axis
-        //     quadrant = 1; // Top Right Quadrant
-        // }else if(position.x < 0 && position.y > 0){
-        //     quadrant = 2; 
-        // }else if(position.x < 0 && position.y < 0){
-        //     quadrant = 3; 
-        // }else if(position.x > 0 && position.y < 0){
-        //     quadrant = 4; 
-        // }
-        // string horizontalSide = position.x < 0 ? "left" : "right";
-        // if (position.x == 0){
-        //     // If the explosion is exactly at the center, you can decide how to handle it
-        //     horizontalSide = "Middle";
-        // }
-        // string verticalSide = position.y < 0 ? "bottom" : "top";
-        // if (position.y == 0){
-        //     // If the explosion is exactly at the center, you can decide how to handle it
-        //     horizontalSide = "Middle";
-        // }
-        // Debug.Log($"Bomb exploded in quadrant {quadrant}  at position {position}");
         currentGameState = GameState.GameOver;
     }
     float unitHeight = 0.5f; // Height of each unit square
