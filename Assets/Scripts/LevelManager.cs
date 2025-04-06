@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Splines.ExtrusionShapes;
 
@@ -22,7 +23,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] GameObject craterPrefab; // Prefab for the crater
     // [SerializeField] GameObject rightPlayerHome; // Prefab for the right player home
     [SerializeField] List<GameObject> playerHomes; // Prefab for the left player home
-
+    [SerializeField] GameObject ScoreManager;
     float healthyAreaLeft;
     float healthyAreaRight;
 
@@ -138,24 +139,19 @@ public class LevelManager : MonoBehaviour
         // Handle bomb explosion here
         // Check which player's home the bomb exploded in
         GameObject craterInstance = null;
-        craterInstance = Instantiate(craterPrefab, position, Quaternion.identity);
-        // foreach (var player in players) {
-        //     PlayerMovement playerMovement = player.GetComponentInChildren<PlayerMovement>();
-        //     if (position.x >= playerMovement.homeTopLeft.x && 
-        //         position.x <= playerMovement.homeBottomRight.x &&
-        //         position.y <= playerMovement.homeTopLeft.y && 
-        //         position.y >= playerMovement.homeBottomRight.y) {
-        //         Debug.Log($"Bomb exploded in {(playerMovement.isRightSide ? "Right" : "Left")} player's home!");
-        //         craterInstance = Instantiate(craterPrefab, position, Quaternion.identity);
-        //         craters.Add(craterInstance);
-        //     }
-        // }
-        if(craterInstance != null){
-            foreach (var playerHome in playerHomes) {
-                PlayerHome home = playerHome.GetComponentInChildren<PlayerHome>();
-                home.RemovedBombedArea(craterInstance);
+        Vector2 topPosition = playerHomes.ElementAt(0).GetComponentInChildren<PlayerHome>().homeTopLeft;
+        if(position.y <= topPosition.y){
+            Debug.Log($"Bomb exploded at position {position}");
+            Debug.Log($"Player home top left position {topPosition}");
+            craterInstance = Instantiate(craterPrefab, position, Quaternion.identity);
+            if(craterInstance != null){
+                foreach (var playerHome in playerHomes) {
+                    PlayerHome home = playerHome.GetComponentInChildren<PlayerHome>();
+                    home.RemovedBombedArea(craterInstance);
+                }
             }
         }
+
 
 
         //Calculate the healthy area based on craters

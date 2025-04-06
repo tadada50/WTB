@@ -127,11 +127,12 @@ public class Bomb : MonoBehaviour
         {
             countdownText.enabled = false;
         }
-        var renderers = GetComponents<SpriteRenderer>();
-        foreach (var renderer in renderers)
-        {
-            renderer.enabled = false;
-        }
+        // var renderers = GetComponents<SpriteRenderer>();
+        // foreach (var renderer in renderers)
+        // {
+        //     renderer.enabled = false;
+        // }
+        HideShadow();
         StopSparkles();
         PlayExplosion();
         Vector2 explosionPosition = bombBodyRb.position;

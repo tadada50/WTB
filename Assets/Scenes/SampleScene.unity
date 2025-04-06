@@ -846,7 +846,7 @@ MonoBehaviour:
   m_MinValue: 0.75
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.75
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -925,6 +925,7 @@ MonoBehaviour:
   - {fileID: 1676595701}
   - {fileID: 1100275273}
   - {fileID: 1241943425}
+  destructionThreshold: 0.75
 --- !u!4 &459052768
 Transform:
   m_ObjectHideFlags: 0
@@ -1449,6 +1450,7 @@ MonoBehaviour:
   healthyArea: []
   bombedAreasToBeRemoved: []
   areaResolution: 0.2
+  destructionThreshold: 0.75
   homeTopLeft: {x: 0, y: 0}
   homeBottomRight: {x: 0, y: 0}
   homeTopRight: {x: 0, y: 0}
@@ -2104,6 +2106,7 @@ MonoBehaviour:
   healthyArea: []
   bombedAreasToBeRemoved: []
   areaResolution: 0.2
+  destructionThreshold: 0.75
   homeTopLeft: {x: 0, y: 0}
   homeBottomRight: {x: 0, y: 0}
   homeTopRight: {x: 0, y: 0}
