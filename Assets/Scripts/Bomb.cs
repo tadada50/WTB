@@ -7,7 +7,7 @@ public class Bomb : MonoBehaviour
     [SerializeField] float Countdown = 10.0f;
     [SerializeField] GameObject explosionEffect; // Optional: Particle system for explosion effect
     [SerializeField] float bombTimerRevealTime = 3.0f; // Time the bomb timer is revealed to the player
-    [SerializeField] float bombExplosionRadius = 3.0f; // Radius of the explosion effect
+    [SerializeField] public float bombExplosionRadius = 3.0f; // Radius of the explosion effect
     TMP_Text countdownText; // Optional: UI text to display countdown
     public bool hasOwner = false; // Flag to check if the bomb has an owner
     private Vector3 _velocity;
@@ -18,7 +18,7 @@ public class Bomb : MonoBehaviour
     bool exploded = false;
     float timeRevealed = 0f; // Time when the bomb timer was revealed to the player
     Rigidbody2D bombBodyRb;
-    public delegate void OnBombExplodeDelegate(Vector2 explodePosition, float explosionRadius, Bomb bomb);
+    public delegate void OnBombExplodeDelegate(Vector2 explodePosition, Bomb bomb);
     public event OnBombExplodeDelegate OnBombExplode;
     float halfBombWidth;
     float halfBombHeight;
@@ -137,8 +137,20 @@ public class Bomb : MonoBehaviour
         StopSparkles();
         PlayExplosion();
         Vector2 explosionPosition = bombBodyRb.position;
-        explosionPosition.y -= bombBodyRb.GetComponent<SpriteRenderer>().bounds.size.y/2; // Use the bomb body position for explosion
-        OnBombExplode(explosionPosition, bombExplosionRadius,this);
+       // explosionPosition.y -= bombBodyRb.GetComponent<SpriteRenderer>().bounds.size.y; // Use the bomb body position for explosion
+        // explosionPosition.y -= bombBodyRb.GetComponent<SpriteRenderer>().bounds.size.y; // Use the bomb body position for explosion
+
+
+        float bombspriteHeight=0f;
+        Transform[] obs = GetComponentsInChildren<Transform>();
+        foreach (var ob in obs) {
+            if(ob.CompareTag("BombBody")){
+                bombspriteHeight = ob.GetComponent<SpriteRenderer>().bounds.size.y;
+                Debug.Log($"Bomb height: {bombspriteHeight}");
+                break;
+            }
+        }
+        OnBombExplode(explosionPosition, this);
         // OnBombExplode(transform.position);
         Destroy(gameObject,2f);
         Destroy(bombBodyRb.gameObject);

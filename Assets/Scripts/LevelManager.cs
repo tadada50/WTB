@@ -125,26 +125,27 @@ public class LevelManager : MonoBehaviour
         Debug.Log($"Bomb exploded in quadrant {quadrant}  at position {position}");
         currentGameState = GameState.GameOver;
     }
-    void BombExplodeHandler(Vector2 position, float explostionRadius, Bomb bomb){
+    void BombExplodeHandler(Vector2 position, Bomb bomb){
 
         // bomb explodes where bomb body is, but the crater is where the shadow is
         float bombHeight = 0;
-        // GameObject[] obs = bomb.GetComponentsInChildren<GameObject>();
-        // foreach (var ob in obs) {
-        //     if(ob.CompareTag("BombBody")){
-        //         bombHeight = ob.GetComponent<SpriteRenderer>().bounds.size.y;
-        //         Debug.Log($"Bomb height: {bombHeight}");
-        //         break;
-        //     }
-        // }
 
+        float bombspriteHeight=0f;
+        Transform[] obs = bomb.GetComponentsInChildren<Transform>();
+        foreach (var ob in obs) {
+            if(ob.CompareTag("BombBody")){
+                bombspriteHeight = ob.GetComponent<SpriteRenderer>().bounds.size.y;
+                Debug.Log($"Bomb height: {bombspriteHeight}");
+                break;
+            }
+        }
 
         // Calculate distance between bomb and crater position
         float distance = Vector2.Distance(bomb.transform.position, position);
         
         // Scale crater size inversely with distance
         float scale = Mathf.Max(0.2f, 2.0f - (distance * 0.2f)); // Adjust multiplier (0.1f) to control scaling rate
-        Vector2 craterPosition = bomb.transform.position + new Vector3(0, bombHeight/2, 0); // Adjust the height of the crater position
+        Vector2 craterPosition = bomb.transform.position + new Vector3(0, -bombspriteHeight/2, 0); // Adjust the height of the crater position
         GameObject craterInstance = Instantiate(craterPrefab, craterPosition, Quaternion.identity);
         craterInstance.transform.localScale = new Vector3(scale, scale, 1);
 
@@ -153,7 +154,7 @@ public class LevelManager : MonoBehaviour
             home.RemovedBombedArea(craterInstance);
         }
 
-        CheckIfBombHitPlayer(position, explostionRadius);
+        CheckIfBombHitPlayer(position, bomb.bombExplosionRadius);
         currentGameState = GameState.GameOver;
     }
     void BombExplodeHandler_(Vector2 position, float explostionRadius, Bomb bomb){

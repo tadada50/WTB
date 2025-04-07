@@ -1435,7 +1435,6 @@ MonoBehaviour:
   healthyArea: []
   bombedAreasToBeRemoved: []
   areaResolution: 0.2
-  destructionThreshold: 0.75
   homeTopLeft: {x: 0, y: 0}
   homeBottomRight: {x: 0, y: 0}
   homeTopRight: {x: 0, y: 0}
@@ -2091,7 +2090,6 @@ MonoBehaviour:
   healthyArea: []
   bombedAreasToBeRemoved: []
   areaResolution: 0.2
-  destructionThreshold: 0.75
   homeTopLeft: {x: 0, y: 0}
   homeBottomRight: {x: 0, y: 0}
   homeTopRight: {x: 0, y: 0}
