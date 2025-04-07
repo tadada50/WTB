@@ -69,7 +69,7 @@ public class Bomb : MonoBehaviour
 
         }
         HideShadow();
-        GetComponent<SpriteRenderer>().sortingLayerName = "Bomb";
+        // GetComponent<SpriteRenderer>().sortingLayerName = "Bomb";
         if(bombBodyRb != null)
         {
             bombBodyRb.GetComponent<SpriteRenderer>().tag = "BombBody";
@@ -141,15 +141,7 @@ public class Bomb : MonoBehaviour
         // explosionPosition.y -= bombBodyRb.GetComponent<SpriteRenderer>().bounds.size.y; // Use the bomb body position for explosion
 
 
-        float bombspriteHeight=0f;
-        Transform[] obs = GetComponentsInChildren<Transform>();
-        foreach (var ob in obs) {
-            if(ob.CompareTag("BombBody")){
-                bombspriteHeight = ob.GetComponent<SpriteRenderer>().bounds.size.y;
-                Debug.Log($"Bomb height: {bombspriteHeight}");
-                break;
-            }
-        }
+
         OnBombExplode(explosionPosition, this);
         // OnBombExplode(transform.position);
         Destroy(gameObject,2f);

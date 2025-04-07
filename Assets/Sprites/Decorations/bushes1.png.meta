@@ -1,10 +1,25 @@
 fileFormatVersion: 2
-guid: b7343d0addb134244814d938ad601418
+guid: 9544a063ee5e6c44b97e9ca75c68ce35
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6662833973440737036
-    second: bomb_no_sparkle_0
+      213: -5617864235145423784
+    second: bushes1_0
+  - first:
+      213: 7912409244909693567
+    second: bushes1_1
+  - first:
+      213: -3143655542923735674
+    second: bushes1_2
+  - first:
+      213: -2895409676472315899
+    second: bushes1_3
+  - first:
+      213: -7547267345718526135
+    second: bushes1_4
+  - first:
+      213: -1753475477794365484
+    second: bushes1_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +66,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 400
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -139,23 +154,133 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bomb_no_sparkle_0
+      name: bushes1_0
       rect:
         serializedVersion: 2
-        x: 247
-        y: 123
-        width: 545
-        height: 742
+        x: 83
+        y: 713
+        width: 358
+        height: 221
       alignment: 9
-      pivot: {x: 0.5022257, y: 0.0063061574}
+      pivot: {x: 0.5203293, y: 0.017002296}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4f019a76dcbd883a0800000000000000
-      internalID: -6662833973440737036
+      spriteID: 85419cb2e365902b0800000000000000
+      internalID: -5617864235145423784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bushes1_1
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 721
+        width: 163
+        height: 76
+      alignment: 9
+      pivot: {x: 0.49255857, y: -0.02669003}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7aeb5859468ecd60800000000000000
+      internalID: 7912409244909693567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bushes1_2
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 414
+        width: 378
+        height: 271
+      alignment: 9
+      pivot: {x: 0.50000006, y: 0.0031694362}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68dc7d380fd7f54d0800000000000000
+      internalID: -3143655542923735674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bushes1_3
+      rect:
+        serializedVersion: 2
+        x: 667
+        y: 388
+        width: 251
+        height: 293
+      alignment: 9
+      pivot: {x: 0.51449794, y: -0.005064564}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50093a26d3071d7d0800000000000000
+      internalID: -2895409676472315899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bushes1_4
+      rect:
+        serializedVersion: 2
+        x: 674
+        y: 404
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94fba811658b24790800000000000000
+      internalID: -7547267345718526135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bushes1_5
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 390
+        width: 10
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4df55bfd7576aa7e0800000000000000
+      internalID: -1753475477794365484
       vertices: []
       indices: 
       edges: []
@@ -164,7 +289,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 0b51c088e17539b4e9083e82ee11fffc
+    spriteID: b85859f20146ba349a7d0ec4a67209c3
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +299,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      bomb_no_sparkle_0: -6662833973440737036
+      bushes1_0: -5617864235145423784
+      bushes1_1: 7912409244909693567
+      bushes1_2: -3143655542923735674
+      bushes1_3: -2895409676472315899
+      bushes1_4: -7547267345718526135
+      bushes1_5: -1753475477794365484
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

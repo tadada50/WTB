@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     float playerHalfWidth;
     float playerHalfHeight;
     [SerializeField] float throwForce = 100f; // Force applied to the bullet when thrown
-    Bomb bomb;
+    public Bomb bomb;
     KeyCode attackKey = KeyCode.Space; // Key to trigger the attack/throw action
     KeyCode upKey = KeyCode.W; // Key to increase the Y component of the throw force
     KeyCode downKey = KeyCode.S; // Key to decrease the Y component of the throw force

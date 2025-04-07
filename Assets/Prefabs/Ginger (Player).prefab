@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7436130601441202858}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 1444775470244916953}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.67, y: -0.52, z: 0}
+  m_LocalPosition: {x: 0.67, y: 0.31, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 7894672332012955137}
   - component: {fileID: 5152711382440579355}
   - component: {fileID: 6556237021557958929}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: Ginger (Player)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,8 +133,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -987972879
-  m_SortingLayer: 2
+  m_SortingLayerID: 972673901
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 1857188551261513057, guid: 3f382875497e04c49b119ce62408d9f4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -221,7 +221,15 @@ MonoBehaviour:
   bullet: {fileID: 0}
   hand: {fileID: 7436130601441202858}
   isRightSide: 0
+  isTouchControl: 0
+  touchMoveMultiplier: 0.5
+  playerHome: {fileID: 0}
   throwForce: 10
+  bomb: {fileID: 0}
+  joystick: {fileID: 0}
+  throwJoystick: {fileID: 0}
+  homeTopLeft: {x: 0, y: 0}
+  homeBottomRight: {x: 0, y: 0}
 --- !u!70 &5152711382440579355
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -256,8 +264,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.044740677, y: -0.20403135}
-  m_Size: {x: 1.6405792, y: 2.8179862}
+  m_Offset: {x: -0.044740677, y: 1.3860254}
+  m_Size: {x: 1.6405792, y: 2.9003468}
   m_Direction: 0
 --- !u!61 &6556237021557958929
 BoxCollider2D:
@@ -293,15 +301,15 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.045392036, y: -0.23830503}
+  m_Offset: {x: -0.045392036, y: 1.4333093}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 3.2, y: 3.2}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.4297352, y: 2.7233896}
+  m_Size: {x: 1.4297352, y: 2.8848987}
   m_EdgeRadius: 0

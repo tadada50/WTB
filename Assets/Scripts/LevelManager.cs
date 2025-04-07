@@ -140,7 +140,9 @@ public class LevelManager : MonoBehaviour
         
         // Scale crater size inversely with distance
         float scale = Mathf.Max(0.2f, 2.0f - (distance * 0.2f)); // Adjust multiplier (0.1f) to control scaling rate
-        Vector2 craterPosition = bomb.transform.position + new Vector3(0, -bombspriteHeight/2, 0); // Adjust the height of the crater position
+        // Vector2 craterPosition = bomb.transform.position + new Vector3(0, -bombspriteHeight/2, 0); // Adjust the height of the crater position
+        
+        Vector2 craterPosition = bomb.transform.position + new Vector3(0,0, 0); // Adjust the height of the crater position
         GameObject craterInstance = Instantiate(craterPrefab, craterPosition, Quaternion.identity);
         craterInstance.transform.localScale = new Vector3(scale, scale, 1);
 
