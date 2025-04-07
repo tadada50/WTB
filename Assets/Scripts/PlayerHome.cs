@@ -71,7 +71,7 @@ public class PlayerHome : MonoBehaviour
         }else{
             scoreKeeper.LeftPlayerHomeSliderValue = (float)healthyArea.Count / initialHealthyAreaCount;
         }
-        Debug.Log("==> RemovedBombedArea Healthy Area: " + healthyArea.Count); 
+        // Debug.Log("==> RemovedBombedArea Healthy Area: " + healthyArea.Count); 
     }
     private void SetPlayerHomeCorners () {
         float width = boxCollider2D.bounds.size.x;

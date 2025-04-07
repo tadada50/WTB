@@ -76,6 +76,7 @@ public class ScoreKeeper : MonoBehaviour
             leftPlayerHomeSlider.value = value;
             if (OnLeftPlayerHomeSliderValueChange != null)
                 OnLeftPlayerHomeSliderValueChange(leftPlayerHomeSlider.value);
+            Debug.Log($"Left player home slider value: {leftPlayerHomeSlider.value}");
         }
     }
     public delegate void OnLeftPlayerHomeSliderValueChangeDelegate(float newVal);

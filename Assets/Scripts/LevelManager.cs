@@ -12,6 +12,7 @@ public enum GameState
     GameOver,
     BombDropping,
     PlayerActive,
+
 }
 public class LevelManager : MonoBehaviour
 {
@@ -23,7 +24,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] GameObject craterPrefab; // Prefab for the crater
     // [SerializeField] GameObject rightPlayerHome; // Prefab for the right player home
     [SerializeField] List<GameObject> playerHomes; // Prefab for the left player home
-    [SerializeField] GameObject ScoreManager;
+    [SerializeField] GameObject scoreKeeper;
+    ScoreKeeper scoreKeeperScript;
     float healthyAreaLeft;
     float healthyAreaRight;
 
@@ -32,6 +34,8 @@ public class LevelManager : MonoBehaviour
 
 
     List<Bomb> bombs = new List<Bomb>(); // Assuming you have a Bomb class to manage bomb logic
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -40,6 +44,12 @@ public class LevelManager : MonoBehaviour
                 // player.GetComponent<PlayerMovement>().SetActive(true);
                 SetPlayerHomeCorners(player.GetComponentInChildren<PlayerMovement>());
             }
+            scoreKeeperScript = scoreKeeper.GetComponent<ScoreKeeper>();
+            scoreKeeperScript.OnRightPlayerHomeSliderValueChange += RightPlayerHomeSliderValueChangedHandler;
+            scoreKeeperScript.OnLeftPlayerHomeSliderValueChange += LeftPlayerHomeSliderValueChangedHandler;
+            scoreKeeperScript.OnLeftPlayerLifesChange += LeftPlayerLifesChangeHandler;
+            scoreKeeperScript.OnRightPlayerLifesChange += RightPlayerLifesChangeHandler;
+            
     }
     // Update is called once per frame
     void Update()
@@ -75,21 +85,7 @@ public class LevelManager : MonoBehaviour
             currentGameState = GameState.BombDropping;
         }
     }
-    void CalculateHealthyArea(){
-        // Calculate the healthy area based on craters
-        healthyAreaLeft = 0;
-        healthyAreaRight = 0;
 
-        foreach (var crater in craters) {
-            Vector3 craterPosition = crater.transform.position;
-            if (craterPosition.x < 0) {
-                healthyAreaLeft += crater.GetComponent<Collider2D>().bounds.size.x;
-            } else {
-                healthyAreaRight += crater.GetComponent<Collider2D>().bounds.size.x;
-            }
-        }
-
-    }
     void InitBomb(){
             // Debug.Log("==>InitBomb");
             GameObject bombInstance = Instantiate(bombPrefab, new Vector3(0, 0, 0), Quaternion.identity);
@@ -128,7 +124,6 @@ public class LevelManager : MonoBehaviour
     void BombExplodeHandler(Vector2 position, Bomb bomb){
 
         // bomb explodes where bomb body is, but the crater is where the shadow is
-        float bombHeight = 0;
 
         float bombspriteHeight=0f;
         Transform[] obs = bomb.GetComponentsInChildren<Transform>();
@@ -155,55 +150,10 @@ public class LevelManager : MonoBehaviour
         }
 
         CheckIfBombHitPlayer(position, bomb.bombExplosionRadius);
-        currentGameState = GameState.GameOver;
+        // currentGameState = GameState.GameOver;
+        currentGameState = GameState.BombDropping;
     }
-    void BombExplodeHandler_(Vector2 position, float explostionRadius, Bomb bomb){
-        // Handle bomb explosion here
-        // Check which player's home the bomb exploded in
 
-        GameObject craterInstance = null;
-        Vector2 topPosition = playerHomes.ElementAt(0).GetComponentInChildren<PlayerHome>().homeTopLeft;
-        if(position.y <= topPosition.y){
-            // Debug.Log($"Bomb exploded at position {position}");
-            // Debug.Log($"Player home top left position {topPosition}");
-            craterInstance = Instantiate(craterPrefab, position, Quaternion.identity);
-            if(craterInstance != null){
-                foreach (var playerHome in playerHomes) {
-                    PlayerHome home = playerHome.GetComponentInChildren<PlayerHome>();
-                    home.RemovedBombedArea(craterInstance);
-                }
-            }
-            CheckIfBombHitPlayer(position, explostionRadius);
-        }
-        currentGameState = GameState.GameOver;
-    }
-    float unitHeight = 0.5f; // Height of each unit square
-    float unitWidth = 0.5f; // Width of each unit square
-    void CalculateHealthyArea(GameObject crater){
-        SpriteRenderer spriteRenderer = crater.GetComponentInChildren<SpriteRenderer>();
-        if (spriteRenderer == null) {
-            return;
-        }
-        float width = spriteRenderer.bounds.size.x;
-        float height = spriteRenderer.bounds.size.y;
-        List<Square> squares = new List<Square>();
-        
-    }
-    void CalculateHealthyArea2(){
-        // Calculate the healthy area based on craters
-        healthyAreaLeft = 0;
-        healthyAreaRight = 0;
-
-        foreach (var crater in craters) {
-            Vector3 craterPosition = crater.transform.position;
-            if (craterPosition.x < 0) {
-                healthyAreaLeft += crater.GetComponent<Collider2D>().bounds.size.x;
-            } else {
-                healthyAreaRight += crater.GetComponent<Collider2D>().bounds.size.x;
-            }
-        }
-
-    }
     IEnumerator LoadNextBomb(float secondsDelay){
 
         // Debug.Log("==>LoadNextBoomb");
@@ -218,15 +168,60 @@ public class LevelManager : MonoBehaviour
                 if (distanceToPlayer < explosionRadius) { // Adjust this radius as needed
                     // currentGameState = GameState.GameOver;
                     if(playerMovement.isRightSide){
-                        ScoreManager.GetComponent<ScoreKeeper>().RightPlayerLifesCount -= 1;
+                        scoreKeeper.GetComponent<ScoreKeeper>().RightPlayerLifesCount -= 1;
                     }else{  
-                        ScoreManager.GetComponent<ScoreKeeper>().LeftPlayerLifesCount -= 1;
+                        scoreKeeper.GetComponent<ScoreKeeper>().LeftPlayerLifesCount -= 1;
                     }
                 }
             }
         }
     }
+    private void LeftPlayerHomeSliderValueChangedHandler(float value)
+    {
+        Debug.Log($"LeftPlayerHomeSlider: {value}, destructionThreshold: {scoreKeeperScript.destructionThreshold}");
+        if(value <= scoreKeeperScript.destructionThreshold)
+        {
+            // Handle left player home slider value change
+            // currentGameState = GameState.GameOver;
+            Debug.Log("==>LeftPlayerHomeSliderValueChangedHandler: " + value);
+            // Handle left player home slider value change
+            currentGameState = GameState.GameOver;
+        }
+    }
 
+    private void RightPlayerHomeSliderValueChangedHandler(float value)
+    {
+        Debug.Log($"RightPlayerHomeSlider: {value}, destructionThreshold: {scoreKeeperScript.destructionThreshold}");
+        if(value <= scoreKeeperScript.destructionThreshold)
+        {
+            // Handle right player home slider value change
+            // currentGameState = GameState.GameOver;
+            Debug.Log("==>RightPlayerHomeSliderValueChangedHandler: " + value);
+            // Handle right player home slider value change
+            currentGameState = GameState.GameOver;
+        }
+    }
+
+    private void LeftPlayerLifesChangeHandler(int value)
+    {
+        if(value <= 0)
+        {
+            // Handle left player lives change
+            Debug.Log("==>LeftPlayerLifesChangeHandler: " + value);
+            currentGameState = GameState.GameOver;
+        }
+    }
+
+    private void RightPlayerLifesChangeHandler(int value)
+    {
+        if(value <= 0)
+        {
+
+            // Handle left player lives change
+            Debug.Log("==>RightPlayerLifesChangeHandler: " + value);
+            currentGameState = GameState.GameOver;
+        }
+    }
     private void SetPlayerHomeCorners (PlayerHome playerHome) {
         float width = playerHome.GetComponent<BoxCollider2D>().bounds.size.x;
         float height = playerHome.GetComponent<BoxCollider2D>().bounds.size.y;
