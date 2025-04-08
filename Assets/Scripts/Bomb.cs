@@ -80,14 +80,14 @@ public class Bomb : MonoBehaviour
     }
     void HideShadow(){
         SpriteRenderer shadowRenderer = GetComponent<SpriteRenderer>();
-        if(!beingThrown){
+        if(!beingThrown || exploded){
             // Hide the shadow when the bomb is not being thrown
             if (shadowRenderer != null)
             {
                 shadowRenderer.enabled = false; // Disable the shadow renderer
             }
         }else{
-            if (shadowRenderer != null)
+            if (shadowRenderer != null && !exploded)
             {
                 shadowRenderer.enabled = true; // Disable the shadow renderer
             }
