@@ -173,7 +173,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      homeHealthSliderFill_0: -5504524900077806613
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
