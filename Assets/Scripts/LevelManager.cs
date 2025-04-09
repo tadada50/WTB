@@ -22,6 +22,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] float bombDropInterval = 2.0f; // Interval between bomb drops
     [SerializeField] GameObject bombPrefab; // Prefab for the bomb
     [SerializeField] GameObject craterPrefab; // Prefab for the crater
+    [SerializeField] GameObject gameOverPanel;
     // [SerializeField] GameObject rightPlayerHome; // Prefab for the right player home
     [SerializeField] List<GameObject> playerHomes; // Prefab for the left player home
     [SerializeField] GameObject scoreKeeper;
@@ -54,25 +55,7 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(currentGameState == GameState.BombDropping)
-        {   
-            //instantiate bomb
-            StartCoroutine(LoadNextBomb(1f));
-            
-
-            //drop bomb
-            // Countdown
-            currentGameState = GameState.PlayerActive; // Change game state to PlayerActive after dropping bombs
-        }
-        else if(currentGameState == GameState.PlayerActive)
-        {
-            // Handle player active logic here
-            foreach (var player in players)
-            {
-                // player.GetComponent<PlayerMovement>().SetActive(true);
-                player.GetComponentInChildren<PlayerMovement>().SetActive(true);
-            }
-        }else if(currentGameState == GameState.GameOver)
+        if(currentGameState == GameState.GameOver)
         {
             // Handle game over logic here
             // For example, you might want to reset the game or show a game over screen
@@ -82,7 +65,28 @@ public class LevelManager : MonoBehaviour
                 // player.GetComponent<PlayerMovement>().SetActive(true);
                 player.GetComponentInChildren<PlayerMovement>().SetActive(false);
             }
-            currentGameState = GameState.BombDropping;
+            if (!gameOverPanel.activeSelf){
+                gameOverPanel.SetActive(true);
+            }
+               // gameOverPanel.SetActive(true);
+            // currentGameState = GameState.BombDropping;
+        }else if(currentGameState == GameState.PlayerActive)
+        {
+            // Handle player active logic here
+            foreach (var player in players)
+            {
+                // player.GetComponent<PlayerMovement>().SetActive(true);
+                player.GetComponentInChildren<PlayerMovement>().SetActive(true);
+            }
+        }else if(currentGameState == GameState.BombDropping)
+        {   
+            //instantiate bomb
+            StartCoroutine(LoadNextBomb(1f));
+            
+
+            //drop bomb
+            // Countdown
+            currentGameState = GameState.PlayerActive; // Change game state to PlayerActive after dropping bombs
         }
     }
 
@@ -153,7 +157,25 @@ public class LevelManager : MonoBehaviour
 
         CheckIfBombHitPlayer(position, bomb.bombExplosionRadius);
         // currentGameState = GameState.GameOver;
-        currentGameState = GameState.BombDropping;
+        if(currentGameState == GameState.GameOver)
+        {
+            // // Handle game over logic here
+            // // For example, you might want to reset the game or show a game over screen
+            // // Debug.Log("Game Over!"); // Placeholder for game over logic
+            // foreach (var player in players)
+            // {
+            //     // player.GetComponent<PlayerMovement>().SetActive(true);
+            //     player.GetComponentInChildren<PlayerMovement>().SetActive(false);
+            // }
+            // gameOverPanel.SetActive(true);
+            // Debug.Log("Game Over Panel Activated");
+        }
+        else
+        {
+            // Handle bomb explosion logic here
+            currentGameState = GameState.BombDropping;
+        }
+        
     }
 
     IEnumerator LoadNextBomb(float secondsDelay){
