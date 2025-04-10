@@ -173,7 +173,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      heart_rubber_hose_0: 7312526808388200186
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
