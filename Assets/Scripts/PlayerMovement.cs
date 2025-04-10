@@ -1,6 +1,10 @@
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
+using Quaternion = UnityEngine.Quaternion;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -10,12 +14,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform hand;
     [SerializeField] public bool isRightSide = true;
     [SerializeField] bool isTouchControl = false;
-    [SerializeField] float touchMoveMultiplier = 0.5f;
+    [SerializeField] float touchMoveMultiplier = 0.4f;
     [SerializeField] public GameObject playerHome;
+    [SerializeField] GameObject playerCenter;
+    [SerializeField] GameObject throwForceSquare;
+    [SerializeField] GameObject moveJoystickUI;
     // [SerializeField] float maxGravity = 20f;
     Rigidbody2D myRigidbody;
     bool isAlive = true;
     bool isActive = false;
+    bool isThrowing = false;
     Vector2 moveInput;
     Vector2 throwInput;
     Animator myAnimator;
@@ -52,6 +60,8 @@ public class PlayerMovement : MonoBehaviour
 
         playerHomeScript = playerHome.GetComponent<PlayerHome>();
 
+        originalForceScalex = throwForceSquare.transform.localScale.x;
+
         Debug.Log($"Top Right: {topRight}");
         Debug.Log($"Top Left: {topLeft}"); 
         Debug.Log($"Bottom Right: {bottomRight}");
@@ -67,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         throwJoystick.OnDragFinish += DragFinishHandler;
+        throwJoystick.OnPointerDownEvent += InitiateThrow;
 
     }
 
@@ -75,6 +86,7 @@ public class PlayerMovement : MonoBehaviour
     {
         FlipSprite();
         AccumulateThrowForce();
+        UpdateThrowArrow();
         RunWithJoystick();
         Run();   
     }
@@ -93,8 +105,6 @@ public class PlayerMovement : MonoBehaviour
     Vector2 throwForceVector2 = Vector2.zero; // Initial position of the bomb when thrown
     Vector2 endPosition; // Final position of the bomb when thrown
 
-    bool isThrowing = false; // Flag to check if the player is currently throwing the bomb
-    
     public void ThrowBombWithTouch(Vector2 startPos, Vector2 endPos){
         if(!isActive || bomb == null) // Only throw if the player is active and has a bomb
         {
@@ -104,7 +114,34 @@ public class PlayerMovement : MonoBehaviour
         //  bomb.Throw(force, 1f);
         //  bomb = null;
     }
-
+    float originalForceScalex;
+    bool forceGrowing = true;
+    void UpdateThrowArrow(){
+        if (!isActive || bomb == null || !isThrowing) // Only accumulate force if the player is active and has a bomb
+        {
+            return; // Exit if not active or no bomb
+        }
+        if(forceGrowing){
+            throwForceTimer += Time.deltaTime; // Increment the throw force timer
+        }else{
+            throwForceTimer -= Time.deltaTime; // Decrement the throw force timer
+        } // Increment the throw force timer
+        if(throwForceTimer > maxThrowAccumulationTime)
+        {
+            forceGrowing = false; // Clamp the timer to the maximum accumulation time
+        }
+        if(throwForceTimer <= 0f){
+            forceGrowing = true; // Reset the timer if it goes below zero
+        }
+        float forcePercentage = throwForceTimer / maxThrowAccumulationTime; // Calculate the force percentage based on the timer
+        throwForceSquare.transform.localScale = new Vector3(originalForceScalex*(1+2.5f*forcePercentage), throwForceSquare.transform.localScale.y, throwForceSquare.transform.localScale.z); 
+        Vector2 direction = throwJoystick.Direction;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        // Debug.Log($"Throw angle: {angle}  ForceSquare:{throwForceSquare.transform.localScale.x} ThrowForceTimer:{throwForceTimer}");
+        playerCenter.transform.rotation = Quaternion.Euler(0, 0, angle);
+        
+        
+    }
     void DragFinishHandler(float duration){
         if (!isActive || bomb == null) // Only accumulate force if the player is active and has a bomb
         {
@@ -112,13 +149,26 @@ public class PlayerMovement : MonoBehaviour
         }
         
         Vector2 force;
-        force.x = throwJoystick.lastNonZeroHorizontal * duration * 15f;
-        force.y = throwJoystick.lastNonZeroVertical * duration * 15f;
+        // force.x = throwJoystick.lastNonZeroHorizontal * duration * 15f;
+        // force.y = throwJoystick.lastNonZeroVertical * duration * 15f;
+
+        force.x = throwJoystick.lastNonZeroHorizontal * throwForceTimer*2.5f * 10f;
+        force.y = throwJoystick.lastNonZeroVertical * throwForceTimer*2.5f * 10f;
 
         Debug.Log($"DragFinished throw force:{force}  lastNonZeroVertical:{throwJoystick.lastNonZeroVertical}   lastNonZeroHorizontal:{throwJoystick.lastNonZeroHorizontal}");
         bomb.transform.SetParent(null); // Detach from player
         bomb.Throw(force,1f);
         bomb = null;
+        isThrowing = false;
+
+
+        if (playerCenter != null)
+        {
+            playerCenter.SetActive(false);
+        }
+        // if(moveJoystickUI != null){
+        //     moveJoystickUI.SetActive(false);
+        // }
     }
     void ThrowWithTouch(){
         if (!isActive || bomb == null) // Only accumulate force if the player is active and has a bomb
@@ -142,6 +192,21 @@ public class PlayerMovement : MonoBehaviour
         // }
         throwInput = new Vector2(throwJoystick.Horizontal,throwJoystick.Vertical);
 
+    }
+    float throwForceTimer = 0f; // Timer for throw force accumulation
+    [SerializeField] float maxThrowAccumulationTime = 0.7f; // Maximum time to accumulate throw force
+    void InitiateThrow(){
+        
+        if (!isActive || bomb == null) // Only accumulate force if the player is active and has a bomb
+        {
+            return; // Exit if not active or no bomb
+        }
+        throwForceTimer = 0f; // Reset the throw force timer
+        isThrowing = true; // Set the throwing flag to true
+        if (playerCenter != null)
+        {
+            playerCenter.SetActive(true);
+        }
     }
     void AccumulateThrowForce(){
         // Check if the player has pressed the throw button (e.g., left mouse button or a specific key)
@@ -341,6 +406,10 @@ public class PlayerMovement : MonoBehaviour
                 if(bomb!=null){
                     bomb.FlipBombText(); // Flip the bomb text if the player is facing a different direction
                 }
+                //flip center
+                if(playerCenter != null){
+                    playerCenter.transform.localScale = new Vector3(-playerCenter.transform.localScale.x, playerCenter.transform.localScale.y, playerCenter.transform.localScale.z);
+                }
             }
             transform.localScale = new Vector2(Mathf.Sign(myRigidbody.linearVelocityX), 1f);
 
@@ -356,6 +425,9 @@ public class PlayerMovement : MonoBehaviour
                 bomb.SetHasOwner(true);
                 bomb.beingThrown = false;
                 PickupBomb(bomb);
+                // if(moveJoystickUI != null){
+                //     moveJoystickUI.SetActive(true);
+                // }
                 // bomb.AddTime(5f); // Optional: Add time to the bomb countdown
             }else{
                 bomb = null;

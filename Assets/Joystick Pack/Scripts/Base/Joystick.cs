@@ -70,6 +70,8 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         StartTime = Time.time;
         lastNonZeroHorizontal = 0;
         lastNonZeroVertical = 0;
+        if (OnPointerDownEvent != null)
+            OnPointerDownEvent();
     }
     public void OnDrag(PointerEventData eventData)
     {
@@ -154,6 +156,9 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     public delegate void OnDragFinishDelegate(float duration);
     public event OnDragFinishDelegate OnDragFinish;   
+
+    public delegate void OnPointerDownDelegate();
+    public event OnPointerDownDelegate OnPointerDownEvent;   
 
     float throwTime;
     public float ThrowTime

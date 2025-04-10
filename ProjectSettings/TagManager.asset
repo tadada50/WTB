@@ -11,6 +11,8 @@ TagManager:
   - Playground
   - PlayerLeftHome
   - PlayerRightHome
+  - PlayerCenter
+  - ThrowForceTransform
   layers:
   - Default
   - TransparentFX

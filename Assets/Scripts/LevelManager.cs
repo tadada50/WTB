@@ -25,6 +25,8 @@ public class LevelManager : MonoBehaviour
     // [SerializeField] GameObject rightPlayerHome; // Prefab for the right player home
     [SerializeField] List<GameObject> playerHomes; // Prefab for the left player home
     [SerializeField] GameObject scoreKeeper;
+    [SerializeField] int timerMin = 10;
+    [SerializeField] int timerMax = 31;
     ScoreKeeper scoreKeeperScript;
     float healthyAreaLeft;
     float healthyAreaRight;
@@ -90,7 +92,7 @@ public class LevelManager : MonoBehaviour
             // Debug.Log("==>InitBomb");
             GameObject bombInstance = Instantiate(bombPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             Bomb bomb = bombInstance.GetComponent<Bomb>();
-            bomb.SetTimer((float)Random.Range(20, 61));
+            bomb.SetTimer((float)Random.Range(timerMin, timerMax));
             // bomb.AddTime(1000);
             if (bomb != null)
             {
