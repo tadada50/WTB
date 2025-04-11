@@ -24,14 +24,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1055300869631868512}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 1.39, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8455519817703616355}
   m_Father: {fileID: 5346705013688963435}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!1 &3554615801130578781
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,12 +348,15 @@ MonoBehaviour:
   playerHome: {fileID: 0}
   playerCenter: {fileID: 0}
   throwForceSquare: {fileID: 0}
+  moveJoystickUI: {fileID: 0}
   throwForce: 10
   bomb: {fileID: 0}
   joystick: {fileID: 0}
   throwJoystick: {fileID: 0}
+  throwButton: {fileID: 0}
   homeTopLeft: {x: 0, y: 0}
   homeBottomRight: {x: 0, y: 0}
+  maxThrowAccumulationTime: 0.7
 --- !u!70 &9049062544962128998
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
