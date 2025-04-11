@@ -1,4 +1,5 @@
 using System.Numerics;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -105,6 +106,7 @@ public class PlayerMovement : MonoBehaviour
     Vector2 throwForceVector2 = Vector2.zero; // Initial position of the bomb when thrown
     Vector2 endPosition; // Final position of the bomb when thrown
 
+    
     public void ThrowBombWithTouch(Vector2 startPos, Vector2 endPos){
         if(!isActive || bomb == null) // Only throw if the player is active and has a bomb
         {
@@ -305,6 +307,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
         if(!isAlive || !isActive){
+            StopMoving();
             return;
         }
         float x = 0f;
@@ -324,13 +327,37 @@ public class PlayerMovement : MonoBehaviour
     }
     public void StopMoving(){
         moveInput = Vector2.zero;
+        myRigidbody.linearVelocity = Vector2.zero;
         Debug.Log($"StopMoving ===> isRightPlayer:{isRightSide} moveInput:{moveInput}");
     }
     public void RunWithTouch(Vector2 touchPosition){
         
+        // This method can be called from touch input to handle player movement with touch controls
+        // if(!isAlive || !isActive){
+        //     return;
+        // }
+        // Calculate movement direction based on touch position relative to player
+        // Vector2 moveDirection = ((Vector2)touchPosition - (Vector2)transform.position).normalized;
+        // Vector2 moveDirection = ((Vector2)Camera.main.ScreenToWorldPoint(transform.position) - (Vector2)touchPosition).normalized;
+        // Vector2 moveDirection = ((Vector2)touchPosition - (Vector2)transform.position).normalized;
+
+
+        // Vector2 moveDirection = (Vector2)touchPosition - (Vector2)transform.position;
+        // moveInput = moveDirection; // Set moveInput for use in Run method
+        // Debug.Log($"isRightPlayer:{isRightSide} moveInput:{moveInput} touchposition:{touchPosition} transform.position:{transform.position}");
+
+
+        // Debug.Log("Running with touch input");
+        // Assuming moveInput is already set based on touch input
+       // Run(); // Call the Run method to apply movement based on the current moveInput
     }
     void Run(){
-        if(isThrowing || !isAlive || !isActive){
+        // if(isThrowing || !isAlive || !isActive){
+        //     StopMoving();
+        //     return;
+        // }
+        if(!isAlive || !isActive){
+            StopMoving();
             return;
         }
        Vector2 playVelocity;
@@ -389,6 +416,15 @@ public class PlayerMovement : MonoBehaviour
         pos.y = clampedY;
         //Debug.Log($"Player position adjusted to: {pos}");
         transform.position = pos;
+        //carry the bomb with the player
+        // if (bomb != null)
+        // {
+        //     Vector3 position = new Vector3(playerHalfWidth * Mathf.Sign(transform.localScale.x), 0, 0);
+        //     bomb.transform.localPosition = position;
+        // }
+        // Vector2 backGroundVelocity = new Vector2(moveInput.x * runSpeed * backGroundMoveFactorX, myRigidbody.linearVelocity.y* backGroundMoveFactorY);
+        // backgroundRigitBody.linearVelocity = backGroundVelocity;
+        // myAnimator.SetBool("isJumping", myRigidbody.linearVelocity.y > Mathf.Epsilon);
     }
     void FlipSprite(){
         bool playerHasHorizontalSpeed = Mathf.Abs(myRigidbody.linearVelocityX) > 0.05;
