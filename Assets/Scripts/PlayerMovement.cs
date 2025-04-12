@@ -412,7 +412,7 @@ public class PlayerMovement : MonoBehaviour
     public void StopMoving(){
         moveInput = Vector2.zero;
         myRigidbody.linearVelocity = Vector2.zero;
-        Debug.Log($"StopMoving ===> isRightPlayer:{isRightSide} moveInput:{moveInput}");
+     //   Debug.Log($"StopMoving ===> isRightPlayer:{isRightSide} moveInput:{moveInput}");
     }
     public void RunWithTouch(Vector2 touchPosition){
         
@@ -468,7 +468,8 @@ public class PlayerMovement : MonoBehaviour
         Vector2 pos = transform.position;
         pos.x = clampedX;
         pos.y = clampedY;
-        //Debug.Log($"Player position adjusted to: {pos}");
+        // if(!isRightSide)
+        //     Debug.Log($"Player position adjusted to: {pos}");
         transform.position = pos;
     }
 
