@@ -41,8 +41,8 @@ public class SetSortingLayers : MonoBehaviour
             if (playerMovement != null && playerMovement.mBomb!=null)
             {
                 SpriteRenderer[] bombRenderer = playerMovement.mBomb.GetComponentsInChildren<SpriteRenderer>();
-                SpriteRenderer playerRenderer = player.GetComponentInChildren<SpriteRenderer>();
-                baseOrder = playerRenderer.sortingOrder;
+                SpriteRenderer playerRenderers = player.GetComponentInChildren<SpriteRenderer>();
+                baseOrder = playerRenderers.sortingOrder;
                 foreach (SpriteRenderer renderer in bombRenderer)
                 {
                     if (renderer.sortingLayerName == "Playground")
