@@ -15,6 +15,7 @@ TagManager:
   - ThrowForceTransform
   - RightPlayer
   - LeftPlayer
+  - LeftPlayerBody
   layers:
   - Default
   - TransparentFX
@@ -32,7 +33,7 @@ TagManager:
   - Playground
   - Damage
   - UIBack
-  - 
+  - PlayerLeft
   - 
   - 
   - 
@@ -75,6 +76,12 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 1697263605
+    locked: 0
+  - name: PlayerLeft
+    uniqueID: 4235869229
+    locked: 0
+  - name: PlayerRight
+    uniqueID: 2569046729
     locked: 0
   m_RenderingLayers:
   - Default
