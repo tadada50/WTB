@@ -105,7 +105,15 @@ public class PlayerMovement : MonoBehaviour
         UpdateThrowArrow2();
         RunWithJoystick();
         Run();   
+        UpdateHasBombTrigger();
        // UpdateBombHeightRelativeToBodyCenterOfGravity();
+    }
+    void UpdateHasBombTrigger(){
+        if(mBomb!=null){
+            myAnimator.SetBool("hasBomb", true);
+        }else{
+            myAnimator.SetBool("hasBomb", false);
+        }
     }
     float lastBodyCenterOfGravityY = 0f;
     void UpdateBombHeightRelativeToBodyCenterOfGravity(){
