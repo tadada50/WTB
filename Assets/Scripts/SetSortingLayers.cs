@@ -87,24 +87,36 @@ public class SetSortingLayers : MonoBehaviour
             //         Debug.Log($"Left body object: {obj.name}, Sorting Order: {obj.GetComponent<SpriteRenderer>().sortingOrder}");
             //     }
             // }
-            for(int i=0;i<leftBodyObjects.Count;i++){
-                leftBodyObjects[i].GetComponent<SpriteRenderer>().sortingOrder = lastLeftBodyIndex + i + 1;
-            }
+
+
+            // for(int i=0;i<leftBodyObjects.Count;i++){
+            //     leftBodyObjects[i].GetComponent<SpriteRenderer>().sortingOrder = lastLeftBodyIndex + i + 1;
+            // }
+
+
             // int adjustedIndex = Math.Min(lastLeftBodyIndex, playgroundObjects.Count);
             playgroundObjects.RemoveAll(obj => obj.CompareTag("LeftPlayerBody"));
 
-
-
-
-
-            playgroundObjects.InsertRange(lastLeftBodyIndex, leftBodyObjects);
             if (Time.frameCount % 20 == 0)
             {
-                Debug.Log($"====>playgroundObjects.InsertRange: insert index {lastLeftBodyIndex}   playgroundObjects count: {playgroundObjects.Count}");
+                Debug.Log($"====>BeforeInsert: insert index {lastLeftBodyIndex}   playgroundObjects count: {playgroundObjects.Count}");
                 for (int i = 0; i < playgroundObjects.Count; i++)
                 {
                     Debug.Log($"{playgroundObjects[i].name}: {playgroundObjects[i].GetComponent<SpriteRenderer>().sortingOrder}");
                 }
+
+            }
+
+
+            int insertIndex = lastLeftBodyIndex - leftBodyObjects.Count +1;
+            playgroundObjects.InsertRange(insertIndex, leftBodyObjects);
+            if (Time.frameCount % 20 == 0)
+            {
+                Debug.Log($"====>playgroundObjects.InsertRange: insert index {insertIndex}   playgroundObjects count: {playgroundObjects.Count}");
+                // for (int i = 0; i < playgroundObjects.Count; i++)
+                // {
+                //     Debug.Log($"{playgroundObjects[i].name}: {playgroundObjects[i].GetComponent<SpriteRenderer>().sortingOrder}");
+                // }
 
             }
             // Debug.Log($"Last left body index: {lastLeftBodyIndex}");
@@ -129,6 +141,16 @@ public class SetSortingLayers : MonoBehaviour
             {
                 renderer.sortingOrder = i;
             }
+        }
+
+        if (Time.frameCount % 20 == 0)
+        {
+            Debug.Log($"====>Sorted  playgroundObjects count: {playgroundObjects.Count}");
+            for (int i = 0; i < playgroundObjects.Count; i++)
+            {
+                Debug.Log($"{playgroundObjects[i].name}: {playgroundObjects[i].GetComponent<SpriteRenderer>().sortingOrder}");
+            }
+
         }
     }
 
