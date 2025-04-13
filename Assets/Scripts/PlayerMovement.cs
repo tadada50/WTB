@@ -105,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
         UpdateThrowArrow2();
         RunWithJoystick();
         Run();   
-     //   UpdateBombHeightRelativeToBodyCenterOfGravity();
+       // UpdateBombHeightRelativeToBodyCenterOfGravity();
     }
     float lastBodyCenterOfGravityY = 0f;
     void UpdateBombHeightRelativeToBodyCenterOfGravity(){
