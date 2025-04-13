@@ -31,7 +31,7 @@ public class SetSortingLayers : MonoBehaviour
     private List<GameObject> GetPlaygroundObjects()
     {
         List<GameObject> playgroundObjects = new List<GameObject>();
-        GameObject[] allObjects = GameObject.FindObjectsOfType<GameObject>();
+        GameObject[] allObjects = GameObject.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
 
         foreach (GameObject obj in allObjects)
         {
@@ -51,28 +51,28 @@ public class SetSortingLayers : MonoBehaviour
         if (leftBodyObjects.Count > 0)
         {
             int lastLeftBodyIndex = playgroundObjects.FindLastIndex(obj => obj.CompareTag("LeftPlayerBody"));
-            if (Time.frameCount % 20 == 0)
-            {
-                Debug.Log($"===>Last left body index: {lastLeftBodyIndex}, Object: {playgroundObjects[lastLeftBodyIndex].name}");
-            }
+            // if (Time.frameCount % 20 == 0)
+            // {
+            //     Debug.Log($"===>Last left body index: {lastLeftBodyIndex}, Object: {playgroundObjects[lastLeftBodyIndex].name}");
+            // }
             leftBodyObjects.Sort((a, b) => a.GetComponent<SpriteRenderer>().sortingOrder.CompareTo(b.GetComponent<SpriteRenderer>().sortingOrder));
             playgroundObjects.RemoveAll(obj => obj.CompareTag("LeftPlayerBody"));
 
-            if (Time.frameCount % 20 == 0)
-            {
-                Debug.Log($"====>BeforeInsert: insert index {lastLeftBodyIndex}   playgroundObjects count: {playgroundObjects.Count}");
-                for (int i = 0; i < playgroundObjects.Count; i++)
-                {
-                    Debug.Log($"{playgroundObjects[i].name}: {playgroundObjects[i].GetComponent<SpriteRenderer>().sortingOrder}");
-                }
+            // if (Time.frameCount % 20 == 0)
+            // {
+            //     Debug.Log($"====>BeforeInsert: insert index {lastLeftBodyIndex}   playgroundObjects count: {playgroundObjects.Count}");
+            //     for (int i = 0; i < playgroundObjects.Count; i++)
+            //     {
+            //         Debug.Log($"{playgroundObjects[i].name}: {playgroundObjects[i].GetComponent<SpriteRenderer>().sortingOrder}");
+            //     }
 
-            }
+            // }
             int insertIndex = lastLeftBodyIndex - leftBodyObjects.Count +1;
             playgroundObjects.InsertRange(insertIndex, leftBodyObjects);
-            if (Time.frameCount % 20 == 0)
-            {
-                Debug.Log($"====>playgroundObjects.InsertRange: insert index {insertIndex}   playgroundObjects count: {playgroundObjects.Count}");
-            }
+            // if (Time.frameCount % 20 == 0)
+            // {
+            //     Debug.Log($"====>playgroundObjects.InsertRange: insert index {insertIndex}   playgroundObjects count: {playgroundObjects.Count}");
+            // }
         }
         
         for (int i = 0; i < playgroundObjects.Count; i++)
@@ -84,15 +84,15 @@ public class SetSortingLayers : MonoBehaviour
             }
         }
 
-        if (Time.frameCount % 20 == 0)
-        {
-            Debug.Log($"====>Sorted  playgroundObjects count: {playgroundObjects.Count}");
-            for (int i = 0; i < playgroundObjects.Count; i++)
-            {
-                Debug.Log($"{playgroundObjects[i].name}: {playgroundObjects[i].GetComponent<SpriteRenderer>().sortingOrder}");
-            }
+        // if (Time.frameCount % 20 == 0)
+        // {
+        //     // Debug.Log($"====>Sorted  playgroundObjects count: {playgroundObjects.Count}");
+        //     for (int i = 0; i < playgroundObjects.Count; i++)
+        //     {
+        //         Debug.Log($"{playgroundObjects[i].name}: {playgroundObjects[i].GetComponent<SpriteRenderer>().sortingOrder}");
+        //     }
 
-        }
+        // }
     }
 
     private void ProcessBombLayers(List<GameObject> playgroundObjects)

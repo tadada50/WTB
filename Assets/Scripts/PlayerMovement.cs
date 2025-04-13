@@ -34,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     float playerHalfWidth;
     float playerHalfHeight;
     [SerializeField] float throwForce = 100f; // Force applied to the bullet when thrown
+    [SerializeField] GameObject characterBody;
     public Bomb mBomb;
     KeyCode attackKey = KeyCode.Space; // Key to trigger the attack/throw action
     KeyCode upKey = KeyCode.W; // Key to increase the Y component of the throw force
@@ -48,13 +49,17 @@ public class PlayerMovement : MonoBehaviour
     bool throwInitiated = false;
 
     PlayerHome playerHomeScript;
-
+    [SerializeField] float runningAnimSpeed = 2f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
+        if(myAnimator==null || myAnimator.runtimeAnimatorController==null){
+            Debug.Log("Animator not found on PlayerMovement. Trying to find in children.");
+            myAnimator = characterBody.GetComponent<Animator>();
+        }
         playerHalfWidth = GetComponent<SpriteRenderer>().bounds.extents.x;
         playerHalfHeight = GetComponent<SpriteRenderer>().bounds.extents.y;
         screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
@@ -412,6 +417,7 @@ public class PlayerMovement : MonoBehaviour
     public void StopMoving(){
         moveInput = Vector2.zero;
         myRigidbody.linearVelocity = Vector2.zero;
+        myAnimator.SetBool("isRunning", false);
      //   Debug.Log($"StopMoving ===> isRightPlayer:{isRightSide} moveInput:{moveInput}");
     }
     public void RunWithTouch(Vector2 touchPosition){
