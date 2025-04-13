@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float maxVelocity = 15f;
     [SerializeField] GameObject bullet;
     [SerializeField] Transform hand;
+    [SerializeField] Transform bodyCenterOfGravity;
     [SerializeField] public bool isRightSide = true;
     [SerializeField] bool isTouchControl = false;
     [SerializeField] float touchMoveMultiplier = 0.4f;
@@ -54,12 +55,15 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Debug.Log("==>start");
         myRigidbody = GetComponent<Rigidbody2D>();
+        Debug.Log("==>before Animator setup");
         myAnimator = GetComponent<Animator>();
         if(myAnimator==null || myAnimator.runtimeAnimatorController==null){
             Debug.Log("Animator not found on PlayerMovement. Trying to find in children.");
             myAnimator = characterBody.GetComponent<Animator>();
         }
+        lastBodyCenterOfGravityY = bodyCenterOfGravity.position.y;
         playerHalfWidth = GetComponent<SpriteRenderer>().bounds.extents.x;
         playerHalfHeight = GetComponent<SpriteRenderer>().bounds.extents.y;
         screenBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
@@ -101,6 +105,19 @@ public class PlayerMovement : MonoBehaviour
         UpdateThrowArrow2();
         RunWithJoystick();
         Run();   
+     //   UpdateBombHeightRelativeToBodyCenterOfGravity();
+    }
+    float lastBodyCenterOfGravityY = 0f;
+    void UpdateBombHeightRelativeToBodyCenterOfGravity(){
+        if(mBomb==null || bodyCenterOfGravity==null){
+            return;
+        }
+        Vector2 handPos = hand.transform.position;
+        Vector2 bodyCenterOfGravityPos = bodyCenterOfGravity.position;
+        float deltaY = bodyCenterOfGravityPos.y - lastBodyCenterOfGravityY;
+        handPos.y += deltaY;
+        hand.transform.position = handPos;
+        lastBodyCenterOfGravityY = bodyCenterOfGravityPos.y;
     }
     void OnAttack(){
         
@@ -468,6 +485,7 @@ public class PlayerMovement : MonoBehaviour
         //     // clampedX = Mathf.Clamp(myRigidbody.position.x, -screenBounds.x + playerHalfWidth, 0 - playerHalfWidth);
         //     clampedX = Mathf.Clamp(myRigidbody.position.x, playerHomeScript.homeTopLeft.x + playerHalfWidth, playerHomeScript.homeTopRight.x - playerHalfWidth);
         // }
+        // Debug.Log($"Clamping player position: x={myRigidbody.position.x} between {playerHomeScript.homeTopLeft.x + playerHalfWidth} and {playerHomeScript.homeTopRight.x - playerHalfWidth}");
         clampedX = Mathf.Clamp(myRigidbody.position.x, playerHomeScript.homeTopLeft.x + playerHalfWidth, playerHomeScript.homeTopRight.x - playerHalfWidth);
         // clampedY = Mathf.Clamp(myRigidbody.position.y, playerHomeScript.homeBottomLeft.y + playerHalfHeight, playerHomeScript.homeTopLeft.y - playerHalfHeight);
         clampedY = Mathf.Clamp(myRigidbody.position.y, playerHomeScript.homeBottomLeft.y + playerHalfHeight, playerHomeScript.homeTopLeft.y);

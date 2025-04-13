@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 1444775470244916953}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.67, y: 0.91, z: 0}
+  m_LocalPosition: {x: 0.41, y: 1.67, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -263,12 +263,14 @@ MonoBehaviour:
   moveJoystickUI: {fileID: 0}
   throwMinTime: 0.02
   throwForce: 10
+  characterBody: {fileID: 0}
   mBomb: {fileID: 0}
   joystick: {fileID: 0}
   throwJoystick: {fileID: 0}
   throwButton: {fileID: 0}
   homeTopLeft: {x: 0, y: 0}
   homeBottomRight: {x: 0, y: 0}
+  runningAnimSpeed: 2
   maxThrowAccumulationTime: 0.7
 --- !u!70 &5152711382440579355
 CapsuleCollider2D:

@@ -911,7 +911,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 52.651947, y: 0}
   m_SizeDelta: {x: 25.1013, y: 25.1013}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &486707521
@@ -1430,7 +1430,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 27.55065, y: 0}
   m_SizeDelta: {x: 25.1013, y: 25.1013}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &610550163
@@ -1601,7 +1601,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 77.75325, y: 0}
   m_SizeDelta: {x: 25.1013, y: 25.1013}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &721593143
@@ -2709,7 +2709,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 52.651947, y: 0}
   m_SizeDelta: {x: 25.1013, y: 25.1013}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1100275272
@@ -2848,6 +2848,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!4 &1149801081 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7825413239701520778, guid: f8e2388de10c629499bd06bd9b252b25, type: 3}
+  m_PrefabInstance: {fileID: 4272392172737762826}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1150050277
 GameObject:
   m_ObjectHideFlags: 0
@@ -3283,7 +3288,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 77.75325, y: 0}
   m_SizeDelta: {x: 25.1013, y: 25.1013}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1241943424
@@ -3670,6 +3675,10 @@ PrefabInstance:
       propertyPath: throwJoystick
       value: 
       objectReference: {fileID: 1804170165}
+    - target: {fileID: 7894672332012955137, guid: e71234d3c291bb847939cfb2327654c4, type: 3}
+      propertyPath: bodyCenterOfGravity
+      value: 
+      objectReference: {fileID: 2085102644}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9287,7 +9296,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 27.55065, y: 0}
   m_SizeDelta: {x: 25.1013, y: 25.1013}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1676595700
@@ -10065,6 +10074,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6015662018182951581, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
   m_PrefabInstance: {fileID: 1995787920}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &2085102644 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 381375467843697576, guid: e71234d3c291bb847939cfb2327654c4, type: 3}
+  m_PrefabInstance: {fileID: 1363628367}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2103866723
 GameObject:
   m_ObjectHideFlags: 0
@@ -10526,6 +10540,10 @@ PrefabInstance:
       propertyPath: throwForceSquare
       value: 
       objectReference: {fileID: 4272392172737762827}
+    - target: {fileID: 3855321346831280934, guid: f8e2388de10c629499bd06bd9b252b25, type: 3}
+      propertyPath: bodyCenterOfGravity
+      value: 
+      objectReference: {fileID: 1149801081}
     - target: {fileID: 5346705013688963435, guid: f8e2388de10c629499bd06bd9b252b25, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
