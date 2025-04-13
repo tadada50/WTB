@@ -84,26 +84,43 @@ public class SetSortingLayers : MonoBehaviour
             }
         }
 
-        // if (Time.frameCount % 20 == 0)
-        // {
-        //     // Debug.Log($"====>Sorted  playgroundObjects count: {playgroundObjects.Count}");
-        //     for (int i = 0; i < playgroundObjects.Count; i++)
-        //     {
-        //         Debug.Log($"{playgroundObjects[i].name}: {playgroundObjects[i].GetComponent<SpriteRenderer>().sortingOrder}");
-        //     }
+        if (Time.frameCount % 20 == 0)
+        {
+            Debug.Log($"====>After   playgroundObjects count: {playgroundObjects.Count}");
+            for (int i = 0; i < playgroundObjects.Count; i++)
+            {
+                Debug.Log($"i:{i}  {playgroundObjects[i].name}: {playgroundObjects[i].GetComponent<SpriteRenderer>().sortingOrder}");
+            }
 
-        // }
+        }
     }
 
     private void ProcessBombLayers(List<GameObject> playgroundObjects)
     {
         int baseOrder = 0;
-        int skip = ProcessPlayerBombs(ref baseOrder);
+        var rightArm = playgroundObjects.FirstOrDefault(obj => obj.name == "Right Arm");
+        if (rightArm != null)
+        {
+            baseOrder = rightArm.GetComponent<SpriteRenderer>().sortingOrder;
+        }
+        int skip = ProcessPlayerBombs(baseOrder);
         int bombBodySkip = ProcessBombBodies(playgroundObjects);
         AdjustRemainingLayers(playgroundObjects, baseOrder, skip, bombBodySkip);
+
+        if (Time.frameCount % 20 == 0)
+        {
+            Debug.Log($"====>After ProcessBombLayers  playgroundObjects count: {playgroundObjects.Count}");
+            for (int i = 0; i < playgroundObjects.Count; i++)
+            {
+                Debug.Log($"i:{i}  {playgroundObjects[i].name}: {playgroundObjects[i].GetComponent<SpriteRenderer>().sortingOrder}");
+            }
+
+        }
+
+
     }
 
-    private int ProcessPlayerBombs(ref int baseOrder)
+    private int ProcessPlayerBombs(int baseOrder)
     {
         int skip = 0;
         foreach (GameObject player in players)
@@ -113,7 +130,7 @@ public class SetSortingLayers : MonoBehaviour
             {
                 SpriteRenderer[] bombRenderer = playerMovement.mBomb.GetComponentsInChildren<SpriteRenderer>();
                 SpriteRenderer playerRenderer = player.GetComponentInChildren<SpriteRenderer>();
-                baseOrder = playerRenderer.sortingOrder;
+                //baseOrder = playerRenderer.sortingOrder;
                 foreach (SpriteRenderer renderer in bombRenderer)
                 {
                     if (renderer.sortingLayerName == "Playground")

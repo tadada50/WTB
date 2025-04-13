@@ -1571,37 +1571,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &643639342
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 643639343}
-  m_Layer: 16
-  m_Name: Hand2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &643639343
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 643639342}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.67, y: 0.21, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2085102644}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &721593141
 GameObject:
   m_ObjectHideFlags: 0
@@ -3639,10 +3608,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1593675916}
     m_Modifications:
-    - target: {fileID: 1851888303720133716, guid: e71234d3c291bb847939cfb2327654c4, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2538317293447400056, guid: e71234d3c291bb847939cfb2327654c4, type: 3}
       propertyPath: m_Name
       value: BetsyLeft
@@ -3687,14 +3652,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6304388295282574685, guid: e71234d3c291bb847939cfb2327654c4, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7894672332012955137, guid: e71234d3c291bb847939cfb2327654c4, type: 3}
-      propertyPath: hand
-      value: 
-      objectReference: {fileID: 643639343}
     - target: {fileID: 7894672332012955137, guid: e71234d3c291bb847939cfb2327654c4, type: 3}
       propertyPath: joystick
       value: 
@@ -3708,23 +3665,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1641699496}
     - target: {fileID: 7894672332012955137, guid: e71234d3c291bb847939cfb2327654c4, type: 3}
-      propertyPath: characterBody
-      value: 
-      objectReference: {fileID: 1700254332}
-    - target: {fileID: 7894672332012955137, guid: e71234d3c291bb847939cfb2327654c4, type: 3}
       propertyPath: throwJoystick
       value: 
       objectReference: {fileID: 1804170165}
-    - target: {fileID: 7894672332012955137, guid: e71234d3c291bb847939cfb2327654c4, type: 3}
-      propertyPath: bodyCenterOfGravity
-      value: 
-      objectReference: {fileID: 2085102644}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 381375467843697576, guid: e71234d3c291bb847939cfb2327654c4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 643639343}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e71234d3c291bb847939cfb2327654c4, type: 3}
 --- !u!1 &1387506901
@@ -9423,11 +9369,6 @@ Transform:
   - {fileID: 1058420155}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1700254332 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3243830525571916170, guid: e71234d3c291bb847939cfb2327654c4, type: 3}
-  m_PrefabInstance: {fileID: 1363628367}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1803457740
 GameObject:
   m_ObjectHideFlags: 0
@@ -10116,11 +10057,6 @@ PrefabInstance:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6015662018182951581, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
   m_PrefabInstance: {fileID: 1995787920}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2085102644 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 381375467843697576, guid: e71234d3c291bb847939cfb2327654c4, type: 3}
-  m_PrefabInstance: {fileID: 1363628367}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2103866723
 GameObject:
