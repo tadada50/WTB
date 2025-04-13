@@ -15,7 +15,7 @@ public class SetSortingLayers : MonoBehaviour
     {
         
         List<GameObject> playgroundObjects = GetPlaygroundObjects();
-        List<GameObject> leftPlayerBody = playgroundObjects.FindAll(obj => obj.CompareTag("LeftPlayerBody"));
+        // List<GameObject> leftPlayerBody = playgroundObjects.FindAll(obj => obj.CompareTag("LeftPlayerBody"));
         SortObjectsByYPosition(playgroundObjects);
         ProcessBombLayers(playgroundObjects);
 
@@ -27,22 +27,7 @@ public class SetSortingLayers : MonoBehaviour
         SortObjectsByYPosition(playgroundObjects);
         ProcessBombLayers(playgroundObjects);
     }
-    private void OnDrawGizmos()
-        {
-            var objects = GetPlaygroundObjects();
-            foreach (var obj in objects)
-            {
-                var renderer = obj.GetComponent<SpriteRenderer>();
-                if (renderer != null)
-                {
-                    Vector3 position = obj.transform.position;
-                    Gizmos.color = Color.yellow;
-                    Gizmos.DrawWireSphere(position, 0.1f);
-                    UnityEditor.Handles.Label(position + Vector3.right * 0.2f, 
-                        $" {obj.name}: {renderer.sortingOrder}");
-                }
-            }
-        }
+
     private List<GameObject> GetPlaygroundObjects()
     {
         List<GameObject> playgroundObjects = new List<GameObject>();
@@ -63,14 +48,6 @@ public class SetSortingLayers : MonoBehaviour
     {
         playgroundObjects.Sort((a, b) => b.transform.position.y.CompareTo(a.transform.position.y));
         var leftBodyObjects = playgroundObjects.Where(obj => obj.CompareTag("LeftPlayerBody")).ToList();
-        // if (Time.frameCount % 20 == 0)
-        // {
-        //     Debug.Log($"Left body objects count: {leftBodyObjects.Count}");
-        //     foreach (var obj in leftBodyObjects)
-        //     {
-        //         Debug.Log($"Left body object: {obj.name} at Y: {obj.transform.position.y}");
-        //     }
-        // }
         if (leftBodyObjects.Count > 0)
         {
             int lastLeftBodyIndex = playgroundObjects.FindLastIndex(obj => obj.CompareTag("LeftPlayerBody"));
@@ -79,22 +56,6 @@ public class SetSortingLayers : MonoBehaviour
                 Debug.Log($"===>Last left body index: {lastLeftBodyIndex}, Object: {playgroundObjects[lastLeftBodyIndex].name}");
             }
             leftBodyObjects.Sort((a, b) => a.GetComponent<SpriteRenderer>().sortingOrder.CompareTo(b.GetComponent<SpriteRenderer>().sortingOrder));
-            // if (Time.frameCount % 20 == 0)
-            // {
-            //     Debug.Log($"====>Left body objects count: {leftBodyObjects.Count}");
-            //     foreach (var obj in leftBodyObjects)
-            //     {
-            //         Debug.Log($"Left body object: {obj.name}, Sorting Order: {obj.GetComponent<SpriteRenderer>().sortingOrder}");
-            //     }
-            // }
-
-
-            // for(int i=0;i<leftBodyObjects.Count;i++){
-            //     leftBodyObjects[i].GetComponent<SpriteRenderer>().sortingOrder = lastLeftBodyIndex + i + 1;
-            // }
-
-
-            // int adjustedIndex = Math.Min(lastLeftBodyIndex, playgroundObjects.Count);
             playgroundObjects.RemoveAll(obj => obj.CompareTag("LeftPlayerBody"));
 
             if (Time.frameCount % 20 == 0)
@@ -106,33 +67,13 @@ public class SetSortingLayers : MonoBehaviour
                 }
 
             }
-
-
             int insertIndex = lastLeftBodyIndex - leftBodyObjects.Count +1;
             playgroundObjects.InsertRange(insertIndex, leftBodyObjects);
             if (Time.frameCount % 20 == 0)
             {
                 Debug.Log($"====>playgroundObjects.InsertRange: insert index {insertIndex}   playgroundObjects count: {playgroundObjects.Count}");
-                // for (int i = 0; i < playgroundObjects.Count; i++)
-                // {
-                //     Debug.Log($"{playgroundObjects[i].name}: {playgroundObjects[i].GetComponent<SpriteRenderer>().sortingOrder}");
-                // }
-
             }
-            // Debug.Log($"Last left body index: {lastLeftBodyIndex}");
-            // Debug.Log($"Left body objects count: {leftBodyObjects.Count}");
-
-
-
-            // float averageY = leftBodyObjects.Average(obj => obj.transform.position.y);
-            // int insertIndex = playgroundObjects.FindIndex(obj => obj.transform.position.y < averageY);
-            // if (insertIndex < 0) insertIndex = playgroundObjects.Count;
-            
-            // playgroundObjects.RemoveAll(obj => obj.CompareTag("LeftPlayerBody"));
-            // playgroundObjects.InsertRange(insertIndex, leftBodyObjects);
         }
-
-
         
         for (int i = 0; i < playgroundObjects.Count; i++)
         {
@@ -218,6 +159,23 @@ public class SetSortingLayers : MonoBehaviour
             if (renderer != null && renderer.name != "Bomb" && renderer.name != "BombBody")
             {
                 renderer.sortingOrder += skip + bombBodySkip;
+            }
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        var objects = GetPlaygroundObjects();
+        foreach (var obj in objects)
+        {
+            var renderer = obj.GetComponent<SpriteRenderer>();
+            if (renderer != null)
+            {
+                Vector3 position = obj.transform.position;
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawWireSphere(position, 0.1f);
+                UnityEditor.Handles.Label(position + Vector3.right * 0.2f, 
+                    $" {obj.name}: {renderer.sortingOrder}");
             }
         }
     }
