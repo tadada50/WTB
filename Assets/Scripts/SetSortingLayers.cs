@@ -75,6 +75,19 @@ public class SetSortingLayers : MonoBehaviour
             // }
         }
         
+        var rightBodyObjects = playgroundObjects.Where(obj => obj.CompareTag("RightPlayerBody")).ToList();
+        if (rightBodyObjects.Count > 0)
+        {
+            int lastRightBodyIndex = playgroundObjects.FindLastIndex(obj => obj.CompareTag("RightPlayerBody"));
+
+            rightBodyObjects.Sort((a, b) => a.GetComponent<SpriteRenderer>().sortingOrder.CompareTo(b.GetComponent<SpriteRenderer>().sortingOrder));
+            playgroundObjects.RemoveAll(obj => obj.CompareTag("RightPlayerBody"));
+            
+            int insertIndex = lastRightBodyIndex - rightBodyObjects.Count +1;
+            playgroundObjects.InsertRange(insertIndex, rightBodyObjects);
+        }
+
+
         for (int i = 0; i < playgroundObjects.Count; i++)
         {
             SpriteRenderer renderer = playgroundObjects[i].GetComponent<SpriteRenderer>();
@@ -84,15 +97,15 @@ public class SetSortingLayers : MonoBehaviour
             }
         }
 
-        if (Time.frameCount % 20 == 0)
-        {
-            Debug.Log($"====>After   playgroundObjects count: {playgroundObjects.Count}");
-            for (int i = 0; i < playgroundObjects.Count; i++)
-            {
-                Debug.Log($"i:{i}  {playgroundObjects[i].name}: {playgroundObjects[i].GetComponent<SpriteRenderer>().sortingOrder}");
-            }
+        // if (Time.frameCount % 20 == 0)
+        // {
+        //     Debug.Log($"====>After   playgroundObjects count: {playgroundObjects.Count}");
+        //     for (int i = 0; i < playgroundObjects.Count; i++)
+        //     {
+        //         Debug.Log($"i:{i}  {playgroundObjects[i].name}: {playgroundObjects[i].GetComponent<SpriteRenderer>().sortingOrder}");
+        //     }
 
-        }
+        // }
     }
 
     private void ProcessBombLayers(List<GameObject> playgroundObjects)
@@ -107,15 +120,38 @@ public class SetSortingLayers : MonoBehaviour
         int bombBodySkip = ProcessBombBodies(playgroundObjects);
         AdjustRemainingLayers(playgroundObjects, baseOrder, skip, bombBodySkip);
 
-        if (Time.frameCount % 20 == 0)
-        {
-            Debug.Log($"====>After ProcessBombLayers  playgroundObjects count: {playgroundObjects.Count}");
-            for (int i = 0; i < playgroundObjects.Count; i++)
-            {
-                Debug.Log($"i:{i}  {playgroundObjects[i].name}: {playgroundObjects[i].GetComponent<SpriteRenderer>().sortingOrder}");
-            }
+        playgroundObjects.Sort((a, b) => a.GetComponent<SpriteRenderer>().sortingOrder.CompareTo(b.GetComponent<SpriteRenderer>().sortingOrder));
 
+        // if (Time.frameCount % 20 == 0)
+        // {
+        //     Debug.Log($"====>Before Swapping ProcessBombLayers  playgroundObjects count: {playgroundObjects.Count}");
+        //     for (int i = 0; i < playgroundObjects.Count; i++)
+        //     {
+        //         Debug.Log($"i:{i}  {playgroundObjects[i].name}: {playgroundObjects[i].GetComponent<SpriteRenderer>().sortingOrder}");
+        //     }
+        // }
+        int rightArmIndex = playgroundObjects.FindIndex(obj => obj.name == "Right Arm");
+        int bombBodyIndex = playgroundObjects.FindIndex(obj => obj.name == "BombBody");
+        int bombSortingOrder = 0;
+        if (rightArmIndex >= 0 && bombBodyIndex>=0)
+        {
+            playgroundObjects[rightArmIndex].GetComponent<SpriteRenderer>().sortingOrder = playgroundObjects[bombBodyIndex].GetComponent<SpriteRenderer>().sortingOrder + 1;
+            bombSortingOrder = playgroundObjects[bombBodyIndex].GetComponent<SpriteRenderer>().sortingOrder;
         }
+        //bombSortingOrder = playgroundObjects[bombBodyIndex].GetComponent<SpriteRenderer>().sortingOrder;
+        for(int i=bombBodyIndex+1; i<playgroundObjects.Count; i++)
+        {
+                playgroundObjects[i].GetComponent<SpriteRenderer>().sortingOrder = bombSortingOrder + i;
+        }
+        // if (Time.frameCount % 20 == 0)
+        // {
+        //     Debug.Log($"====>After ProcessBombLayers  playgroundObjects count: {playgroundObjects.Count}");
+        //     for (int i = 0; i < playgroundObjects.Count; i++)
+        //     {
+        //         Debug.Log($"i:{i}  {playgroundObjects[i].name}: {playgroundObjects[i].GetComponent<SpriteRenderer>().sortingOrder}");
+        //     }
+
+        // }
 
 
     }

@@ -16,6 +16,7 @@ TagManager:
   - RightPlayer
   - LeftPlayer
   - LeftPlayerBody
+  - RightPlayerBody
   layers:
   - Default
   - TransparentFX

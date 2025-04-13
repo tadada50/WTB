@@ -485,7 +485,7 @@ public class PlayerMovement : MonoBehaviour
         //     // clampedX = Mathf.Clamp(myRigidbody.position.x, -screenBounds.x + playerHalfWidth, 0 - playerHalfWidth);
         //     clampedX = Mathf.Clamp(myRigidbody.position.x, playerHomeScript.homeTopLeft.x + playerHalfWidth, playerHomeScript.homeTopRight.x - playerHalfWidth);
         // }
-        // Debug.Log($"Clamping player position: x={myRigidbody.position.x} between {playerHomeScript.homeTopLeft.x + playerHalfWidth} and {playerHomeScript.homeTopRight.x - playerHalfWidth}");
+//        Debug.Log($"Clamping player position: x={myRigidbody.position.x} between {playerHomeScript.homeTopLeft.x + playerHalfWidth} and {playerHomeScript.homeTopRight.x - playerHalfWidth}");
         clampedX = Mathf.Clamp(myRigidbody.position.x, playerHomeScript.homeTopLeft.x + playerHalfWidth, playerHomeScript.homeTopRight.x - playerHalfWidth);
         // clampedY = Mathf.Clamp(myRigidbody.position.y, playerHomeScript.homeBottomLeft.y + playerHalfHeight, playerHomeScript.homeTopLeft.y - playerHalfHeight);
         clampedY = Mathf.Clamp(myRigidbody.position.y, playerHomeScript.homeBottomLeft.y + playerHalfHeight, playerHomeScript.homeTopLeft.y);
