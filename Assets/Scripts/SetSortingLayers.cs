@@ -200,7 +200,7 @@ public class SetSortingLayers : MonoBehaviour
             }
         }
     }
-
+    #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         var objects = GetPlaygroundObjects();
@@ -217,4 +217,5 @@ public class SetSortingLayers : MonoBehaviour
             }
         }
     }
+    #endif
 }
