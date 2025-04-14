@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using Unity.Cinemachine;
+using System;
 
 public class Bomb : MonoBehaviour
 {
@@ -8,7 +9,11 @@ public class Bomb : MonoBehaviour
     [SerializeField] GameObject explosionEffect; // Optional: Particle system for explosion effect
     [SerializeField] float bombTimerRevealTime = 3.0f; // Time the bomb timer is revealed to the player
     [SerializeField] public float bombExplosionRadius = 3.0f; // Radius of the explosion effect
+    [SerializeField] float bombExplosionForce = 10.0f; // Force of the explosion effect
     TMP_Text countdownText; // Optional: UI text to display countdown
+    TMP_Text countDownModifiedText; // Optional: UI text to display countdown
+
+    private Transform modifierTextOriginalPosition; // Original position of the modifier text
     public bool hasOwner = false; // Flag to check if the bomb has an owner
     private Vector3 _velocity;
     public bool beingThrown = false; // Flag to check if the bomb is being thrown
@@ -16,7 +21,7 @@ public class Bomb : MonoBehaviour
     float _throwForce;
     Vector2 targetPosition2D;
     bool exploded = false;
-    float timeRevealed = 0f; // Time when the bomb timer was revealed to the player
+    // float timeRevealed = 0f; // Time when the bomb timer was revealed to the player
     Rigidbody2D bombBodyRb;
     public delegate void OnBombExplodeDelegate(Vector2 explodePosition, Bomb bomb);
     public event OnBombExplodeDelegate OnBombExplode;
@@ -24,19 +29,39 @@ public class Bomb : MonoBehaviour
     float halfBombHeight;
     GameObject playground;
     BoxCollider2D playGroundCollider;
+    BubbleText bubbleText;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
         // Bounds playGroundBounds = playGroundCollider.bounds;
-
         // bombBodyRb.GetComponent<SpriteRenderer>().tag = "BombBody"; 
         halfBombWidth = GetComponent<SpriteRenderer>().bounds.extents.x;
         halfBombHeight = GetComponent<SpriteRenderer>().bounds.extents.y;
-        if (countdownText == null)
+
+        // Find all TMP_Text components in children
+        TMP_Text[] textComponents = GetComponentsInChildren<TMP_Text>(true);
+        // List to store found text components
+        // Print tags for debug purposes
+        foreach (TMP_Text text in textComponents)
         {
-            countdownText = GetComponentInChildren<TMP_Text>();
+            if(text.CompareTag("TimeText"))
+            {
+                countdownText = text;
+                // Debug.Log($"Found countdown text: {countdownText.text}");
+            }
+            if(text.CompareTag("ModifierText"))
+            {
+                countDownModifiedText = text;
+                // Debug.Log($"Found countdown modified text: {countDownModifiedText.text}");
+            }
         }
+        if(countDownModifiedText == null)
+        {
+            Debug.Log("Modifier text not found!");
+            // countDownModifiedText.transform.localScale = new Vector3(0.5f, 0.5f, 1f); // Scale down the modifier text
+        }
+        
+        bubbleText = countDownModifiedText.GetComponent<BubbleText>();
         Rigidbody2D[] rigidbody2Ds = GetComponentsInChildren<Rigidbody2D>();
         foreach (Rigidbody2D rb in rigidbody2Ds)
         {
@@ -155,6 +180,12 @@ public class Bomb : MonoBehaviour
             // countdownText.transform.localScale = new Vector3(Mathf.Abs(countdownText.transform.localScale.x), countdownText.transform.localScale.y, countdownText.transform.localScale.z);
         if(countdownText!=null)
             countdownText.transform.localScale = new Vector3(countdownText.transform.localScale.x * -1, countdownText.transform.localScale.y, countdownText.transform.localScale.z);
+
+        if(countDownModifiedText!=null){
+            countDownModifiedText.transform.localScale = new Vector3(countDownModifiedText.transform.localScale.x * -1, countDownModifiedText.transform.localScale.y, countDownModifiedText.transform.localScale.z);
+            // Debug.Log($"Flipped modifier text scale to: {countDownModifiedText.transform.localScale}");
+        }
+            // countDownModifiedText.transform.localScale = new Vector3(countDownModifiedText.transform.localScale.x * -1, countDownModifiedText.transform.localScale.y, countDownModifiedText.transform.localScale.z);
     }
     public void SetTimer(float time)
     {
@@ -164,6 +195,17 @@ public class Bomb : MonoBehaviour
     public void AddTime(float timeToAdd)
     {
         Countdown += timeToAdd;
+        String signText = "";
+        if(timeToAdd > 0){
+            signText = "+";
+        }else{
+            signText = "-";
+        }
+        int minutes = Mathf.FloorToInt(Mathf.Abs(timeToAdd) / 60F);
+        int seconds = Mathf.FloorToInt(Mathf.Abs(timeToAdd) - minutes * 60);
+        int milliseconds = Mathf.FloorToInt((Mathf.Abs(timeToAdd) - minutes * 60 - seconds) * 1000);
+        countDownModifiedText.text = $"{signText}{minutes:00}:{seconds:00}";
+        bubbleText.InitTextDisplay();
     }
     public void SetHasOwner(bool hasOwner)
     {
@@ -173,9 +215,9 @@ public class Bomb : MonoBehaviour
     {
         return Countdown;
     }
-    [SerializeField] float timeToDestination = 1.0f; // Time it takes to reach the target position
+    // [SerializeField] float timeToDestination = 1.0f; // Time it takes to reach the target position
     float distanceToDestination; // Distance to the target position
-    float flyTime;
+
     public void Throw2(Transform worldPosition, float throwForce)
     {
         beingThrown = true;
@@ -259,7 +301,6 @@ public class Bomb : MonoBehaviour
         _throwForce = throwForce; // Set the throw force for the bomb;
         hasOwner = false;
       //  timeToDestination = 1.0f; // Reset the time to destination if needed
-        flyTime = 0;
         start = transform.position; // Store the starting position for the parabolic path calculation
         // Get the rigidbody component
     }
@@ -276,7 +317,7 @@ public class Bomb : MonoBehaviour
     Vector2 start;
     float maxHeight;
     [SerializeField] public float bombMaxHeight= 6f;
-    float flySpeed = 10f;
+    // float flySpeed = 10f;
 
 private void FollowStraightPath(){ 
     if (bombBodyRb == null)
@@ -309,8 +350,7 @@ private void FollowStraightPath(){
     transform.position = Vector2.MoveTowards(transform.position, targetPosition2D, delta);
     bombBodyRb.transform.localPosition = new Vector2(0, newHeight);
 }
-    Vector2 initialBombPosition;
-    Vector2 totalDistance;
+
     private void OnDrawGizmos()
     {
         // Gizmos.color = Color.red;

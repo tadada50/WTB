@@ -11,7 +11,7 @@ using Vector3 = UnityEngine.Vector3;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float runSpeed = 5f;
-    [SerializeField] float maxVelocity = 15f;
+    // [SerializeField] float maxVelocity = 15f;
     [SerializeField] GameObject bullet;
     [SerializeField] Transform hand;
     [SerializeField] Transform bodyCenterOfGravity;
@@ -50,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
     bool throwInitiated = false;
 
     PlayerHome playerHomeScript;
-    [SerializeField] float runningAnimSpeed = 2f;
+    // [SerializeField] float runningAnimSpeed = 2f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -279,8 +279,8 @@ public class PlayerMovement : MonoBehaviour
         if(!isTouchControl){
             return;
         }
-        float x = 0f;
-        float y = 0f;
+        //float x = 0f;
+        //float y = 0f;
         // if(throwJoystick.Horizontal >= 0.2f){
         //     x = 1;
         // }else if(throwJoystick.Horizontal<=-0.2f){

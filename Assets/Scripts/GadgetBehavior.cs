@@ -12,7 +12,7 @@ public class GadgetBehavior : MonoBehaviour
 
     bool isActive = true;
 
-    bool isPressed = false;
+    //bool isPressed = false;
 
     void Start()
     {
@@ -34,7 +34,7 @@ public class GadgetBehavior : MonoBehaviour
         }
         if (System.Array.Exists(validTags, tag => collision.gameObject.CompareTag(tag)))
         {
-            isPressed = true;
+          //  isPressed = true;
             GetComponent<SpriteRenderer>().sprite = activatedSprite;
             ActivateGadgetFunction();
 
@@ -48,7 +48,7 @@ public class GadgetBehavior : MonoBehaviour
         }
         if (System.Array.Exists(validTags, tag => collision.gameObject.CompareTag(tag)))
         {
-            isPressed = false;
+          //  isPressed = false;
             GetComponent<SpriteRenderer>().sprite = neutralSprite;
         }
     }

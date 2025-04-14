@@ -708,7 +708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.16078432}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.3137255}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -818,7 +818,7 @@ MonoBehaviour:
   m_MinValue: 0.75
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0.866
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3150,8 +3150,6 @@ MonoBehaviour:
   players:
   - {fileID: 1235963498}
   - {fileID: 1593675915}
-  bombNumber: 1
-  bombDropInterval: 2
   bombPrefab: {fileID: 8168690916882899228, guid: 02de45f3317242640a832ad8d60b2121, type: 3}
   craterPrefab: {fileID: 957155307618488156, guid: b37802a92c11d934094bf17af61fc0eb, type: 3}
   gameOverPanel: {fileID: 1995787921}
@@ -3160,7 +3158,7 @@ MonoBehaviour:
   - {fileID: 537524374}
   scoreKeeper: {fileID: 459052766}
   timerMin: 10
-  timerMax: 31
+  timerMax: 21
 --- !u!4 &1198197783
 Transform:
   m_ObjectHideFlags: 0
@@ -9002,7 +9000,7 @@ MonoBehaviour:
   m_MinValue: 0.75
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0.839
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -9263,7 +9261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.16078432}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.3137255}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

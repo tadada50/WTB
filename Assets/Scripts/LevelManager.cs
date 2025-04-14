@@ -18,8 +18,8 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] GameState currentGameState = GameState.BombDropping;
     [SerializeField] List<GameObject> players;
-    [SerializeField] int bombNumber = 1; // Number of bombs to drop
-    [SerializeField] float bombDropInterval = 2.0f; // Interval between bomb drops
+    // [SerializeField] int bombNumber = 1; // Number of bombs to drop
+    // [SerializeField] float bombDropInterval = 2.0f; // Interval between bomb drops
     [SerializeField] GameObject bombPrefab; // Prefab for the bomb
     [SerializeField] GameObject craterPrefab; // Prefab for the crater
     [SerializeField] GameObject gameOverPanel;
@@ -29,10 +29,10 @@ public class LevelManager : MonoBehaviour
     [SerializeField] int timerMin = 10;
     [SerializeField] int timerMax = 31;
     ScoreKeeper scoreKeeperScript;
-    float healthyAreaLeft;
-    float healthyAreaRight;
+    // float healthyAreaLeft;
+    // float healthyAreaRight;
 
-    float areaSlice = 1f;
+    // float areaSlice = 1f;
     List<GameObject> craters = new List<GameObject>();
 
 
@@ -136,6 +136,7 @@ public class LevelManager : MonoBehaviour
     void BombExplodeHandler(Vector2 position, Bomb bomb){
 
         // bomb explodes where bomb body is, but the crater is where the shadow is
+        bombs.Remove(bomb);
 
         float bombspriteHeight=0f;
         Transform[] obs = bomb.GetComponentsInChildren<Transform>();
@@ -146,6 +147,7 @@ public class LevelManager : MonoBehaviour
                 break;
             }
         }
+
 
         // Calculate distance between bomb and crater position
         float distance = Vector2.Distance(bomb.transform.position, position);

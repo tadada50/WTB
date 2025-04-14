@@ -18,6 +18,8 @@ TagManager:
   - LeftPlayerBody
   - RightPlayerBody
   - Gadget
+  - TimeText
+  - ModifierText
   layers:
   - Default
   - TransparentFX

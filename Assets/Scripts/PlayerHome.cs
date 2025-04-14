@@ -19,7 +19,7 @@ public class PlayerHome : MonoBehaviour
 
     [SerializeField] ScoreKeeper scoreKeeper;
     float initialHealthyAreaCount;
-    float healthyAreaDiscountFactor =2f;
+    // float healthyAreaDiscountFactor =2f;
     void Start()
     {
         boxCollider2D = GetComponent<BoxCollider2D>();

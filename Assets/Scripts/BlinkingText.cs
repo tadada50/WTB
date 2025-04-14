@@ -8,20 +8,21 @@ public enum alphaValue{
 
 public class BlinkingText : MonoBehaviour
 {
-    TMP_Text countdownText; 
+    TMP_Text displayText; 
     public alphaValue currentAlphaValue = alphaValue.GROWING; // Default to growing at start
     public float CommentMinAlpha;
     public float CommentMaxAlpha;
     public float CommentCurrentAlpha;
+
     void Start()
     {
         CommentMinAlpha = 0.2f;
         CommentMaxAlpha = 1.0f;
         CommentCurrentAlpha = 1f;
         currentAlphaValue = alphaValue.GROWING;
-        if (countdownText == null)
+        if (displayText == null)
         {
-            countdownText = GetComponent<TMP_Text>();
+            displayText = GetComponent<TMP_Text>();
         }
         
     }
@@ -36,7 +37,7 @@ public class BlinkingText : MonoBehaviour
         if (currentAlphaValue == alphaValue.GROWING)
         {
             CommentCurrentAlpha += Time.deltaTime * 1.7f; // Adjust speed as needed
-            countdownText.color = new Color(countdownText.color.r, countdownText.color.g, countdownText.color.b, CommentCurrentAlpha); // Update the text color with the new alpha value
+            displayText.color = new Color(displayText.color.r, displayText.color.g, displayText.color.b, CommentCurrentAlpha); // Update the text color with the new alpha value
             if (CommentCurrentAlpha >= CommentMaxAlpha)
             {
                 CommentCurrentAlpha = CommentMaxAlpha;
@@ -46,7 +47,7 @@ public class BlinkingText : MonoBehaviour
         else if (currentAlphaValue == alphaValue.SHRINKING)
         {
             CommentCurrentAlpha -= Time.deltaTime * 1.4f; // Adjust speed as needed
-            countdownText.color = new Color(countdownText.color.r, countdownText.color.g, countdownText.color.b, CommentCurrentAlpha); 
+            displayText.color = new Color(displayText.color.r, displayText.color.g, displayText.color.b, CommentCurrentAlpha); 
             if (CommentCurrentAlpha <= CommentMinAlpha)
             {
                 CommentCurrentAlpha = CommentMinAlpha;
