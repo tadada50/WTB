@@ -84,14 +84,20 @@ public class LevelManager : MonoBehaviour
         {   
             //instantiate bomb
             StartCoroutine(LoadNextBomb(1f));
-            
+            ReactivateGadgets();
 
             //drop bomb
             // Countdown
             currentGameState = GameState.PlayerActive; // Change game state to PlayerActive after dropping bombs
         }
     }
-
+    void ReactivateGadgets(){
+        GameObject[] gadgets = GameObject.FindGameObjectsWithTag("Gadget");
+        foreach (GameObject gadget in gadgets)
+        {
+            gadget.GetComponent<GadgetBehavior>().ActivateGadget();
+        }
+    }
     void InitBomb(){
             // Debug.Log("==>InitBomb");
             GameObject bombInstance = Instantiate(bombPrefab, new Vector3(0, 0, 0), Quaternion.identity);
@@ -299,12 +305,12 @@ public class LevelManager : MonoBehaviour
 
     public void AddTimeToBomb(float time)
     {
-        Debug.Log($"==>Adding {time} secs. Bomb count: {bombs.Count }");
+        // Debug.Log($"==>Adding {time} secs. Bomb count: {bombs.Count }");
         if (bombs.Count > 0)
         {
             int randomIndex = Random.Range(0, bombs.Count);
             bombs[randomIndex].AddTime(time);
-            Debug.Log($"Added {time} seconds to bomb {randomIndex}");
+            // Debug.Log($"Added {time} seconds to bomb {randomIndex}");
         }
     }
     // private void OnDrawGizmos()

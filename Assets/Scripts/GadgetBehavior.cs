@@ -10,6 +10,8 @@ public class GadgetBehavior : MonoBehaviour
     [SerializeField] int activationLimit = 1;
     int activationTimes = 0;
 
+    bool isActive = true;
+
     bool isPressed = false;
 
     void Start()
@@ -27,17 +29,23 @@ public class GadgetBehavior : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(isActive == false){
+            return;
+        }
         if (System.Array.Exists(validTags, tag => collision.gameObject.CompareTag(tag)))
         {
             isPressed = true;
             GetComponent<SpriteRenderer>().sprite = activatedSprite;
-            ActivateGadget();
+            ActivateGadgetFunction();
 
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if(isActive == false){
+            return;
+        }
         if (System.Array.Exists(validTags, tag => collision.gameObject.CompareTag(tag)))
         {
             isPressed = false;
@@ -45,7 +53,7 @@ public class GadgetBehavior : MonoBehaviour
         }
     }
 
-    public void ActivateGadget()
+    public void ActivateGadgetFunction()
     {
         activationTimes++;
         if(activationTimes>activationLimit){
@@ -57,13 +65,20 @@ public class GadgetBehavior : MonoBehaviour
     {
         if (activationTimes >= activationLimit)
         {
-            Destroy(gameObject,0.5f);
+            isActive = false;
+            GetComponent<SpriteRenderer>().sprite = neutralSprite;
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+
         }
 
     }
-    // public void ActivateGadget()
-    // {
-    //     GetComponent<SpriteRenderer>().sprite = activatedSprite;
-    // }
+    public void ActivateGadget()
+    {
+        // Debug.Log("Activating gadget");
+        GetComponent<SpriteRenderer>().sprite = neutralSprite;
+        isActive = true;
+        activationTimes = 0;
+        gameObject.GetComponent<SpriteRenderer>().enabled = true;
+    }
 
 }

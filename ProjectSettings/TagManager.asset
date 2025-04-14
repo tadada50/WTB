@@ -17,6 +17,7 @@ TagManager:
   - LeftPlayer
   - LeftPlayerBody
   - RightPlayerBody
+  - Gadget
   layers:
   - Default
   - TransparentFX
@@ -59,6 +60,9 @@ TagManager:
     locked: 0
   - name: Damage
     uniqueID: 3431504441
+    locked: 0
+  - name: Gadget
+    uniqueID: 1319083799
     locked: 0
   - name: Players
     uniqueID: 3306994417
