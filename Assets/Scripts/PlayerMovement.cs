@@ -55,9 +55,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Debug.Log("==>start");
         myRigidbody = GetComponent<Rigidbody2D>();
-        Debug.Log("==>before Animator setup");
         myAnimator = GetComponent<Animator>();
         if(myAnimator==null || myAnimator.runtimeAnimatorController==null){
             Debug.Log("Animator not found on PlayerMovement. Trying to find in children.");

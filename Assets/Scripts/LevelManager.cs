@@ -297,6 +297,16 @@ public class LevelManager : MonoBehaviour
 
     }
 
+    public void AddTimeToBomb(float time)
+    {
+        Debug.Log($"==>Adding {time} secs. Bomb count: {bombs.Count }");
+        if (bombs.Count > 0)
+        {
+            int randomIndex = Random.Range(0, bombs.Count);
+            bombs[randomIndex].AddTime(time);
+            Debug.Log($"Added {time} seconds to bomb {randomIndex}");
+        }
+    }
     // private void OnDrawGizmos()
     // {
     //     // Draw the home corners for each player in the editor
