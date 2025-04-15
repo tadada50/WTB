@@ -10558,9 +10558,61 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1239775573155116227, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1239775573155116227, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1239775573155116227, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1239775573155116227, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3792189090851435776, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3792189090851435776, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3792189090851435776, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 691.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 3792189090851435776, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3792189090851435776, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254203656098981857, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4254203656098981857, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1385449163961795705, guid: 960d4a54fdc85484b8041312b5029bee, type: 3}
+    - target: {fileID: 4254203656098981857, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6015662018182951581, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
       propertyPath: m_Name
       value: GameOverCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 6015662018182951581, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8560704118591093286, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
       propertyPath: m_Pivot.x
@@ -10643,7 +10695,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4399534186091592935, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
