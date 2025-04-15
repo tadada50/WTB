@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class GadgetBehavior : MonoBehaviour
 {
-    [SerializeField] Sprite activatedSprite;
-    [SerializeField] Sprite neutralSprite;
+    [SerializeField] protected Sprite activatedSprite;
+    [SerializeField] protected Sprite neutralSprite;
 
-    [SerializeField] float bombTimeModifier = 5.0f;
-    [SerializeField] LevelManager levelManager;
-    [SerializeField] int activationLimit = 1;
-    int activationTimes = 0;
+    [SerializeField] protected float bombTimeModifier = 5.0f;
+    [SerializeField] protected LevelManager levelManager;
+    [SerializeField] protected int activationLimit = 1;
+    protected int activationTimes = 0;
 
-    bool isActive = true;
+    protected bool isActive = true;
 
     //bool isPressed = false;
 
@@ -53,7 +53,7 @@ public class GadgetBehavior : MonoBehaviour
         }
     }
 
-    public void ActivateGadgetFunction()
+    public virtual void ActivateGadgetFunction()
     {
         activationTimes++;
         if(activationTimes>activationLimit){

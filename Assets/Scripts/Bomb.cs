@@ -207,6 +207,10 @@ public class Bomb : MonoBehaviour
         countDownModifiedText.text = $"{signText}{minutes:00}:{seconds:00}";
         bubbleText.InitTextDisplay();
     }
+    public void RevealTime(){
+        bombTimerRevealTime = 3.0f;
+        // Debug.Log("Timer revealed for " + bombTimerRevealTime + " seconds");
+    }
     public void SetHasOwner(bool hasOwner)
     {
         this.hasOwner = hasOwner;
