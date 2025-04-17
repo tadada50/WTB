@@ -20,6 +20,7 @@ TagManager:
   - Gadget
   - TimeText
   - ModifierText
+  - LevelManager
   layers:
   - Default
   - TransparentFX

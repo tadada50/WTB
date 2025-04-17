@@ -16,6 +16,7 @@ public enum GameState
 }
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField] RandomGadgetSpawner randomGadgetSpawner;
     [SerializeField] GameState currentGameState = GameState.MainMenu;
     [SerializeField] List<GameObject> players;
     // [SerializeField] int bombNumber = 1; // Number of bombs to drop
@@ -106,6 +107,8 @@ public class LevelManager : MonoBehaviour
         {
             gadget.GetComponent<GadgetBehavior>().ActivateGadget();
         }
+        //remove random gadgets
+        randomGadgetSpawner.RemoveAllRandomGadgets();
     }
     void InitBomb(){
             // Debug.Log("==>InitBomb");
@@ -329,6 +332,11 @@ public class LevelManager : MonoBehaviour
         {
             bombs[i].RevealTime();
         }
+    }
+
+    public void AddRandomGadget(GadgetBehavior gadgetBehavior, bool isRightSide){
+        Debug.Log($"==>Adding random gadget: {gadgetBehavior}");
+        randomGadgetSpawner.SpawnGadget(gadgetBehavior.gameObject, isRightSide);
     }
     // private void OnDrawGizmos()
     // {

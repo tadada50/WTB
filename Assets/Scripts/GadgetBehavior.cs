@@ -13,7 +13,10 @@ public class GadgetBehavior : MonoBehaviour
     protected bool isActive = true;
 
     //bool isPressed = false;
-
+    public virtual void SetBombTimeModifier(float timeModifier)
+    {
+        bombTimeModifier = timeModifier;
+    }
     void Start()
     {
         
@@ -25,9 +28,9 @@ public class GadgetBehavior : MonoBehaviour
         UpdateGadgetState();
     }
 
-    private string[] validTags = { "RightPlayer", "LeftPlayer", "Bomb" };  // Add or modify tags as needed
+    protected string[] validTags = { "RightPlayer", "LeftPlayer", "Bomb" };  // Add or modify tags as needed
     
-    private void OnTriggerEnter2D(Collider2D collision)
+    public virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if(isActive == false){
             return;
@@ -36,7 +39,8 @@ public class GadgetBehavior : MonoBehaviour
         {
           //  isPressed = true;
             GetComponent<SpriteRenderer>().sprite = activatedSprite;
-            ActivateGadgetFunction();
+            bool isRightSide = collision.gameObject.CompareTag("RightPlayer");
+            ActivateGadgetFunction(isRightSide);
 
         }
     }
@@ -53,7 +57,7 @@ public class GadgetBehavior : MonoBehaviour
         }
     }
 
-    public virtual void ActivateGadgetFunction()
+    public virtual void ActivateGadgetFunction(bool isRightSide)
     {
         activationTimes++;
         if(activationTimes>activationLimit){
