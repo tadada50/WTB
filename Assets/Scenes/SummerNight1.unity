@@ -12090,22 +12090,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: RevelationGadget
       objectReference: {fileID: 0}
-    - target: {fileID: 4463584728924839652, guid: 1f37b5c6f8ff496479ae81fb74766a10, type: 3}
-      propertyPath: levelManager
-      value: 
-      objectReference: {fileID: 1198197782}
-    - target: {fileID: 4463584728924839652, guid: 1f37b5c6f8ff496479ae81fb74766a10, type: 3}
-      propertyPath: neutralSprite
-      value: 
-      objectReference: {fileID: 2116255129775273618, guid: 7b56ea30a844a514a9c1280d1c67d01b, type: 3}
-    - target: {fileID: 4463584728924839652, guid: 1f37b5c6f8ff496479ae81fb74766a10, type: 3}
-      propertyPath: activatedSprite
-      value: 
-      objectReference: {fileID: 2116255129775273618, guid: 7b56ea30a844a514a9c1280d1c67d01b, type: 3}
-    - target: {fileID: 5174618158541647676, guid: 1f37b5c6f8ff496479ae81fb74766a10, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 822efe8385752034488174a3c3812090, type: 3}
     - target: {fileID: 6473225183754652994, guid: 1f37b5c6f8ff496479ae81fb74766a10, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.61
@@ -12146,6 +12130,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8326990990703772539, guid: 1f37b5c6f8ff496479ae81fb74766a10, type: 3}
+      propertyPath: levelManager
+      value: 
+      objectReference: {fileID: 1198197782}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
