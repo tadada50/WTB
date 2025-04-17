@@ -40,7 +40,7 @@ TagManager:
   - PlayerLeft
   - Gadgets
   - PlayerRight
-  - 
+  - Transition
   - 
   - 
   - 
@@ -89,6 +89,9 @@ TagManager:
     locked: 0
   - name: PlayerRight
     uniqueID: 2569046729
+    locked: 0
+  - name: Transition
+    uniqueID: 2761232095
     locked: 0
   m_RenderingLayers:
   - Default

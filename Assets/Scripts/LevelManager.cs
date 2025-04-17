@@ -16,7 +16,7 @@ public enum GameState
 }
 public class LevelManager : MonoBehaviour
 {
-    [SerializeField] GameState currentGameState = GameState.BombDropping;
+    [SerializeField] GameState currentGameState = GameState.MainMenu;
     [SerializeField] List<GameObject> players;
     // [SerializeField] int bombNumber = 1; // Number of bombs to drop
     // [SerializeField] float bombDropInterval = 2.0f; // Interval between bomb drops
@@ -52,8 +52,17 @@ public class LevelManager : MonoBehaviour
             scoreKeeperScript.OnLeftPlayerHomeSliderValueChange += LeftPlayerHomeSliderValueChangedHandler;
             scoreKeeperScript.OnLeftPlayerLifesChange += LeftPlayerLifesChangeHandler;
             scoreKeeperScript.OnRightPlayerLifesChange += RightPlayerLifesChangeHandler;
+            StartCoroutine(WaitForTransition(1.2f));
             
     }
+    IEnumerator WaitForTransition(float delay){
+        yield return new WaitForSeconds(delay);
+        currentGameState = GameState.BombDropping;
+    }
+
+    // public void SceneTransitionOver(){
+    //     currentGameState = GameState.BombDropping;
+    // }
     // Update is called once per frame
     void Update()
     {
