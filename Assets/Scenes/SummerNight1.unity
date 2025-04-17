@@ -1009,7 +1009,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 52.651947, y: 0}
   m_SizeDelta: {x: 25.1013, y: 25.1013}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &486707521
@@ -1533,7 +1533,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 27.55065, y: 0}
   m_SizeDelta: {x: 25.1013, y: 25.1013}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &610550163
@@ -1704,7 +1704,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 77.75325, y: 0}
   m_SizeDelta: {x: 25.1013, y: 25.1013}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &721593143
@@ -2672,6 +2672,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4050312097810690668, guid: 34345d09feeccd64f8a1db99b0fc531f, type: 3}
   m_PrefabInstance: {fileID: 934318903}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &967015355 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4629491038437026957, guid: d1315a9b257cd204d9f8dd8884568355, type: 3}
+  m_PrefabInstance: {fileID: 202398756}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14d27443aeb0e3d499736da3d2770ca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &994224208
 GameObject:
   m_ObjectHideFlags: 0
@@ -2967,7 +2978,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 52.651947, y: 0}
   m_SizeDelta: {x: 25.1013, y: 25.1013}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1100275272
@@ -3749,7 +3760,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 77.75325, y: 0}
   m_SizeDelta: {x: 25.1013, y: 25.1013}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1241943424
@@ -4123,10 +4134,6 @@ PrefabInstance:
       propertyPath: joystick
       value: 
       objectReference: {fileID: 1914154087}
-    - target: {fileID: 7894672332012955137, guid: e71234d3c291bb847939cfb2327654c4, type: 3}
-      propertyPath: runSpeed
-      value: 12
-      objectReference: {fileID: 0}
     - target: {fileID: 7894672332012955137, guid: e71234d3c291bb847939cfb2327654c4, type: 3}
       propertyPath: playerHome
       value: 
@@ -9827,7 +9834,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 27.55065, y: 0}
   m_SizeDelta: {x: 25.1013, y: 25.1013}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1676595700
@@ -10674,6 +10681,22 @@ PrefabInstance:
     - target: {fileID: 6015662018182951581, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6168123023888902929, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6168123023888902929, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 967015355}
+    - target: {fileID: 6168123023888902929, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 6168123023888902929, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: SummerNight1
       objectReference: {fileID: 0}
     - target: {fileID: 8560704118591093286, guid: bcfb3f268efbdab42a4aece46e5a5ef3, type: 3}
       propertyPath: m_Pivot.x
