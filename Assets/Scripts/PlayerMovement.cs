@@ -75,10 +75,10 @@ public class PlayerMovement : MonoBehaviour
 
         originalForceScalex = throwForceSquare.transform.localScale.x;
 
-        Debug.Log($"Top Right: {topRight}");
-        Debug.Log($"Top Left: {topLeft}"); 
-        Debug.Log($"Bottom Right: {bottomRight}");
-        Debug.Log($"Bottom Left: {bottomLeft}");
+        // Debug.Log($"Top Right: {topRight}");
+        // Debug.Log($"Top Left: {topLeft}"); 
+        // Debug.Log($"Bottom Right: {bottomRight}");
+        // Debug.Log($"Bottom Left: {bottomLeft}");
         if(isRightSide){
             attackKey = KeyCode.RightControl;
             upKey = KeyCode.UpArrow; // Change to Up Arrow for increasing Y component of the throw force

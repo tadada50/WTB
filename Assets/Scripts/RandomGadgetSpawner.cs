@@ -22,9 +22,8 @@ public class RandomGadgetSpawner : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Debug.Log("==>RandomGadgetSpawner Start");
         GameObject leftSideParent = GameObject.FindGameObjectWithTag("LeftSideDestinations");
-        Debug.Log("LeftSideParent: " + leftSideParent);
+
         if (leftSideParent != null)
         {
             Transform[] obs = leftSideParent.GetComponentsInChildren<Transform>();
@@ -35,7 +34,7 @@ public class RandomGadgetSpawner : MonoBehaviour
             leftSideSpawnDestinations.Remove(leftSideParent.transform);
         }
         GameObject rightSideParent = GameObject.FindGameObjectWithTag("RightSideDestinations");
-        Debug.Log("RightSideParent: " + rightSideParent);           
+      
         if (rightSideParent != null)
         {
             Transform[] obs = rightSideParent.GetComponentsInChildren<Transform>();
@@ -46,17 +45,6 @@ public class RandomGadgetSpawner : MonoBehaviour
             rightSideSpawnDestinations.Remove(rightSideParent.transform);
         }
 
-        Debug.Log("Left side destinations:");
-        foreach (var dest in leftSideSpawnDestinations)
-        {
-            Debug.Log(dest.name);
-        }
-
-        Debug.Log("Right side destinations:");
-        foreach (var dest in rightSideSpawnDestinations)
-        {
-            Debug.Log(dest.name);
-        }
     }
 
     // Update is called once per frame
@@ -86,7 +74,7 @@ public class RandomGadgetSpawner : MonoBehaviour
       //  GameObject gadget = Instantiate(gadgetPrefab, spawnDestination.transform.position, Quaternion.identity);
         gadgets.Add(gadget, spawnDestination);
         // gadgets.Add(gadget, spawnDestination.transform);
-        Debug.Log($"Spawned gadget: {gadget.name} at position: {spawnPosition} to destination: {spawnDestination.position}");
+        // Debug.Log($"Spawned gadget: {gadget.name} at position: {spawnPosition} to destination: {spawnDestination.position}");
     //    MoveGadget(gadget, spawnDestination);
     }
     private void MoveGadget(GameObject gadget, Transform destination)
