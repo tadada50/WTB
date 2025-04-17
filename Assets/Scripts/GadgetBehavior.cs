@@ -13,13 +13,16 @@ public class GadgetBehavior : MonoBehaviour
     protected bool isActive = true;
 
     //bool isPressed = false;
-    public virtual void SetBombTimeModifier(float timeModifier)
-    {
-        bombTimeModifier = timeModifier;
-    }
+
     void Start()
     {
-        
+        if(bombTimeModifier < -50){
+            bombTimeModifier = Random.Range(-10, 11);
+        }
+        if (levelManager == null)
+        {
+            levelManager = GameObject.FindGameObjectWithTag("LevelManager").GetComponent<LevelManager>();
+        }
     }
 
     // Update is called once per frame

@@ -8,8 +8,10 @@ public class RandomGadgetSpawner : MonoBehaviour
     // [SerializeField] List<SpawnDestinationPair> rightSideSpawnDestinations;
 
     [SerializeField] float gadgetMoveSpeed = 30f;
-    [SerializeField] List<GameObject> leftSideSpawnDestinations;
-    [SerializeField] List<GameObject> rightSideSpawnDestinations;
+    
+    [SerializeField] List<Transform> leftSideSpawnDestinations;
+   // GameObject[] leftSideSpawnDestinations;
+    [SerializeField] List<Transform> rightSideSpawnDestinations;
 
     private Dictionary<GameObject,Transform> gadgets = new Dictionary<GameObject,Transform>();
 
@@ -20,7 +22,41 @@ public class RandomGadgetSpawner : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        Debug.Log("==>RandomGadgetSpawner Start");
+        GameObject leftSideParent = GameObject.FindGameObjectWithTag("LeftSideDestinations");
+        Debug.Log("LeftSideParent: " + leftSideParent);
+        if (leftSideParent != null)
+        {
+            Transform[] obs = leftSideParent.GetComponentsInChildren<Transform>();
+            foreach (var obj in obs)
+            {
+                leftSideSpawnDestinations.Add(obj);
+            }
+            leftSideSpawnDestinations.Remove(leftSideParent.transform);
+        }
+        GameObject rightSideParent = GameObject.FindGameObjectWithTag("RightSideDestinations");
+        Debug.Log("RightSideParent: " + rightSideParent);           
+        if (rightSideParent != null)
+        {
+            Transform[] obs = rightSideParent.GetComponentsInChildren<Transform>();
+            foreach (var obj in obs)
+            {
+                rightSideSpawnDestinations.Add(obj);
+            }
+            rightSideSpawnDestinations.Remove(rightSideParent.transform);
+        }
+
+        Debug.Log("Left side destinations:");
+        foreach (var dest in leftSideSpawnDestinations)
+        {
+            Debug.Log(dest.name);
+        }
+
+        Debug.Log("Right side destinations:");
+        foreach (var dest in rightSideSpawnDestinations)
+        {
+            Debug.Log(dest.name);
+        }
     }
 
     // Update is called once per frame
@@ -37,16 +73,20 @@ public class RandomGadgetSpawner : MonoBehaviour
     {
         //Debug.Log("$SpawnGadget called. From RandomGadgetSpawner isRightSide: " + isRightSide);
         // Check if the gadgetPrefab is null
-        List<GameObject> spawnDestinations = isRightSide ? rightSideSpawnDestinations : leftSideSpawnDestinations;
+        List<Transform> spawnDestinations = isRightSide ? rightSideSpawnDestinations : leftSideSpawnDestinations;
         int randomIndex = Random.Range(0, spawnDestinations.Count);
-        GameObject spawnDestination = spawnDestinations[randomIndex];
-        Vector2 spawnPosition = spawnDestination.transform.position;
+        Transform spawnDestination = spawnDestinations[randomIndex];
+
+
+        // Vector2 spawnPosition = spawnDestination.transform.position;
+        Vector2 spawnPosition = spawnDestination.position;
         float screenHeight = Camera.main.orthographicSize * 2;
         spawnPosition.y = screenHeight * 2;
         GameObject gadget = Instantiate(gadgetPrefab, spawnPosition, Quaternion.identity);
       //  GameObject gadget = Instantiate(gadgetPrefab, spawnDestination.transform.position, Quaternion.identity);
-        gadgets.Add(gadget, spawnDestination.transform);
-        Debug.Log($"Spawned gadget: {gadget.name} at position: {spawnPosition} to destination: {spawnDestination.transform.position}");
+        gadgets.Add(gadget, spawnDestination);
+        // gadgets.Add(gadget, spawnDestination.transform);
+        Debug.Log($"Spawned gadget: {gadget.name} at position: {spawnPosition} to destination: {spawnDestination.position}");
     //    MoveGadget(gadget, spawnDestination);
     }
     private void MoveGadget(GameObject gadget, Transform destination)
