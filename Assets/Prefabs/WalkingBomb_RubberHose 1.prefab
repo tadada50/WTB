@@ -15225,3 +15225,5 @@ MonoBehaviour:
   bombMaxHeight: 6
   leftPlayerHome: {fileID: 0}
   rightPlayerHome: {fileID: 0}
+  speed: 3
+  myAnimator: {fileID: 0}

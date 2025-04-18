@@ -35,11 +35,17 @@ public class GadgetBehavior : MonoBehaviour
     
     public virtual void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("==>OnTriggerEnter2D: " + collision.gameObject.name);
         if(isActive == false){
             return;
         }
         if (System.Array.Exists(validTags, tag => collision.gameObject.CompareTag(tag)))
         {
+             Debug.Log("Gadget activated by: " + collision.gameObject.name);
+            //  isPressed = true;
+            //  GetComponent<SpriteRenderer>().sprite = activatedSprite;
+            //  bool isRightSide = collision.gameObject.CompareTag("RightPlayer");
+            //  ActivateGadgetFunction(isRightSide);
           //  isPressed = true;
             GetComponent<SpriteRenderer>().sprite = activatedSprite;
             bool isRightSide = collision.gameObject.CompareTag("RightPlayer");
