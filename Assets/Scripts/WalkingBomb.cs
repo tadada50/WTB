@@ -43,6 +43,9 @@ public class WalkingBomb : Bomb
 
     }
     private void ProcessHasOwner(){
+        if(myAnimator == null){
+            return;
+        }
         if (hasOwner)
         {
             myAnimator.SetBool("isWalking", false);
@@ -74,7 +77,9 @@ public class WalkingBomb : Bomb
         transform.rotation = Quaternion.identity; // Reset rotation to default
         if ((Vector2)rb.transform.position == nextWalkTarget)
         {
-            myAnimator.SetBool("isWalking", false);
+            if(myAnimator!= null){
+                myAnimator.SetBool("isWalking", false);
+            }
             // myAnimator.SetBool("isStanding", true);
             standingTime = Random.Range(0.8f, 2f);
             standingTimer += Time.deltaTime;
@@ -86,7 +91,10 @@ public class WalkingBomb : Bomb
             return;
             // PickWalkDestination();
         }
-        myAnimator.SetBool("isWalking", true);
+        if(myAnimator!= null){
+                myAnimator.SetBool("isWalking", true);
+        }
+        // myAnimator.SetBool("isWalking", true);
         transform.position = Vector3.MoveTowards(transform.position, nextWalkTarget, speed * Time.deltaTime);
         // Flip sprite based on movement direction
         Vector2 direction = (nextWalkTarget - (Vector2)transform.position).normalized;

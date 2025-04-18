@@ -21,11 +21,12 @@ public class LevelManager : MonoBehaviour
     [SerializeField] List<GameObject> players;
     // [SerializeField] int bombNumber = 1; // Number of bombs to drop
     // [SerializeField] float bombDropInterval = 2.0f; // Interval between bomb drops
-    [SerializeField] GameObject bombPrefab; // Prefab for the bomb
+    // [SerializeField] GameObject bombPrefab; // Prefab for the bomb
     [SerializeField] GameObject craterPrefab; // Prefab for the crater
     [SerializeField] GameObject gameOverPanel;
     // [SerializeField] GameObject rightPlayerHome; // Prefab for the right player home
     [SerializeField] List<GameObject> playerHomes; // Prefab for the left player home
+    [SerializeField] List<GameObject> bombPrefabs; // Prefab for the left player home
     [SerializeField] GameObject scoreKeeper;
     [SerializeField] int timerMin = 10;
     [SerializeField] int timerMax = 31;
@@ -112,7 +113,9 @@ public class LevelManager : MonoBehaviour
     }
     void InitBomb(){
             // Debug.Log("==>InitBomb");
-            GameObject bombInstance = Instantiate(bombPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            int randomIndex = Random.Range(0, bombPrefabs.Count);
+            // bombPrefab = bombPrefabs[randomIndex];
+            GameObject bombInstance = Instantiate(bombPrefabs[randomIndex], new Vector3(0, 0, 0), Quaternion.identity);
             Bomb bomb = bombInstance.GetComponent<Bomb>();
             bomb.SetTimer((float)Random.Range(timerMin, timerMax));
             // bomb.AddTime(1000);
@@ -335,7 +338,7 @@ public class LevelManager : MonoBehaviour
     }
 
     public void AddRandomGadget(GadgetBehavior gadgetBehavior, bool isRightSide){
-        Debug.Log($"==>Adding random gadget: {gadgetBehavior}");
+        // Debug.Log($"==>Adding random gadget: {gadgetBehavior}");
         randomGadgetSpawner.SpawnGadget(gadgetBehavior.gameObject, isRightSide);
     }
     // private void OnDrawGizmos()
