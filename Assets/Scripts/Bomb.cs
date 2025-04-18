@@ -20,7 +20,7 @@ public class Bomb : MonoBehaviour
     private Transform targetPosition;
     float _throwForce;
     Vector2 targetPosition2D;
-    bool exploded = false;
+    protected bool exploded = false;
     // float timeRevealed = 0f; // Time when the bomb timer was revealed to the player
     Rigidbody2D bombBodyRb;
     public delegate void OnBombExplodeDelegate(Vector2 explodePosition, Bomb bomb);
@@ -31,7 +31,7 @@ public class Bomb : MonoBehaviour
     BoxCollider2D playGroundCollider;
     BubbleText bubbleText;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected virtual void Start()
     {
         // Bounds playGroundBounds = playGroundCollider.bounds;
         // bombBodyRb.GetComponent<SpriteRenderer>().tag = "BombBody"; 
@@ -78,7 +78,7 @@ public class Bomb : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         Countdown -= Time.deltaTime;
         UpdateText();
