@@ -28,6 +28,7 @@ public class WalkingBomb : Bomb
     protected override void Update()
     {
         base.Update();
+        ProcessHasOwner();
         Walk();
     }
     private void PickWalkDestination(){
@@ -40,6 +41,24 @@ public class WalkingBomb : Bomb
         float randomY = Random.Range(leftPlayerHome.GetComponent<PlayerHome>().homeBottomLeft.y, rightPlayerHome.GetComponent<PlayerHome>().homeTopLeft.y);
         nextWalkTarget = new Vector2(randomX, randomY);
 
+    }
+    private void ProcessHasOwner(){
+        if (hasOwner)
+        {
+            myAnimator.SetBool("isWalking", false);
+            myAnimator.SetBool("hasOwner", true);
+            // StopMoving();
+            // return;
+            // myAnimator.SetBool("isWalking", false);
+            // myAnimator.SetBool("isStanding", true);
+            // StopMoving();
+            // return;
+        }else{
+            myAnimator.SetBool("hasOwner", false);
+            // myAnimator.SetBool("isStanding", false);
+            // myAnimator.SetBool("isWalking", true);
+        }
+        // myAnimator.SetBool("isWalking", false);
     }
     private void Walk()
     {
