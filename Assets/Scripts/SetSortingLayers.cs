@@ -94,19 +94,19 @@ public class SetSortingLayers : MonoBehaviour
             }
         }
 
-        // if (Time.frameCount % 20 == 0)
-        // {
-        //     Debug.Log($"====>After   playgroundObjects count: {playgroundObjects.Count}");
-        //     for (int i = 0; i < playgroundObjects.Count; i++)
-        //     {
-        //         Debug.Log($"i:{i}  {playgroundObjects[i].name}: {playgroundObjects[i].GetComponent<SpriteRenderer>().sortingOrder}");
-        //     }
 
-        // }
     }
 
     private void ProcessBombLayers(List<GameObject> playgroundObjects)
     {
+        // if (Time.frameCount % 20 == 0)
+        // {
+        //     // Debug.Log($"====>After   playgroundObjects count: {playgroundObjects.Count}");
+        //     for (int i = 0; i < playgroundObjects.Count; i++)
+        //     {
+        //         Debug.Log($"i:{i}  {playgroundObjects[i].name}: {playgroundObjects[i].GetComponent<SpriteRenderer>().sortingOrder}");
+        //     }
+        // }
         int baseOrder = 0;
         bool rightSideHasBomb=false;
         foreach (GameObject player in players)
@@ -151,21 +151,15 @@ public class SetSortingLayers : MonoBehaviour
 
         int rightArmIndex = playgroundObjects.FindIndex(obj => obj.CompareTag(sideTag) && obj.name == "Right Arm");
 
-     //   int rightArmIndex = playgroundObjects.FindIndex(obj => obj.name == "Right Arm");
-        int bombBodyIndex = playgroundObjects.FindIndex(obj => obj.name == "BombBody");
-        int bombSortingOrder = 0;
-        if (Time.frameCount % 20 == 0)
-        {
-            Debug.Log($"====>rightArmIndex: {rightArmIndex}  bombBodyIndex: {bombBodyIndex}");
-        }
-        if (rightArmIndex >= 0 && bombBodyIndex>=0)
-        {
 
-            if (Time.frameCount % 20 == 0)
-            {
-                Debug.Log($"====>rightArmIndex: {rightArmIndex}  bombBodyIndex: {bombBodyIndex}");
-            }
-            
+        int bombBodyIndex = playgroundObjects.FindLastIndex(obj => obj.CompareTag("BombBody"));
+        int bombSortingOrder = 0;
+        // if (Time.frameCount % 20 == 0)
+        // {
+        //     Debug.Log($"====>rightArmIndex: {rightArmIndex}  bombBodyIndex: {bombBodyIndex}");
+        // }
+        if (rightArmIndex >= 0 && bombBodyIndex>=0)
+        {            
             //here is the problem
             playgroundObjects[rightArmIndex].GetComponent<SpriteRenderer>().sortingOrder = playgroundObjects[bombBodyIndex].GetComponent<SpriteRenderer>().sortingOrder + 1;
             bombSortingOrder = playgroundObjects[bombBodyIndex].GetComponent<SpriteRenderer>().sortingOrder;
@@ -188,6 +182,8 @@ public class SetSortingLayers : MonoBehaviour
                 SpriteRenderer[] bombRenderer = playerMovement.mBomb.GetComponentsInChildren<SpriteRenderer>();
                 SpriteRenderer playerRenderer = player.GetComponentInChildren<SpriteRenderer>();
                 //baseOrder = playerRenderer.sortingOrder;
+                System.Array.Sort(bombRenderer, (a, b) => a.sortingOrder.CompareTo(b.sortingOrder));
+
                 foreach (SpriteRenderer renderer in bombRenderer)
                 {
                     if (renderer.sortingLayerName == "Playground")
@@ -196,12 +192,77 @@ public class SetSortingLayers : MonoBehaviour
                         renderer.sortingOrder = baseOrder + skip;
                     }
                 }
+
+                // if (Time.frameCount % 20 == 0)
+                // {
+                //     Debug.Log($"====>ProcessPlayerBombs");
+                //     Debug.Log($"====>baseOrder: {baseOrder}");
+                //     for (int i = 0; i < bombRenderer.Length; i++)
+                //     {
+                //         Debug.Log($"i:{i}  {bombRenderer[i].name}: {bombRenderer[i].sortingOrder}");
+                //     }
+                // }
+
             }
         }
         return skip;
     }
-
     private int ProcessBombBodies(List<GameObject> playgroundObjects)
+    {
+        int bombBodySkip = 0;
+        int bombBodyIndex = playgroundObjects.FindLastIndex(obj => obj.CompareTag("BombBody"));
+        GameObject[] bombBodies = GameObject.FindGameObjectsWithTag("Bomb");
+        // if (Time.frameCount % 20 == 0)
+        // {
+        //     // Debug.Log($"====>bombBodies count: {bombBodies.Length}");
+        //     for (int i = 0; i < bombBodies.Length; i++)
+        //     {
+        //         Debug.Log($"i:{i}  {bombBodies[i].name}");
+        //     }
+        // }
+        foreach(GameObject obj in bombBodies)
+        {
+            Bomb bomb = obj.GetComponent<Bomb>();
+            SpriteRenderer[] bombBodyRenderers = bomb.GetComponentsInChildren<SpriteRenderer>();
+
+            int highestSortingOrder = bombBodyRenderers
+                .Max(obj => obj.GetComponent<SpriteRenderer>().sortingOrder);
+
+
+            ParticleSystem[] particleSystems = obj.GetComponentsInChildren<ParticleSystem>();
+                foreach (ParticleSystem particleSystem in particleSystems)
+                {
+                    ParticleSystemRenderer particleRenderer = particleSystem.GetComponent<ParticleSystemRenderer>();
+                    if (particleRenderer != null && particleRenderer.sortingLayerName == "Playground")
+                    {
+                        bombBodySkip++;
+                        particleRenderer.sortingOrder = highestSortingOrder + bombBodySkip;
+                    }
+                }
+        }
+
+        // foreach (GameObject obj in bombBodies)
+        // {
+        //     SpriteRenderer renderer = obj.GetComponent<SpriteRenderer>();
+        //     if (obj.name == "BombBody")
+        //     {
+        //         int bombBodyOrder = renderer.sortingOrder;
+        //         ParticleSystem[] particleSystems = obj.GetComponentsInChildren<ParticleSystem>();
+        //         foreach (ParticleSystem particleSystem in particleSystems)
+        //         {
+        //             ParticleSystemRenderer particleRenderer = particleSystem.GetComponent<ParticleSystemRenderer>();
+        //             if (particleRenderer != null && particleRenderer.sortingLayerName == "Playground")
+        //             {
+        //                 bombBodySkip++;
+        //                 particleRenderer.sortingOrder = bombBodyOrder + bombBodySkip;
+        //             }
+        //         }
+
+        //     }
+        // }
+        return bombBodySkip;
+    }
+    private int ProcessBombBodies_(List<GameObject> playgroundObjects)
     {
         int bombBodySkip = 0;
         foreach (GameObject obj in playgroundObjects)
@@ -220,6 +281,14 @@ public class SetSortingLayers : MonoBehaviour
                         particleRenderer.sortingOrder = bombBodyOrder + bombBodySkip;
                     }
                 }
+                // if (Time.frameCount % 20 == 0)
+                // {
+                //     Debug.Log($"====>ProcessBombBodies");
+                //     for (int i = 0; i < particleSystems.Length; i++)
+                //     {
+                //         Debug.Log($"particleSystem {i}: {particleSystems[i].name}, Order: {particleSystems[i].GetComponent<ParticleSystemRenderer>().sortingOrder}");
+                //     }
+                // }
             }
         }
         return bombBodySkip;
