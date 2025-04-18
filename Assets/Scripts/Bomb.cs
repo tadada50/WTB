@@ -97,7 +97,12 @@ public class Bomb : MonoBehaviour
         // GetComponent<SpriteRenderer>().sortingLayerName = "Bomb";
         if(bombBodyRb != null)
         {
-            bombBodyRb.GetComponent<SpriteRenderer>().tag = "BombBody";
+            if(bombBodyRb.GetComponent<SpriteRenderer>() != null)
+            {
+                bombBodyRb.GetComponent<SpriteRenderer>().tag = "BombBody";
+                // return;
+            }
+            
         }
 
         // FlipBombText();
@@ -367,6 +372,11 @@ private void FollowStraightPath(){
         // Gizmos.DrawLine(bombBoundTopRight, bombBoundBottomRight);  
         // Gizmos.DrawLine(bombBoundBottomRight, bombBoundBottomLeft);
         // Gizmos.DrawLine(bombBoundBottomLeft, bombBoundTopLeft);
+        if (beingThrown) {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, targetPosition2D);
+            Gizmos.DrawSphere(targetPosition2D, 0.1f);
+        }
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, bombExplosionRadius);
 

@@ -10,14 +10,17 @@ public class WalkingBomb : Bomb
     Vector2 nextWalkTarget;
     float standingTime = 1.0f;
     float standingTimer = 0.0f;
+    
 
     protected override void Start()
     {
         base.Start();
         rb = GetComponent<Rigidbody2D>();
-        myAnimator = GetComponent<Animator>();
+        myAnimator = GetComponentInChildren<Animator>();
         leftPlayerHome = GameObject.FindGameObjectWithTag("PlayerLeftHome");
         rightPlayerHome = GameObject.FindGameObjectWithTag("PlayerRightHome");
+        // myAnimator = GetComponent<Animator>();
+        myAnimator.SetBool("isWalking", false);
         Debug.Log("WalkingBomb initialized.");
     }
     
@@ -48,20 +51,23 @@ public class WalkingBomb : Bomb
             StopMoving();
             return;
         }
+        
         transform.rotation = Quaternion.identity; // Reset rotation to default
         if ((Vector2)rb.transform.position == nextWalkTarget)
         {
-            // myAnimator.SetBool("isRunning", false);
+            myAnimator.SetBool("isWalking", false);
             // myAnimator.SetBool("isStanding", true);
-            standingTime = Random.Range(0f, 2f);
+            standingTime = Random.Range(0.8f, 2f);
             standingTimer += Time.deltaTime;
             if (standingTimer >= standingTime)
             {
                 standingTimer = 0.0f;
                 PickWalkDestination();
             }
+            return;
             // PickWalkDestination();
         }
+        myAnimator.SetBool("isWalking", true);
         transform.position = Vector3.MoveTowards(transform.position, nextWalkTarget, speed * Time.deltaTime);
         // Flip sprite based on movement direction
         Vector2 direction = (nextWalkTarget - (Vector2)transform.position).normalized;
