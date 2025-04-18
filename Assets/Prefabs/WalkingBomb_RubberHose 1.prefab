@@ -15295,7 +15295,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6353377721804257713, guid: 44ca7dec3aea52545a94dce336fe9bfe, type: 3}
       propertyPath: m_TagString
-      value: BombShadow
+      value: BombBody
       objectReference: {fileID: 0}
     - target: {fileID: -4457772106480614152, guid: 44ca7dec3aea52545a94dce336fe9bfe, type: 3}
       propertyPath: m_SortingLayer
