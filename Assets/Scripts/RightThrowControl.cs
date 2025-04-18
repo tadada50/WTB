@@ -94,7 +94,7 @@ public class RightThrowControl : EventTrigger, ISelectHandler
         //     player.isThrottling = false;
         //     // player.Jump();
         // }
-
+        return;
         if(player == null){
             player = GameObject.FindGameObjectWithTag("RightPlayer").GetComponent<PlayerMovement>();
             player.ThrowControlFinish();
@@ -107,10 +107,17 @@ public class RightThrowControl : EventTrigger, ISelectHandler
 
     }
 
-    // public override void OnPointerUp(PointerEventData data)
-    // {
-    //     Debug.Log("OnPointerUp called.");
-    // }
+    public override void OnPointerUp(PointerEventData data)
+    {
+        if(player == null){
+            player = GameObject.FindGameObjectWithTag("RightPlayer").GetComponent<PlayerMovement>();
+            player.ThrowControlFinish();
+            // player.Jump();
+        }else{
+            player.ThrowControlFinish();
+            // player.Jump();
+        }
+    }
 
     // public override void OnScroll(PointerEventData data)
     // {
