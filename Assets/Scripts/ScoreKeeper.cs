@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class ScoreKeeper : MonoBehaviour
 {
-    static ScoreKeeper instance;
+    // static ScoreKeeper instance;
     [SerializeField] Slider leftPlayerHomeSlider;
     [SerializeField] Slider rightPlayerHomeSlider;
 
@@ -12,42 +12,70 @@ public class ScoreKeeper : MonoBehaviour
     [SerializeField] public float destructionThreshold = 0.75f;
     int leftPlayerLifesCount = 3;
     int rightPlayerLifesCount = 3;  
-
-    public static ScoreKeeper GetInstance(){
-        if(instance == null){
-            instance = new ScoreKeeper();
-        }
-        return instance;
-    }
+    public PlayerData playerData;
+    // public static ScoreKeeper GetInstance(){
+    //     if(instance == null){
+    //         instance = new ScoreKeeper();
+    //     }
+    //     return instance;
+    // }
     void Awake()
     {
-        ManageSingleTon();
+        // ManageSingleTon();
         GetSaveStats();
     }
 
-    void ManageSingleTon()
-    {
-        if(instance!= null){
-            gameObject.SetActive(false);
-            Destroy(gameObject);
-        }else{
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        // if (FindObjectsByType<ScoreKeeper>(FindObjectsSortMode.None).Length > 1)
-        // {
-        //     Destroy(gameObject);
-        //     return false;
-        // }
-        // DontDestroyOnLoad(gameObject);
-        // return true;
-    }
+    // void ManageSingleTon()
+    // {
+    //     if(instance!= null){
+    //         gameObject.SetActive(false);
+    //         Destroy(gameObject);
+    //     }else{
+    //         instance = this;
+    //         DontDestroyOnLoad(gameObject);
+    //     }
+    //     // if (FindObjectsByType<ScoreKeeper>(FindObjectsSortMode.None).Length > 1)
+    //     // {
+    //     //     Destroy(gameObject);
+    //     //     return false;
+    //     // }
+    //     // DontDestroyOnLoad(gameObject);
+    //     // return true;
+    // }
     public void GetSaveStats(){
-        // PlayerData data = SaveSystem.LoadPlayer();
-        // if(data != null){
-        //     highestScore = data.highestScore;
+        // playerData = SaveSystem.LoadPlayer();
+        playerData = PlayerData.GetInstance();
+        // if(playerData != null){
+        //     // highestScore = data.highestScore;
         // }else{
-        //     highestScore = 0;
+        //     playerData = PlayerData.GetInstance();
+        //     // highestScore = 0;
+        //     //create save file
+        //     SaveSystem.SavePlayer(playerData);
+        // }
+    }
+    public void SaveGame(){
+        PlayerData.SavePlayerData();
+
+        if (playerData != null)
+        {
+            Debug.Log($"ScoreKeeperStart => PlayerData details: {JsonUtility.ToJson(playerData)}");
+        }
+
+        // SaveSystem.SavePlayer(playerData);
+        // //Reload playerData
+        // playerData = SaveSystem.LoadPlayer();
+        // Debug.Log($"PlayerData loaded: {playerData != null}");
+
+        // Debug.Log("==>SaveGame1 highestScore:" + highestScore + " score:" + score);
+        // PlayerData data = SaveSystem.LoadPlayer();
+        // // int highestScoreInFile = 0;
+        // if(data!=null){
+        //     // highestScoreInFile = data.highestScore;
+        // }
+        // if(highestScore>highestScoreInFile){
+        //     // Debug.Log("==>SaveGame2");
+        //     SaveSystem.SavePlayer(this);
         // }
     }
     public int LeftPlayerLifesCount
@@ -136,16 +164,10 @@ public class ScoreKeeper : MonoBehaviour
 
     void Start()
     {
-        leftPlayerHomeSlider.minValue = destructionThreshold;
-        rightPlayerHomeSlider.minValue = destructionThreshold;
-
+        if(leftPlayerHomeSlider!=null && rightPlayerHomeSlider!=null){
+            leftPlayerHomeSlider.minValue = destructionThreshold;
+            rightPlayerHomeSlider.minValue = destructionThreshold;
+        }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     
 }

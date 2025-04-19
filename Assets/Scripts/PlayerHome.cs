@@ -27,7 +27,9 @@ public class PlayerHome : MonoBehaviour
         InitiateHealthyArea();
         isRightSide = homeowners.ElementAt(0).GetComponentInChildren<PlayerMovement>().isRightSide;
     }
-
+    public bool isRightSideHome(){
+        return isRightSide;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -45,8 +47,9 @@ public class PlayerHome : MonoBehaviour
         
         Debug.Log("Healthy Area: " + healthyArea.Count); 
     }
-    public void RemovedBombedArea(GameObject crater)
+    public int RemovedBombedArea(GameObject crater)
     {
+        int removedCount = 0;
         SpriteRenderer craterRenderer = crater.GetComponentInChildren<SpriteRenderer>();
         Vector2 craterPos = crater.transform.position;
         float craterWidth = craterRenderer.bounds.size.x;
@@ -63,6 +66,7 @@ public class PlayerHome : MonoBehaviour
             {
                 healthyArea.RemoveAt(i);
                 bombedAreasToBeRemoved.Add(point);
+                removedCount++;
             }
         }
         craters.Add(crater);
@@ -71,6 +75,7 @@ public class PlayerHome : MonoBehaviour
         }else{
             scoreKeeper.LeftPlayerHomeSliderValue = (float)healthyArea.Count / initialHealthyAreaCount;
         }
+        return removedCount;
         // Debug.Log("==> RemovedBombedArea Healthy Area: " + healthyArea.Count); 
     }
     private void SetPlayerHomeCorners () {

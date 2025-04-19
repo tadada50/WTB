@@ -27,7 +27,7 @@ public class LevelManager : MonoBehaviour
     // [SerializeField] GameObject rightPlayerHome; // Prefab for the right player home
     [SerializeField] List<GameObject> playerHomes; // Prefab for the left player home
     [SerializeField] List<GameObject> bombPrefabs; // Prefab for the left player home
-    // [SerializeField] GameObject scoreKeeper;
+    [SerializeField] GameObject scoreKeeper;
     [SerializeField] int timerMin = 10;
     [SerializeField] int timerMax = 31;
     [SerializeField] Canvas gameOverCanvas;
@@ -51,8 +51,8 @@ public class LevelManager : MonoBehaviour
                 // player.GetComponent<PlayerMovement>().SetActive(true);
                 SetPlayerHomeCorners(player.GetComponentInChildren<PlayerMovement>());
             }
-            // scoreKeeperScript = scoreKeeper.GetComponent<ScoreKeeper>();
-            scoreKeeperScript = ScoreKeeper.GetInstance();
+            scoreKeeperScript = scoreKeeper.GetComponent<ScoreKeeper>();
+            //scoreKeeperScript = ScoreKeeper.GetInstance();
             scoreKeeperScript.OnRightPlayerHomeSliderValueChange += RightPlayerHomeSliderValueChangedHandler;
             scoreKeeperScript.OnLeftPlayerHomeSliderValueChange += LeftPlayerHomeSliderValueChangedHandler;
             scoreKeeperScript.OnLeftPlayerLifesChange += LeftPlayerLifesChangeHandler;
@@ -195,13 +195,28 @@ public class LevelManager : MonoBehaviour
 
         foreach (var playerHome in playerHomes) {
             PlayerHome home = playerHome.GetComponentInChildren<PlayerHome>();
-            home.RemovedBombedArea(craterInstance);
+            int areaRemoved = home.RemovedBombedArea(craterInstance);
+            if(home.isRightSideHome()){
+                PlayerData.GetInstance().IncrementRightSideLandDestroyed(areaRemoved);
+                // ScoreKeeper.GetInstance().playerData.IncrementRightSideLandDestroyed(areaRemoved);
+            }else{
+                PlayerData.GetInstance().IncrementLeftSideLandDestroyed(areaRemoved);
+                // ScoreKeeper.GetInstance().playerData.IncrementLeftSideLandDestroyed(areaRemoved);
+            }
         }
-
+        // ScoreKeeper.GetInstance().playerData.IncrementBombsExploded();
+        PlayerData.GetInstance().IncrementBombsExploded();
         CheckIfBombHitPlayer(position, bomb.bombExplosionRadius);
         // currentGameState = GameState.GameOver;
         if(currentGameState == GameState.GameOver)
         {
+            if(leftPlayerWon){
+                PlayerData.GetInstance().IncrementLeftPlayerVictories();
+                // ScoreKeeper.GetInstance().playerData.IncrementLeftPlayerVictories();
+            }else{ 
+                PlayerData.GetInstance().IncrementRightPlayerVictories();
+                // ScoreKeeper.GetInstance().playerData.IncrementRightPlayerVictories(); 
+            }
             // // Handle game over logic here
             // // For example, you might want to reset the game or show a game over screen
             // // Debug.Log("Game Over!"); // Placeholder for game over logic
@@ -218,7 +233,8 @@ public class LevelManager : MonoBehaviour
             // Handle bomb explosion logic here
             currentGameState = GameState.BombDropping;
         }
-        
+        PlayerData.SavePlayerData();
+        // ScoreKeeper.GetInstance().SaveGame();
     }
 
     IEnumerator LoadNextBomb(float secondsDelay){
