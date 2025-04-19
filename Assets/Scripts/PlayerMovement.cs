@@ -385,6 +385,16 @@ public class PlayerMovement : MonoBehaviour
         //     // bomb = null; // Reset the bomb reference
         // }
     }
+    public void GameOver(){
+        // isAlive = false;
+        myAnimator.SetBool("isRunning", false);
+        myAnimator.SetBool("isJumping", false);
+        myAnimator.Play("BetsyWin");
+        // myAnimator.StartPlayback();
+        // myRigidbody.velocity = Vector2.zero;
+        // myRigidbody.isKinematic = true; // Stop all movement
+        // myRigidbody.simulated = false; // Disable physics simulation
+    }
     public void SetActive(bool isActive){
         this.isActive = isActive;
         // if(!isActive){

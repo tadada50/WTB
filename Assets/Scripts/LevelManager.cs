@@ -30,6 +30,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] GameObject scoreKeeper;
     [SerializeField] int timerMin = 10;
     [SerializeField] int timerMax = 31;
+    bool leftPlayerWon = false;
     ScoreKeeper scoreKeeperScript;
     // float healthyAreaLeft;
     // float healthyAreaRight;
@@ -77,6 +78,20 @@ public class LevelManager : MonoBehaviour
             {
                 // player.GetComponent<PlayerMovement>().SetActive(true);
                 player.GetComponentInChildren<PlayerMovement>().SetActive(false);
+                if(player.GetComponentInChildren<PlayerMovement>().isRightSide){
+                    if(!leftPlayerWon){ // rightsidewon
+                        // player.GetComponentInChildren<PlayerMovement>().SetActive(true);
+                        player.GetComponentInChildren<PlayerMovement>().GameOver();
+                    }else{
+                        // player.GetComponentInChildren<PlayerMovement>().SetActive(false);
+                    }
+                }else{
+                    if(leftPlayerWon){ // lefttsidewon
+                        player.GetComponentInChildren<PlayerMovement>().GameOver();
+                    }else{
+                        // player.GetComponentInChildren<PlayerMovement>().SetActive(false);
+                    }
+                }
             }
             if (!gameOverPanel.activeSelf){
                 gameOverPanel.SetActive(true);
@@ -235,6 +250,7 @@ public class LevelManager : MonoBehaviour
             Debug.Log("==>LeftPlayerHomeSliderValueChangedHandler: " + value);
             // Handle left player home slider value change
             currentGameState = GameState.GameOver;
+            leftPlayerWon = false;
         }
     }
 
@@ -248,6 +264,7 @@ public class LevelManager : MonoBehaviour
             Debug.Log("==>RightPlayerHomeSliderValueChangedHandler: " + value);
             // Handle right player home slider value change
             currentGameState = GameState.GameOver;
+            leftPlayerWon = true;
         }
     }
 
@@ -258,6 +275,7 @@ public class LevelManager : MonoBehaviour
             // Handle left player lives change
             Debug.Log("==>LeftPlayerLifesChangeHandler: " + value);
             currentGameState = GameState.GameOver;
+            leftPlayerWon = false;
         }
     }
 
@@ -269,6 +287,7 @@ public class LevelManager : MonoBehaviour
             // Handle left player lives change
             Debug.Log("==>RightPlayerLifesChangeHandler: " + value);
             currentGameState = GameState.GameOver;
+            leftPlayerWon = true;
         }
     }
     private void SetPlayerHomeCorners (PlayerHome playerHome) {
