@@ -30,6 +30,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] GameObject scoreKeeper;
     [SerializeField] int timerMin = 10;
     [SerializeField] int timerMax = 31;
+    [SerializeField] Canvas gameOverCanvas;
     bool leftPlayerWon = false;
     ScoreKeeper scoreKeeperScript;
     // float healthyAreaLeft;
@@ -71,6 +72,7 @@ public class LevelManager : MonoBehaviour
     {
         if(currentGameState == GameState.GameOver)
         {
+            gameOverCanvas.GetComponent<GameOverCanvas>().SetWinner(leftPlayerWon);
             // Handle game over logic here
             // For example, you might want to reset the game or show a game over screen
            // Debug.Log("Game Over!"); // Placeholder for game over logic
