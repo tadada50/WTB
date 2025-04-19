@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class ScoreKeeper : MonoBehaviour
 {
+    static ScoreKeeper instance;
     [SerializeField] Slider leftPlayerHomeSlider;
     [SerializeField] Slider rightPlayerHomeSlider;
 
@@ -11,7 +12,44 @@ public class ScoreKeeper : MonoBehaviour
     [SerializeField] public float destructionThreshold = 0.75f;
     int leftPlayerLifesCount = 3;
     int rightPlayerLifesCount = 3;  
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    public static ScoreKeeper GetInstance(){
+        if(instance == null){
+            instance = new ScoreKeeper();
+        }
+        return instance;
+    }
+    void Awake()
+    {
+        ManageSingleTon();
+        GetSaveStats();
+    }
+
+    void ManageSingleTon()
+    {
+        if(instance!= null){
+            gameObject.SetActive(false);
+            Destroy(gameObject);
+        }else{
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        // if (FindObjectsByType<ScoreKeeper>(FindObjectsSortMode.None).Length > 1)
+        // {
+        //     Destroy(gameObject);
+        //     return false;
+        // }
+        // DontDestroyOnLoad(gameObject);
+        // return true;
+    }
+    public void GetSaveStats(){
+        // PlayerData data = SaveSystem.LoadPlayer();
+        // if(data != null){
+        //     highestScore = data.highestScore;
+        // }else{
+        //     highestScore = 0;
+        // }
+    }
     public int LeftPlayerLifesCount
     {
         get {return leftPlayerLifesCount;}

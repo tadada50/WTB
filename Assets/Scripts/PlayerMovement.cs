@@ -388,7 +388,7 @@ public class PlayerMovement : MonoBehaviour
     public void GameOver(){
         // isAlive = false;
         myAnimator.SetBool("isRunning", false);
-        myAnimator.SetBool("isJumping", false);
+        // myAnimator.SetBool("isJumping", false);
         myAnimator.Play("BetsyWin");
         // myAnimator.StartPlayback();
         // myRigidbody.velocity = Vector2.zero;

@@ -27,7 +27,7 @@ public class LevelManager : MonoBehaviour
     // [SerializeField] GameObject rightPlayerHome; // Prefab for the right player home
     [SerializeField] List<GameObject> playerHomes; // Prefab for the left player home
     [SerializeField] List<GameObject> bombPrefabs; // Prefab for the left player home
-    [SerializeField] GameObject scoreKeeper;
+    // [SerializeField] GameObject scoreKeeper;
     [SerializeField] int timerMin = 10;
     [SerializeField] int timerMax = 31;
     [SerializeField] Canvas gameOverCanvas;
@@ -51,7 +51,8 @@ public class LevelManager : MonoBehaviour
                 // player.GetComponent<PlayerMovement>().SetActive(true);
                 SetPlayerHomeCorners(player.GetComponentInChildren<PlayerMovement>());
             }
-            scoreKeeperScript = scoreKeeper.GetComponent<ScoreKeeper>();
+            // scoreKeeperScript = scoreKeeper.GetComponent<ScoreKeeper>();
+            scoreKeeperScript = ScoreKeeper.GetInstance();
             scoreKeeperScript.OnRightPlayerHomeSliderValueChange += RightPlayerHomeSliderValueChangedHandler;
             scoreKeeperScript.OnLeftPlayerHomeSliderValueChange += LeftPlayerHomeSliderValueChangedHandler;
             scoreKeeperScript.OnLeftPlayerLifesChange += LeftPlayerLifesChangeHandler;
@@ -234,9 +235,11 @@ public class LevelManager : MonoBehaviour
                 if (distanceToPlayer < explosionRadius) { // Adjust this radius as needed
                     // currentGameState = GameState.GameOver;
                     if(playerMovement.isRightSide){
-                        scoreKeeper.GetComponent<ScoreKeeper>().RightPlayerLifesCount -= 1;
+                        scoreKeeperScript.RightPlayerLifesCount -= 1;
+                        // scoreKeeper.GetComponent<ScoreKeeper>().RightPlayerLifesCount -= 1;
                     }else{  
-                        scoreKeeper.GetComponent<ScoreKeeper>().LeftPlayerLifesCount -= 1;
+                        scoreKeeperScript.LeftPlayerLifesCount -= 1;
+                        // scoreKeeper.GetComponent<ScoreKeeper>().LeftPlayerLifesCount -= 1;
                     }
                 }
             }
