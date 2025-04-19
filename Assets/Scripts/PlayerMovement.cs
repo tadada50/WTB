@@ -445,6 +445,7 @@ public class PlayerMovement : MonoBehaviour
             y = -1;
         }
         moveInput = new Vector2(x,y);
+        moveInput.Normalize(); // Normalize the input vector to ensure consistent speed in all directions
     
     }
     public void StopMoving(){
